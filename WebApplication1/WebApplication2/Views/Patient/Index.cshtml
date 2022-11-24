@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p style="font-size:larger">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+
+<hr />
+
+@{
+    string s = $"{DateTime.Now.Date.ToString(("yyyy-MM-dd"))}";
+    string s1 = $"{DateTime.Now.Date.AddDays(6).ToString(("yyyy-MM-dd"))}";
+}
+
+@using (Html.BeginForm("TakeAppointment", "patient"))
+{
+    <input type="date" name="date" min="@s" max="@s1" required/>
+    <select name="time">
+        <option value="09:00">9:00</option>
+        <option value="09:30">9:30</option>
+        <option value="10:00">10:00</option>
+        <option value="10:30">10:30</option>
+    </select>
+    <input type="submit" value="Book an Appointment" />
+}

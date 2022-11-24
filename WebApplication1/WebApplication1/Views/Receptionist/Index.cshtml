@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<br />
+
+@if (Session.Count == 0 || ((User)Session["User"]).role_id != 3)
+{
+    <p class="alert-danger container">You need to Login first to access this data</p>
+    @Html.ActionLink("Login Here", "LoginPage", "home");
+}
+else
+{
+    <div style="float:right">
+        @Html.ActionLink("Log Out", "Logout", "Admin")
+    </div>
+
+    <p style="font-size:larger">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+    using (Html.BeginForm("ShowAppointments", "Receptionist"))
+    {
+        <input type="submit" value="Show all pending appointments"/>
+    }
+}

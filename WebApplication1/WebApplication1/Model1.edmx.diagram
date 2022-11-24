@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="517ff2b76c1e485c9591b425587fa2d0" Name="Diagram1">
+        <EntityTypeShape EntityType="HMS_Project_newModel.Appointment" Width="1.5" PointX="7.5" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HMS_Project_newModel.Billing" Width="1.5" PointX="10.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HMS_Project_newModel.Consumable" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HMS_Project_newModel.Desease_Details" Width="1.5" PointX="7.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HMS_Project_newModel.Patient" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HMS_Project_newModel.Role" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HMS_Project_newModel.Treatment" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HMS_Project_newModel.User" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Appointme__patie__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Appointme__treat__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Appointme__userI__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Billing__consuma__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Billing__patient__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Billing__userId__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Treatment__consu__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Desease_D__patie__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Patient__userId__29572725" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Users__role_id__267ABA7A" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

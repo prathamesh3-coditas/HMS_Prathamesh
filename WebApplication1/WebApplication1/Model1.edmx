@@ -1,0 +1,650 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HMS_Project_newModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="appointment_id" />
+          </Key>
+          <Property Name="appointment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdmitDate" Type="date" />
+          <Property Name="patient_id" Type="varchar" MaxLength="100" />
+          <Property Name="treatment_id" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="appointmentDate" Type="date" />
+          <Property Name="appointmentTime" Type="time" Precision="7" />
+          <Property Name="isApproved" Type="bit" />
+        </EntityType>
+        <EntityType Name="Billing">
+          <Key>
+            <PropertyRef Name="bill_number" />
+          </Key>
+          <Property Name="bill_number" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="patient_id" Type="varchar" MaxLength="100" />
+          <Property Name="consumable_id" Type="int" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <EntityType Name="Consumable">
+          <Key>
+            <PropertyRef Name="consumable_id" />
+          </Key>
+          <Property Name="consumable_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="consumable_name" Type="varchar" MaxLength="50" />
+          <Property Name="availability_detail" Type="varchar" MaxLength="20" />
+          <Property Name="price" Type="int" />
+        </EntityType>
+        <EntityType Name="Desease_Details">
+          <Key>
+            <PropertyRef Name="detail_id" />
+          </Key>
+          <Property Name="detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="patient_id" Type="varchar" MaxLength="100" />
+          <Property Name="no_of_visits" Type="int" />
+          <Property Name="desease_catagory" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="patient_id" />
+          </Key>
+          <Property Name="patient_id" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="prev_history" Type="varchar" MaxLength="500" />
+          <Property Name="reports" Type="varchar" MaxLength="500" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="int" Nullable="false" />
+          <Property Name="roleName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Treatment">
+          <Key>
+            <PropertyRef Name="treatment_id" />
+          </Key>
+          <Property Name="treatment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="is_admitted" Type="bit" />
+          <Property Name="consumable_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="full_name" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="100" />
+          <Property Name="userName" Type="varchar" MaxLength="50" />
+          <Property Name="password_" Type="varchar" MaxLength="16" />
+          <Property Name="age" Type="int" />
+          <Property Name="contact_number" Type="varchar" MaxLength="15" />
+          <Property Name="gender" Type="varchar" MaxLength="10" />
+          <Property Name="specialization" Type="varchar" MaxLength="50" />
+          <Property Name="role_id" Type="int" />
+        </EntityType>
+        <Association Name="FK__Appointme__patie__33D4B598">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appointme__treat__34C8D9D1">
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="treatment_id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="treatment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appointme__userI__35BCFE0A">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Billing__consuma__398D8EEE">
+          <End Role="Consumable" Type="Self.Consumable" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consumable">
+              <PropertyRef Name="consumable_id" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="consumable_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Billing__patient__38996AB5">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Billing__userId__3A81B327">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Desease_D__patie__2C3393D0">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Desease_Details" Type="Self.Desease_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Desease_Details">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Patient__userId__29572725">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Treatment__consu__30F848ED">
+          <End Role="Consumable" Type="Self.Consumable" Multiplicity="0..1" />
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consumable">
+              <PropertyRef Name="consumable_id" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="consumable_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__role_id__267ABA7A">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HMS_Project_newModelStoreContainer">
+          <EntitySet Name="Appointment" EntityType="Self.Appointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Billing" EntityType="Self.Billing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Consumable" EntityType="Self.Consumable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Desease_Details" EntityType="Self.Desease_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Treatment" EntityType="Self.Treatment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Appointme__patie__33D4B598" Association="Self.FK__Appointme__patie__33D4B598">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appointme__treat__34C8D9D1" Association="Self.FK__Appointme__treat__34C8D9D1">
+            <End Role="Treatment" EntitySet="Treatment" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appointme__userI__35BCFE0A" Association="Self.FK__Appointme__userI__35BCFE0A">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Billing__consuma__398D8EEE" Association="Self.FK__Billing__consuma__398D8EEE">
+            <End Role="Consumable" EntitySet="Consumable" />
+            <End Role="Billing" EntitySet="Billing" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Billing__patient__38996AB5" Association="Self.FK__Billing__patient__38996AB5">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Billing" EntitySet="Billing" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Billing__userId__3A81B327" Association="Self.FK__Billing__userId__3A81B327">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Billing" EntitySet="Billing" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Desease_D__patie__2C3393D0" Association="Self.FK__Desease_D__patie__2C3393D0">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Desease_Details" EntitySet="Desease_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Patient__userId__29572725" Association="Self.FK__Patient__userId__29572725">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Patient" EntitySet="Patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Treatment__consu__30F848ED" Association="Self.FK__Treatment__consu__30F848ED">
+            <End Role="Consumable" EntitySet="Consumable" />
+            <End Role="Treatment" EntitySet="Treatment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__role_id__267ABA7A" Association="Self.FK__Users__role_id__267ABA7A">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HMS_Project_newModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="appointment_id" />
+          </Key>
+          <Property Name="appointment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdmitDate" Type="DateTime" Precision="0" />
+          <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="treatment_id" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="appointmentDate" Type="DateTime" Precision="0" />
+          <Property Name="appointmentTime" Type="Time" Precision="7" />
+          <Property Name="isApproved" Type="Boolean" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK__Appointme__patie__33D4B598" FromRole="Appointment" ToRole="Patient" />
+          <NavigationProperty Name="Treatment" Relationship="Self.FK__Appointme__treat__34C8D9D1" FromRole="Appointment" ToRole="Treatment" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Appointme__userI__35BCFE0A" FromRole="Appointment" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Billing">
+          <Key>
+            <PropertyRef Name="bill_number" />
+          </Key>
+          <Property Name="bill_number" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="consumable_id" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <NavigationProperty Name="Consumable" Relationship="Self.FK__Billing__consuma__398D8EEE" FromRole="Billing" ToRole="Consumable" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK__Billing__patient__38996AB5" FromRole="Billing" ToRole="Patient" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Billing__userId__3A81B327" FromRole="Billing" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Consumable">
+          <Key>
+            <PropertyRef Name="consumable_id" />
+          </Key>
+          <Property Name="consumable_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="consumable_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="availability_detail" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="price" Type="Int32" />
+          <NavigationProperty Name="Billings" Relationship="Self.FK__Billing__consuma__398D8EEE" FromRole="Consumable" ToRole="Billing" />
+          <NavigationProperty Name="Treatments" Relationship="Self.FK__Treatment__consu__30F848ED" FromRole="Consumable" ToRole="Treatment" />
+        </EntityType>
+        <EntityType Name="Desease_Details">
+          <Key>
+            <PropertyRef Name="detail_id" />
+          </Key>
+          <Property Name="detail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="no_of_visits" Type="Int32" />
+          <Property Name="desease_catagory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK__Desease_D__patie__2C3393D0" FromRole="Desease_Details" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="patient_id" />
+          </Key>
+          <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="prev_history" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="reports" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="userId" Type="Int32" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__patie__33D4B598" FromRole="Patient" ToRole="Appointment" />
+          <NavigationProperty Name="Billings" Relationship="Self.FK__Billing__patient__38996AB5" FromRole="Patient" ToRole="Billing" />
+          <NavigationProperty Name="Desease_Details" Relationship="Self.FK__Desease_D__patie__2C3393D0" FromRole="Patient" ToRole="Desease_Details" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Patient__userId__29572725" FromRole="Patient" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <Property Name="roleName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Users__role_id__267ABA7A" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Treatment">
+          <Key>
+            <PropertyRef Name="treatment_id" />
+          </Key>
+          <Property Name="treatment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="is_admitted" Type="Boolean" />
+          <Property Name="consumable_id" Type="Int32" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__treat__34C8D9D1" FromRole="Treatment" ToRole="Appointment" />
+          <NavigationProperty Name="Consumable" Relationship="Self.FK__Treatment__consu__30F848ED" FromRole="Treatment" ToRole="Consumable" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password_" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="contact_number" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="specialization" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="role_id" Type="Int32" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__userI__35BCFE0A" FromRole="Users" ToRole="Appointment" />
+          <NavigationProperty Name="Billings" Relationship="Self.FK__Billing__userId__3A81B327" FromRole="Users" ToRole="Billing" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK__Patient__userId__29572725" FromRole="Users" ToRole="Patient" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__Users__role_id__267ABA7A" FromRole="Users" ToRole="Roles" />
+        </EntityType>
+        <Association Name="FK__Appointme__patie__33D4B598">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appointme__treat__34C8D9D1">
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="treatment_id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="treatment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appointme__userI__35BCFE0A">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Billing__consuma__398D8EEE">
+          <End Role="Consumable" Type="Self.Consumable" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consumable">
+              <PropertyRef Name="consumable_id" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="consumable_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Billing__patient__38996AB5">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Billing__userId__3A81B327">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Treatment__consu__30F848ED">
+          <End Role="Consumable" Type="Self.Consumable" Multiplicity="0..1" />
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consumable">
+              <PropertyRef Name="consumable_id" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="consumable_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Desease_D__patie__2C3393D0">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Desease_Details" Type="Self.Desease_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Desease_Details">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Patient__userId__29572725">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__role_id__267ABA7A">
+          <End Role="Roles" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HMS_Project_newEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appointments" EntityType="Self.Appointment" />
+          <EntitySet Name="Billings" EntityType="Self.Billing" />
+          <EntitySet Name="Consumables" EntityType="Self.Consumable" />
+          <EntitySet Name="Desease_Details" EntityType="Self.Desease_Details" />
+          <EntitySet Name="Patients" EntityType="Self.Patient" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Treatments" EntityType="Self.Treatment" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__Appointme__patie__33D4B598" Association="Self.FK__Appointme__patie__33D4B598">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Appointment" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appointme__treat__34C8D9D1" Association="Self.FK__Appointme__treat__34C8D9D1">
+            <End Role="Treatment" EntitySet="Treatments" />
+            <End Role="Appointment" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appointme__userI__35BCFE0A" Association="Self.FK__Appointme__userI__35BCFE0A">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Appointment" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Billing__consuma__398D8EEE" Association="Self.FK__Billing__consuma__398D8EEE">
+            <End Role="Consumable" EntitySet="Consumables" />
+            <End Role="Billing" EntitySet="Billings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Billing__patient__38996AB5" Association="Self.FK__Billing__patient__38996AB5">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Billing" EntitySet="Billings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Billing__userId__3A81B327" Association="Self.FK__Billing__userId__3A81B327">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Billing" EntitySet="Billings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Treatment__consu__30F848ED" Association="Self.FK__Treatment__consu__30F848ED">
+            <End Role="Consumable" EntitySet="Consumables" />
+            <End Role="Treatment" EntitySet="Treatments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Desease_D__patie__2C3393D0" Association="Self.FK__Desease_D__patie__2C3393D0">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Desease_Details" EntitySet="Desease_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Patient__userId__29572725" Association="Self.FK__Patient__userId__29572725">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__role_id__267ABA7A" Association="Self.FK__Users__role_id__267ABA7A">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HMS_Project_newModelStoreContainer" CdmEntityContainer="HMS_Project_newEntities2">
+          <EntitySetMapping Name="Appointments">
+            <EntityTypeMapping TypeName="HMS_Project_newModel.Appointment">
+              <MappingFragment StoreEntitySet="Appointment">
+                <ScalarProperty Name="appointment_id" ColumnName="appointment_id" />
+                <ScalarProperty Name="AdmitDate" ColumnName="AdmitDate" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="treatment_id" ColumnName="treatment_id" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="appointmentDate" ColumnName="appointmentDate" />
+                <ScalarProperty Name="appointmentTime" ColumnName="appointmentTime" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Billings">
+            <EntityTypeMapping TypeName="HMS_Project_newModel.Billing">
+              <MappingFragment StoreEntitySet="Billing">
+                <ScalarProperty Name="bill_number" ColumnName="bill_number" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="consumable_id" ColumnName="consumable_id" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Consumables">
+            <EntityTypeMapping TypeName="HMS_Project_newModel.Consumable">
+              <MappingFragment StoreEntitySet="Consumable">
+                <ScalarProperty Name="consumable_id" ColumnName="consumable_id" />
+                <ScalarProperty Name="consumable_name" ColumnName="consumable_name" />
+                <ScalarProperty Name="availability_detail" ColumnName="availability_detail" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Desease_Details">
+            <EntityTypeMapping TypeName="HMS_Project_newModel.Desease_Details">
+              <MappingFragment StoreEntitySet="Desease_Details">
+                <ScalarProperty Name="detail_id" ColumnName="detail_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="no_of_visits" ColumnName="no_of_visits" />
+                <ScalarProperty Name="desease_catagory" ColumnName="desease_catagory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="HMS_Project_newModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="prev_history" ColumnName="prev_history" />
+                <ScalarProperty Name="reports" ColumnName="reports" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="HMS_Project_newModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="roleName" ColumnName="roleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Treatments">
+            <EntityTypeMapping TypeName="HMS_Project_newModel.Treatment">
+              <MappingFragment StoreEntitySet="Treatment">
+                <ScalarProperty Name="treatment_id" ColumnName="treatment_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="is_admitted" ColumnName="is_admitted" />
+                <ScalarProperty Name="consumable_id" ColumnName="consumable_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="HMS_Project_newModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="password_" ColumnName="password_" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="contact_number" ColumnName="contact_number" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="specialization" ColumnName="specialization" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

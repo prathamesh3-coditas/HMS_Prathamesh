@@ -1,0 +1,106 @@
+﻿@model WebApplication1.User
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+@if (Session.Count == 0)
+{
+    <p class="alert-danger">You need to Login first to access this data</p>
+    @Html.ActionLink("Login Here", "LoginPage", "home");
+}
+else
+{
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>User</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.full_name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.full_name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.userName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.userName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.password_)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.password_)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.age)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.age)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.contact_number)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.contact_number)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.gender)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.gender)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.specialization)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.specialization)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.role_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.role_id)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm("Delete", "Admin"))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" name="id" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+
+}

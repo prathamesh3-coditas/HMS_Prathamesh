@@ -1,0 +1,165 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="packages.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Content\bootstrap-theme.css" />
+    <None Remove="Content\bootstrap-theme.css.map" />
+    <None Remove="Content\bootstrap-theme.min.css" />
+    <None Remove="Content\bootstrap-theme.min.css.map" />
+    <None Remove="Content\bootstrap.css" />
+    <None Remove="Content\bootstrap.css.map" />
+    <None Remove="Content\bootstrap.min.css" />
+    <None Remove="Content\bootstrap.min.css.map" />
+    <None Remove="Content\Site.css" />
+    <None Remove="favicon.ico" />
+    <None Remove="fonts\glyphicons-halflings-regular.eot" />
+    <None Remove="fonts\glyphicons-halflings-regular.svg" />
+    <None Remove="fonts\glyphicons-halflings-regular.ttf" />
+    <None Remove="fonts\glyphicons-halflings-regular.woff" />
+    <None Remove="fonts\glyphicons-halflings-regular.woff2" />
+    <None Remove="Global.asax" />
+    <None Remove="Model1.Context.tt" />
+    <None Remove="Model1.edmx.diagram" />
+    <None Remove="Model1.tt" />
+    <None Remove="Scripts\bootstrap.js" />
+    <None Remove="Scripts\bootstrap.min.js" />
+    <None Remove="Scripts\jquery-3.4.1.js" />
+    <None Remove="Scripts\jquery-3.4.1.min.js" />
+    <None Remove="Scripts\jquery-3.4.1.min.map" />
+    <None Remove="Scripts\jquery-3.4.1.slim.js" />
+    <None Remove="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Remove="Scripts\jquery-3.4.1.slim.min.map" />
+    <None Remove="Scripts\jquery.validate.js" />
+    <None Remove="Scripts\jquery.validate.min.js" />
+    <None Remove="Scripts\jquery.validate.unobtrusive.js" />
+    <None Remove="Scripts\jquery.validate.unobtrusive.min.js" />
+    <None Remove="Scripts\modernizr-2.8.3.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="packages.config" />
+    <_ContentIncludedByDefault Remove="Views\Admin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\Register.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ShowAll.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Doctor\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\About.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Contact.cshtml" />
+    <_ContentIncludedByDefault Remove="Web.config" />
+    <_ContentIncludedByDefault Remove="Web.Debug.config" />
+    <_ContentIncludedByDefault Remove="Web.Release.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\Site.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Global.asax" />
+    <Content Include="Model1.Context.tt">
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="Model1.edmx.diagram" />
+    <Content Include="Model1.tt">
+      <LastGenOutput>Model1.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Admin\Delete.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Admin\Edit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Admin\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Admin\Register.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Admin\ShowAll.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Doctor\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\About.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\Contact.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Model1.Context.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Model1.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Model1.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

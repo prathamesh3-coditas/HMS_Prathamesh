@@ -1,0 +1,78 @@
+﻿@model List<WebApplication1.Appointment>
+@{
+    ViewBag.Title = "ShowAppointments";
+}
+
+<h2>ShowAppointments</h2>
+
+
+
+@if (Session.Count == 0 || ((User)Session["User"]).role_id != 3)
+{
+    <p class="alert-danger container">You need to Login first to access this data</p>
+    @Html.ActionLink("Login Here", "LoginPage", "home");
+}
+else
+{
+    <div style="float:right">
+        @Html.ActionLink("Log Out", "Logout", "Admin")
+    </div>
+
+    <table class="table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    <label>Appointment Id</label>
+                </th>
+
+                <th>
+                    <label>Patient Id</label>
+                </th>
+
+                <th>
+                    <label>Appointment Date</label>
+                </th>
+
+                <th>
+                    <label>Appointment Time</label>
+                </th>
+
+                <th>
+                    <label>Approve/Reject</label>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(a => item.appointment_id)</td>
+
+                    <td>@Html.DisplayFor(a => item.patient_id)</td>
+
+                    <td>@Html.DisplayFor(a => item.appointmentDate)</td>
+
+                    <td>@Html.DisplayFor(a => item.appointmentTime)</td>
+
+                    <td>
+                        @* Here 3rd parameter is patient_id so that we can retrive appointment info based on patient id
+                            in ShowAppointments action()
+                            *@
+                        @using (Html.BeginForm("ShowAppointments", "Receptionist", new {patientId = item.patient_id}))
+                        {
+                            <select name="isApproved">
+                                <option value="true">Approve</option>
+                                <option value="false">Reject</option>
+                            </select>
+                            <div><input type="submit" class="alert-danger"/></div>
+                        }
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+}
+

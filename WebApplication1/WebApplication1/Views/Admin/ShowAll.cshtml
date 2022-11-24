@@ -1,0 +1,113 @@
+﻿@model IEnumerable<WebApplication1.User>
+
+@{
+    ViewBag.Title = "ShowAll";
+}
+
+
+
+<h2>ShowAll</h2>
+
+@* When we log in,data of user is stored in session and thsi user data will remain in session
+    till user sign out
+
+
+*@
+@if (Session.Count == 0 || ((User)Session["User"]).role_id != 1)
+{
+    <p class="alert-danger container">You need to Login first to access this data</p>
+    @Html.ActionLink("Login Here", "LoginPage", "home");
+}
+
+else
+{
+    <div style="float:right">
+        @Html.ActionLink("Log Out", "Logout", "Admin")
+    </div>
+
+    <p>
+        @Html.ActionLink("Register New User", "Register", "Admin")
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>
+                <label>Full Name</label>
+                @*@Html.DisplayNameFor(model => model.full_name)*@
+            </th>
+            <th>
+                <label>Email</label>
+                @*@Html.DisplayNameFor(model => model.email)*@
+            </th>
+            <th>
+                <label>User Name</label>
+                @*@Html.DisplayNameFor(model => model.userName)*@
+            </th>
+            <th>
+                <label>Password</label>
+                @*@Html.DisplayNameFor(model => model.password_)*@
+            </th>
+            <th>
+                <label>Age</label>
+                @*@Html.DisplayNameFor(model => model.age)*@
+            </th>
+            <th>
+                <label>Contact Number</label>
+                @*@Html.DisplayNameFor(model => model.contact_number)*@
+            </th>
+            <th>
+                <label>Gender</label>
+                @*@Html.DisplayNameFor(model => model.gender)*@
+            </th>
+            <th>
+                <label>Specialization</label>
+                @*@Html.DisplayNameFor(model => model.specialization)*@
+            </th>
+            <th>
+                <label>Role Id</label>
+                @*@Html.DisplayNameFor(model => model.role_id)*@
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.full_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.password_)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.contact_number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.specialization)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.role_id)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.userId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.userId })
+                </td>
+            </tr>
+        }
+
+    </table>
+    @Html.ActionLink("Back", "Index")
+
+}
