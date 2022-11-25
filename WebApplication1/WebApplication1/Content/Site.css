@@ -28,3 +28,29 @@ textarea {
     background-color: #777;
     border-color: #fff
 }
+
+.labelColorBlack {
+    color: ActiveCaption
+}
+
+
+.labelColorWhite {
+    color: white
+}
+
+.WhiteHeader{
+    background-color:white;
+}
+
+.ActionLinks {
+    font-size: 1em;
+    color: Black;
+    background-color: white;
+    border-radius: 1em;
+    Padding: 4px
+}
+
+.Logout {
+    float:right;
+    color: white
+}

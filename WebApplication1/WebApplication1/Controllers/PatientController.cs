@@ -22,6 +22,7 @@ namespace WebApplication1.Controllers
         // GET: Patient
         public ActionResult Index()
         {
+            TempData.Keep("name");
             return View();
         }
 

@@ -11,7 +11,7 @@
 {
     <br />
     <p class="alert-danger container">You need to Login first to access this data</p>
-    @Html.ActionLink("Login Here", "LoginPage", "home");
+    @Html.ActionLink("Login Here", "LoginPage", "home", "", new { @class = "ActionLinks" });
 }
 else
 {
@@ -21,15 +21,16 @@ else
     using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        <div style="float:right">
-            @Html.ActionLink("Log Out", "Logout", "Admin")
+        <div class="Logout" >
+            @Html.ActionLink("Log Out", "Logout", "Admin", new { @style = "color:white" })
         </div>
 
         <div class="form-horizontal">
             <h4>User</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
+
+            <div class="form-group labelColorBlack">
                 @Html.LabelFor(model => model.full_name, "Full Name", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.full_name, new { htmlAttributes = new { @class = "form-control" } })
@@ -37,8 +38,8 @@ else
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-group labelColorBlack">
+                @Html.LabelFor(model => model.email, "Email", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
@@ -47,7 +48,7 @@ else
 
             </div>
 
-            <div class="form-group">
+            <div class="form-group labelColorBlack">
                 @Html.LabelFor(model => model.userName, "User name", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control" } })
@@ -56,7 +57,7 @@ else
                 @TempData["InvalidUserName"]
             </div>
 
-            <div class="form-group">
+            <div class="form-group labelColorBlack">
                 @Html.LabelFor(model => model.password_, "Password", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.password_, new { htmlAttributes = new { @class = "form-control" } })
@@ -64,15 +65,26 @@ else
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.age, htmlAttributes: new { @class = "control-label col-md-2" })
+
+            <div class="form-group labelColorBlack">
+                @Html.LabelFor(model => model.confirmPassword_, "Re-Enter Password", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(model => model.confirmPassword_, new { htmlAttributes = new { @class = "form-control" } })
+                    <p style="margin-top:1rem">
+                        @Html.ValidationMessageFor(model => model.confirmPassword_, "", new { @class = "text-danger bg-success text-dark" })
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group labelColorBlack">
+                @Html.LabelFor(model => model.age, "Age", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.age, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.age, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group labelColorBlack">
                 @Html.LabelFor(model => model.contact_number, "Contact Number", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.contact_number, new { htmlAttributes = new { @class = "form-control" } })
@@ -81,14 +93,14 @@ else
                 @TempData["InvalidContact"]
             </div>
 
-            <div class="form-group">
+            <div class="form-group labelColorBlack">
                 @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @*@Html.EditorFor(model => model.gender, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })*@
 
                     <select name="gender" required>
-                        <option value="null">Select Gender</option>
+                        <option value=null>Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
@@ -97,11 +109,11 @@ else
             </div>
 
 
-            <div class="form-group">
+            <div class="form-group labelColorBlack">
                 @Html.LabelFor(model => model.role_id, "Role", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @*@Html.EditorFor(model => model.role_id, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.role_id, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(model => model.role_id, "", new { @class = "text-danger" })*@
 
                     <select name="role_id" required>
                         <option>Select Role</option>
@@ -114,7 +126,7 @@ else
                 @ViewBag.roleId
             </div>
 
-            <div class="form-group">
+            <div class="form-group labelColorBlack">
                 @Html.LabelFor(model => model.specialization, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.specialization, new { htmlAttributes = new { @class = "form-control" } })
@@ -132,7 +144,9 @@ else
     }
 
     <div>
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to List", "Index", "", new { @class = "ActionLinks" })
     </div>
 
 }
+
+@*font-size:1em;color:Black;background-color:white;border-radius:1em;Padding:4px*@

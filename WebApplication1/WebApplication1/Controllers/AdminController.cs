@@ -63,8 +63,7 @@ namespace WebApplication1.Controllers
                 {
                     TempData["InvalidContact"] = "Contact already registered..!!!";
                 }
-
-
+                
 
                 //As admin has logged in so TempData has value of TempData["name"] from Login() in Home Controller
                 if (TempData.Count > 1)
@@ -73,31 +72,30 @@ namespace WebApplication1.Controllers
                 }
                 else
                 {
-                    //entities.Users.Add(user);
                     userAccess.CreateUser(user);
-                    //entities.SaveChangesAsync();
                 }
 
                 return RedirectToAction("Index");
             }
             else
             {
-                if (user.role_id==null)
-                {
-                    ViewBag.roleId = "Oops..You haven't selected a role id";
-                }
 
-                if (user.gender=="null")
-                {
-                    ViewBag.gender = "Oops..You haven't selected a gender";
-                }
+
+                //if (user.gender == null || user.gender=="null")
+                //{
+                //    ViewBag.gender = "Oops..You haven't selected a gender";
+                //}
+
+                //if (user.role_id == null)
+                //{
+                //    ViewBag.roleId = "Oops..You haven't selected a role id";
+                //}
                 return View((User)Session["UserToRegister"]);
             }
         }
 
         public ActionResult ShowAll()
         {
-            //var data  = entities.Users.ToList();
             var allUsers = userAccess.GetAllUsers();
             return View(allUsers);
         }
@@ -106,7 +104,6 @@ namespace WebApplication1.Controllers
         public ActionResult Edit(int id)
         {
             TempData["IdToUpdate"] = id;
-            //var data = entities.Users.Find(id);
 
             var searchedUser = userAccess.GetUserById(id);
             return View(searchedUser);
@@ -148,9 +145,7 @@ namespace WebApplication1.Controllers
         {
             int id = Convert.ToInt32(TempData["UserIdToDelete"]);
             //User u = entities.Users.Find(Convert.ToInt32(TempData["UserIdToDelete"]));
-            //entities.Users.Remove(u);
 
-            //entities.SaveChangesAsync();
 
             var res = userAccess.DeleteUser(id);
             

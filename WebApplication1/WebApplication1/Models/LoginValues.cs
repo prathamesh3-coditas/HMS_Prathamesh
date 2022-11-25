@@ -8,10 +8,10 @@ namespace WebApplication1.Models
 {
     public class LoginValues
     {
-        [Required]
+        [Required(ErrorMessage =("Username is required for Login"))]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = ("Password is required for Login"))]
         public string Password { get; set; } = string.Empty;
     }
 }

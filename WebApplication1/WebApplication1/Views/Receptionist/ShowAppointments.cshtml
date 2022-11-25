@@ -3,8 +3,8 @@
     ViewBag.Title = "ShowAppointments";
 }
 
-<h2>ShowAppointments</h2>
-
+<h2 class="labelColorWhite">ShowAppointments</h2>
+<hr />
 
 
 @if (Session.Count == 0 || ((User)Session["User"]).role_id != 3)
@@ -14,13 +14,13 @@
 }
 else
 {
-    <div style="float:right">
-        @Html.ActionLink("Log Out", "Logout", "Admin")
+    <div class="Logout">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:white" })
     </div>
 
     <table class="table-bordered table-striped">
         <thead>
-            <tr>
+            <tr class="WhiteHeader">
                 <th>
                     <label>Appointment Id</label>
                 </th>
@@ -46,7 +46,7 @@ else
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="labelColorWhite">
                     <td>@Html.DisplayFor(a => item.appointment_id)</td>
 
                     <td>@Html.DisplayFor(a => item.patient_id)</td>
@@ -58,8 +58,8 @@ else
                     <td>
                         @* Here 3rd parameter is patient_id so that we can retrive appointment info based on patient id
                             in ShowAppointments action()
-                            *@
-                        @using (Html.BeginForm("ShowAppointments", "Receptionist", new {patientId = item.patient_id}))
+                        *@
+                        @using (Html.BeginForm("ShowAppointments", "Receptionist", new { patientId = item.patient_id }))
                         {
                             <div class="alert-danger">
                                 <select name="isApproved">
@@ -78,3 +78,7 @@ else
     </table>
 }
 
+
+<div style="margin-top:2rem">
+    @Html.ActionLink("Back to List", "Index", "", new { @class = "ActionLinks" })
+</div>

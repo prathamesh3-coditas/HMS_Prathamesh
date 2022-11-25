@@ -18,6 +18,7 @@ namespace WebApplication1.Controllers
         // GET: Receptionist
         public ActionResult Index()
         {
+            TempData.Keep("name");
             return View();
         }
 

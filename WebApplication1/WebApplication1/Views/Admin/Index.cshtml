@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
 }
 
+
 <br />
 <br />
 
@@ -13,23 +14,23 @@
 }
 else
 {
-    <div style="float:right">
-        @Html.ActionLink("Log Out", "Logout", "Admin")
+    <div class="Logout">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { @style = "color:white" })
     </div>
 
-    <p style="font-size:larger">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+    <p style="font-size:larger" class="labelColorWhite">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
 
     <hr />
 
     using (Html.BeginForm("Register", "Admin"))
     {
-        <input type="submit" value="Register New User" />
+        <input type="submit" value="Register New User" class="btn btn-primary btn-danger"/>
     }
 
     <hr />
     using (Html.BeginForm("ShowAll", "Admin"))
     {
-        <input type="submit" value="Show All Users" />
+        <input type="submit" value="Show All Users" class="btn btn-primary btn-warning"/>
     }
 
 }

@@ -4,7 +4,6 @@
 }
 
 
-<h2>Index</h2>
 @if (Session.Count == 0)
 {
     <p class="alert-danger">You need to Login first to access this data</p>
@@ -12,12 +11,12 @@
 }
 else
 {
-    <div style="float:right">
-        @Html.ActionLink("Log Out", "Logout", "Admin")
+    <div class="Logout">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new {@style="color:white"})
     </div>
-
-    <p style="font-size:larger">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
-
+    <br />
+    <p style="font-size:larger" class="labelColorWhite">Welcome <b class="alert-success">@Convert.ToString(TempData["name"])</b></p>
+   
 
     <hr />
 
@@ -27,23 +26,38 @@ else
         string s = $"{DateTime.Now.Date.ToString(("yyyy-MM-dd"))}";
         string s1 = $"{DateTime.Now.Date.AddDays(6).ToString(("yyyy-MM-dd"))}";
 
-        <input type="date" name="date" min="@s" max="@s1" required />
+        <input type="date" name="date" min="@s" max="@s1" required class="container-fluid"/>
 
-        <select name="time">
+        <select name="time" style="height:25px;margin-left:2rem" class="container-fluid">
             <option value="09:00">9:00</option>
             <option value="09:30">9:30</option>
             <option value="10:00">10:00</option>
             <option value="10:30">10:30</option>
         </select>
-        <input type="submit" value="Book an Appointment" />
+        <div>
+            <input type="submit" value="Book an Appointment" style="margin:1.5rem auto" class="btn btn-primary btn-danger" id="bookAppoint" @*onclick="changeColor()"*@/>
+        </div>
     }
 
+    @*<script type="text/javascript">
+        var count = 1;
+        function changeColor() {
+            var getButton = document.getElementById("bookAppoint");
+            if (count == 0) {
+                getButton.style.backgroundColor = 'green';
+                count = 1;
+            } else {
+                getButton.style.backgroundColor = 'red';
+                count = 0;
+            }
+        }
+    </script>*@
 
     <hr />
 
     using (Html.BeginForm("viewAppointments", "Patient"))
     {
-        <input type="submit" value="View Upcoming Appointments" />
+        <input type="submit" value="View Upcoming Appointments" class="btn btn-primary btn-danger"/>
     }
 
 

@@ -11,7 +11,9 @@ namespace WebApplication1
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Configuration;
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,14 +25,27 @@ namespace WebApplication1
         }
     
         public int userId { get; set; }
+
+        //[Required]
         public string full_name { get; set; }
+
+        [EmailAddress]
         public string email { get; set; }
+
         public string userName { get; set; }
+
         public string password_ { get; set; }
+
+        [Compare("password_",ErrorMessage ="Password isn't matching")]
+        public string confirmPassword_ { get; set; }
         public Nullable<int> age { get; set; }
+
+        [RegularExpression("^[0-9]*$")]
         public string contact_number { get; set; }
+
         public string gender { get; set; }
         public string specialization { get; set; }
+
         public Nullable<int> role_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

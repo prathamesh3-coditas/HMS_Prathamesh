@@ -25,6 +25,7 @@ namespace WebApplication1.Controllers
 
         public ActionResult Index()
         {
+            TempData.Keep("name");
             return View();
         }
 
@@ -35,9 +36,11 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoginPage(LoginValues values)
+        public ActionResult LoginPage(string userName,string pass)
         {
-
+            LoginValues values = new LoginValues();
+            values.UserName = userName;
+            values.Password = pass;
             if (ModelState.IsValid)
             {
                     //var data = (entities.Users)
@@ -151,7 +154,6 @@ namespace WebApplication1.Controllers
         }
 
 
-        [Authorize]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -159,7 +161,6 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        [Authorize]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

@@ -14,6 +14,9 @@
 }
 else
 {
+    <div class="Logout">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:white" })
+    </div>
 
     using (Html.BeginForm())
     {
@@ -24,15 +27,15 @@ else
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @*<div class="form-group">
-                @Html.LabelFor(model => model.patient_id, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.patient_id,"Patient Id" ,new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.patient_id, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+                    @Html.LabelFor(model => model.patient_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.patient_id,"Patient Id" ,new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.patient_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
 
             <div class="form-group">
-                @Html.LabelFor(model => model.prev_history,"Previous History" ,htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.prev_history, "Previous History", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.prev_history, new { htmlAttributes = new { @class = "form-control " } })
                     @Html.ValidationMessageFor(model => model.prev_history, "", new { @class = "text-danger" })
@@ -40,7 +43,7 @@ else
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.reports,"Reports" ,htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.reports, "Reports", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.reports, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.reports, "", new { @class = "text-danger" })
@@ -48,12 +51,12 @@ else
             </div>
 
             @*<div class="form-group">
-                @Html.LabelFor(model => model.userId,"User Id" ,htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.userId, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.userId, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+                    @Html.LabelFor(model => model.userId,"User Id" ,htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.userId, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.userId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

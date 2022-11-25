@@ -12,8 +12,8 @@
 {
     @Html.AntiForgeryToken()
 
-    <div style="float:right">
-        @Html.ActionLink("Log Out", "Logout", "Admin")
+    <div class="Logout">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { @style = "color:white" })
     </div>
 
     <div class="form-horizontal">
@@ -116,5 +116,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "", new { @class = "ActionLinks" })
 </div>
