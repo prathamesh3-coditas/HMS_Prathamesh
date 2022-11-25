@@ -18,8 +18,16 @@ else
     </div>
 
     <p style="font-size:larger">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+    
     using (Html.BeginForm("ShowAppointments", "Receptionist"))
     {
-        <input type="submit" value="Show all pending appointments"/>
+        <input type="submit" value="Show pending appointments" />
+    }
+
+    <hr />
+
+    using (Html.BeginForm("ShowAllAppointments", "Receptionist"))
+    {
+        <input type="submit" value="View all Appointments" />
     }
 }

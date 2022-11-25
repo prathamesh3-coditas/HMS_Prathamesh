@@ -11,13 +11,17 @@ using System.Web.ModelBinding;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Xml;
+using WebApplication1.Data_Access;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        HMS_Project_newEntities2 entities = new HMS_Project_newEntities2();
+        //HMS_Project_newEntities2 entities = new HMS_Project_newEntities2();
+
+
+        UserDataAccess userData = new UserDataAccess();
 
         public ActionResult Index()
         {
@@ -26,6 +30,7 @@ namespace WebApplication1.Controllers
 
         public ActionResult LoginPage()
         {
+            //Session.Clear();
             return View();
         }
 
@@ -35,9 +40,10 @@ namespace WebApplication1.Controllers
 
             if (ModelState.IsValid)
             {
-                var data = (entities.Users)
-                    .Where(a => a.userName == values.UserName && a.password_ == values.Password)
-                    .FirstOrDefault();
+                    //var data = (entities.Users)
+                    //    .Where(a => a.userName == values.UserName && a.password_ == values.Password)
+                    //    .FirstOrDefault();
+                    var data = userData.validateUser(values);
 
                 Session["User"] = data;
                 Console.WriteLine();
@@ -48,7 +54,8 @@ namespace WebApplication1.Controllers
                 }
                 else
                 {
-                    TempData["name"] = entities.Users.Where(a => a.userName == values.UserName).Select(a => a.full_name).FirstOrDefault();
+                    TempData["name"] = userData.getFullNameById(values);
+                    //TempData["name"] = entities.Users.Where(a => a.userName == values.UserName).Select(a => a.full_name).FirstOrDefault();
                     return RedirectToAction("Success",values);
                 }
             }
@@ -58,33 +65,33 @@ namespace WebApplication1.Controllers
 
         public ActionResult Success(LoginValues values)
         {
-            var role = (entities.Users).ToList().Join((entities.Roles).ToList(),
-                u => u.role_id,
-                r => r.role_id,
-                (u, r) => new
-                {
-                    userName = u.userName,
-                    nameOfUser = u.full_name,
-                    roleOfUser = r.roleName
-                });
+            //var role = (entities.Users).ToList().Join((entities.Roles).ToList(),
+            //    u => u.role_id,
+            //    r => r.role_id,
+            //    (u, r) => new
+            //    {
+            //        userName = u.userName,
+            //        nameOfUser = u.full_name,
+            //        roleOfUser = r.roleName
+            //    });
 
-            var record = role.Where(a => a.userName == values.UserName).FirstOrDefault();
+            //var record = role.Where(a => a.userName == values.UserName).FirstOrDefault();
             
+            var role = userData.onSuccess(values);
 
-            Console.WriteLine();
-            if (record.roleOfUser == "Patient")
+            if (role == "Patient")
             {
                 return RedirectToAction("Index", "Patient");
             }
-            else if (record.roleOfUser == "Receptionist")
+            else if (role == "Receptionist")
             {
                 return RedirectToAction("Index", "Receptionist");
             }
-            else if (record.roleOfUser == "Doctor")
+            else if (role == "Doctor")
             {
                 return RedirectToAction("Index","Doctor");
             }
-            else if (record.roleOfUser == "Admin")
+            else if (role == "Admin")
             {
                 return RedirectToAction("Index", "Admin");
 
@@ -102,12 +109,15 @@ namespace WebApplication1.Controllers
         {
             user.role_id = 4;
 
-            var allUsers = entities.Users.ToList();
+            //var allUsers = entities.Users.ToList();
+
+            var allUsers = userData.GetAllUsers().ToList();
             Session["SignUpUser"] = user;
 
             var isUserNameValid = allUsers.Where(a => a.userName == user.userName).FirstOrDefault();
             var isEMailValid = allUsers.Where(a => a.email == user.email).FirstOrDefault();
             var isContactValid = allUsers.Where(a => a.contact_number == user.contact_number).FirstOrDefault();
+            
             Console.WriteLine();
             if (isUserNameValid != null)
             {
@@ -131,8 +141,10 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                entities.Users.Add(user);
-                entities.SaveChangesAsync();
+                //entities.Users.Add(user);
+                //entities.SaveChangesAsync();
+
+                userData.CreateUser(user);
             }
 
             return RedirectToAction("LoginPage");

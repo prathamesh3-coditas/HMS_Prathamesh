@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.Data_Access;
 
 namespace WebApplication1.Controllers
 {
     public class ReceptionistController : Controller
     {
 
-        HMS_Project_newEntities2 entities = new HMS_Project_newEntities2();
+
+        AppointmentDataAccess appointmentAccess = new AppointmentDataAccess();
+        DeseaseDataAccess deseaseAccess = new DeseaseDataAccess();
         // GET: Receptionist
         public ActionResult Index()
         {
@@ -17,10 +22,10 @@ namespace WebApplication1.Controllers
         }
 
 
-        
-        
+
+
         [HttpPost]
-        public ActionResult ShowAppointments(bool? isApproved,string patientId)
+        public ActionResult ShowAppointments(bool? isApproved, string patientId)
         {
             //Checking if Receptionist selects Approve OR Reject
             //When Receptionist clicks on Show all appointments then isApproved==null
@@ -29,28 +34,70 @@ namespace WebApplication1.Controllers
             if (isApproved != null)
             {
                 //getting details of appointment based on patient id
-                var appointmentCreated = entities.Appointments.Where(a => a.patient_id == patientId).FirstOrDefault();
-                if (isApproved==true)
+
+
+                var allAppointments = appointmentAccess.GetAllAppointments();
+
+                //Get all pending appointments
+                var appointmentsPending = allAppointments.Where(a => a.isApproved == false).First();
+
+                //If appointment is approved then change status of isApproved in DB
+                //If rejected then delete appointment from appointment table
+                var res = appointmentAccess.ApproveOrReject(appointmentsPending, (bool)isApproved);
+
+
+
+
+                ///--------------------------------------------------------------------------------
+                /// Filling data in DeseaseDetails table if appointment reuest us approved
+                ///-------------------------------------------------------------------------------- 
+                if (res == true)
                 {
-                    //If approved by receptionist then set value for column as true
-                    appointmentCreated.isApproved = true;
-                    entities.SaveChanges();
-                }
-                else
-                {
-                    //If appointment is rejected then it'll be removed from table
-                    appointmentCreated.isApproved = false;
-                    var res = entities.Appointments.Remove(appointmentCreated);
-                    entities.SaveChanges();
+                    //if request approved then add desease details 
+                    var details = deseaseAccess.GetDeseaseDetails(patientId);
+
+                    //Null means desease details are not present so noOfVisits=0
+                    if (details == null)
+                    {
+                        var deseaseDetails = new Desease_Details()
+                        {
+                            no_of_visits = 0,
+                            patient_id = patientId,
+                            desease_catagory = "General"
+                        };
+                        
+                        ViewBag.AppointmentWith = "Your Appointment is successfully booked with \"General Physician.\"";
+                        deseaseAccess.AddDeseaseDetails(deseaseDetails);
+                    }
+                    else
+                    {
+                        //If desease deatails are present then patient is existing so just 
+                        //increment noOfVisits
+                        deseaseAccess.IncrementNumberOfVisits(details);
+                    }
                 }
             }
 
             //Here we're taking appointments having isApproved==false but when an appointment is
             //approved then isApproved will be set to true so this will by default selects 
             //appointments which are yet to be responded by receptionist
-            var appointData = entities.Appointments.Where(a=>a.isApproved==false).ToList();
-
+            var appointData = appointmentAccess.GetPendingAppointments();
             return View(appointData);
+        }
+
+
+        public ActionResult ShowAllAppointments(DateTime? date1)
+        {
+            if (date1 == null)
+            {
+                var allAppointments = appointmentAccess.GetAllAppointments().ToList().Where(a => a.isApproved == true).ToList();
+                return View(allAppointments);
+            }
+            else
+            {
+                var allAppointments = appointmentAccess.GetAllAppointments().Where(a => a.appointmentDate == date1 && a.isApproved == true).ToList();
+                return View(allAppointments);
+            }
         }
     }
 }
