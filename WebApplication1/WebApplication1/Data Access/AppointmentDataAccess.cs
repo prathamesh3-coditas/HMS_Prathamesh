@@ -18,7 +18,7 @@ namespace WebApplication1.Data_Access
 
 
 
-        public bool ApproveOrReject(Appointment AppointmentPending, bool approveOrReject)
+        public /*Appointment*/ bool ApproveOrReject(Appointment AppointmentPending, bool approveOrReject)
         {
 
             if (approveOrReject == true)
@@ -40,12 +40,15 @@ namespace WebApplication1.Data_Access
 
 
                 var res = entities.SaveChanges();
+                //return null;
+
                 return true;
             }
             else
             {
-                entities.Appointments.Remove(AppointmentPending);
+                var deletedRequest = entities.Appointments.Remove(AppointmentPending);
                 entities.SaveChanges();
+                //return deletedRequest;
                 return false;
             }
         }
@@ -60,11 +63,21 @@ namespace WebApplication1.Data_Access
         {
             if (user!=null)
             {
-                var patientRecord = entities.Patients.Where(a => a.userId == user.userId).First();
-                DateTime d = DateTime.Now.Date;
+                try
+                {
+                    var patientId = entities.Patients.Where(a => a.userId == user.userId).Select(a => a.patient_id).First();
+                    var patientRecord = entities.Patients.Where(a => a.patient_id == patientId).First();
+                    DateTime d = DateTime.Now.Date;
+                    //var d = DateTime.Now.Date.ToString("dd:MM:yyyy");
 
-                var appointData = entities.Appointments.Where(a => a.patient_id == patientRecord.patient_id && a.appointmentDate>=d).ToList();
-                return appointData;
+                    var appointData = entities.Appointments.Where(a => a.patient_id == patientRecord.patient_id && a.appointmentDate >= d).ToList();
+                    return appointData;
+                }
+                catch (Exception)
+                {
+
+                    return new List<Appointment>();
+                }
             }
 
             return new List<Appointment>();
@@ -73,8 +86,32 @@ namespace WebApplication1.Data_Access
 
         public IEnumerable<Appointment> GetAllAppointments()
         {
-            var allAppointments = entities.Appointments.ToList();
-            return allAppointments;
+            try
+            {
+                var allAppointments = entities.Appointments.ToList();
+                return allAppointments;
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
+
+
+        public IEnumerable<Appointment> GetAllAppointments(int userId)
+        {
+            try
+            {
+                var allAppointments = entities.Appointments.ToList();
+                var appoint = allAppointments.Where(a => a.userId == userId).ToList();
+                return appoint;
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
         }
 
     }

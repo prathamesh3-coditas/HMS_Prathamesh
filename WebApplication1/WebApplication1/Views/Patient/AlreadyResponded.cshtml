@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "AlreadyResponded";
+}
+
+<h2>AlreadyResponded</h2>
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Admin.jpg')
+    }
+</style>
+
+<script>
+    window.onload = function () {
+        swal({
+            title: "Already Done",
+            icon:"success",
+            text: 'You have already Done this payment',
+            button: "Finish",
+            //dangerMode: true,
+            //confirmButton: true
+        }).then(a => { window.location.href = '/Patient/Index' });
+    }
+
+</script>

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebApplication1.Payment>
+@{
+    ViewBag.Title = "ShowBills";
+}
+
+<h2 style="background-color:white">Show Bills</h2>
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Reception.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+<table class="table table-bordered">
+    <thead class="WhiteHeader">
+        <tr>
+            <td>Patient Id</td>
+            <td>Total Bill</td>
+            <td>Approve/Reject</td>
+        </tr>
+    </thead>
+    @{
+        var data = Model.Where(a => a.isRequested == false).ToList();
+        <tbody class="TableBody">
+            @foreach (var item in data)
+            {
+                <tr>
+                    <td>@item.patientId</td>
+                    <td>@item.total_bill</td>
+                    @{
+                        Session["BillOfPatient"] = @item.patientId;
+                    }
+                    <td>
+                        @using (Html.BeginForm("ShowBills", "Receptionist"))
+                        {
+                            
+                            
+
+                            <select name="isApporved">
+                                <option value="true">Approve</option>
+                                <option value="false">False</option>
+                            </select>
+                            <input type="submit" value="Submit" />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+
+</table>
+
+
+<div style="margin-top:2rem">
+    @Html.ActionLink("Back", "Index", "", new { @class = "ActionLinks" })
+</div>

@@ -7,30 +7,51 @@
 <br />
 <br />
 
-@if (Session.Count == 0)
+<style>
+    body {
+        background-image: url('/Scripts/Images/Admin Index.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+@*@if (Session.Count == 0)
 {
     <p class="alert-danger container">You need to Login first to access this data</p>
-    @Html.ActionLink("Login Here", "LoginPage", "home");
+    @Html.ActionLink("Login Here", "LoginPage", "home", "", new { @class = "ActionLinks" });
 }
 else
-{
-    <div class="Logout">
-        @Html.ActionLink("Log Out", "Logout", "Admin", new { @style = "color:white" })
+{*@
+    <div class="Logout" style="margin-top:-3rem">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
     </div>
 
-    <p style="font-size:larger" class="labelColorWhite">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+    <p style="font-size:larger;color:black;font-weight:600">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
 
     <hr />
 
-    using (Html.BeginForm("Register", "Admin"))
+    @using (Html.BeginForm("Register", "Admin",FormMethod.Get))
     {
-        <input type="submit" value="Register New User" class="btn btn-primary btn-danger"/>
+        <div style="margin-left:42rem">
+            <input type="submit" value="Register New User" class="btn btn-primary btn-danger" />
+        </div>
     }
 
     <hr />
-    using (Html.BeginForm("ShowAll", "Admin"))
+    @using (Html.BeginForm("ShowAll", "Admin"))
     {
-        <input type="submit" value="Show All Users" class="btn btn-primary btn-warning"/>
+        <div style="margin-left:42rem">
+            <input type="submit" value="View Existing Users" class="btn btn-primary" />
+        </div>
+
     }
 
-}
+    <hr />
+    @using (Html.BeginForm("ConsumableDetails", "Admin"))
+    {
+        <div style="margin-left:42rem">
+            <input type="submit" value="Add Consumebales" class="btn btn-success" />
+        </div>
+
+    }
+@*}*@

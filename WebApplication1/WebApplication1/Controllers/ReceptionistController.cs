@@ -12,10 +12,17 @@ namespace WebApplication1.Controllers
     public class ReceptionistController : Controller
     {
 
-
+        PaymentDataAccess paymentAccess=new PaymentDataAccess();
         AppointmentDataAccess appointmentAccess = new AppointmentDataAccess();
         DeseaseDataAccess deseaseAccess = new DeseaseDataAccess();
+        TreatmentDataAccess treatmentAccess = new TreatmentDataAccess();
+        ConsumableDataAccess consumableAccess = new ConsumableDataAccess();
+        PatientDataAccess patientAccess = new PatientDataAccess();
+        BillingDataAccess billingAccess = new BillingDataAccess();  
+
+
         // GET: Receptionist
+        [Authorize(Roles = "Receptionist")]
         public ActionResult Index()
         {
             TempData.Keep("name");
@@ -24,7 +31,7 @@ namespace WebApplication1.Controllers
 
 
 
-
+        [Authorize(Roles = "Receptionist")]
         [HttpPost]
         public ActionResult ShowAppointments(bool? isApproved, string patientId)
         {
@@ -70,13 +77,17 @@ namespace WebApplication1.Controllers
                         ViewBag.AppointmentWith = "Your Appointment is successfully booked with \"General Physician.\"";
                         deseaseAccess.AddDeseaseDetails(deseaseDetails);
                     }
-                    else
-                    {
-                        //If desease deatails are present then patient is existing so just 
-                        //increment noOfVisits
-                        deseaseAccess.IncrementNumberOfVisits(details);
-                    }
+                    //else
+                    //{
+                    //    //If desease deatails are present then patient is existing so just 
+                    //    //increment noOfVisits
+                    //    deseaseAccess.IncrementNumberOfVisits(details);
+                    //}
                 }
+                //else
+                //{
+
+                //}
             }
 
             //Here we're taking appointments having isApproved==false but when an appointment is
@@ -86,7 +97,7 @@ namespace WebApplication1.Controllers
             return View(appointData);
         }
 
-
+        [Authorize(Roles = "Receptionist")]
         public ActionResult ShowAllAppointments(DateTime? date1)
         {
             if (date1 == null)
@@ -99,6 +110,46 @@ namespace WebApplication1.Controllers
                 var allAppointments = appointmentAccess.GetAllAppointments().Where(a => a.appointmentDate == date1 && a.isApproved == true).ToList();
                 return View(allAppointments);
             }
+        }
+
+        [Authorize(Roles = "Receptionist")]
+        public ActionResult ShowBills()
+        {
+            var paymentDetails =  paymentAccess.GetPaymentDetails().Where(a=>a.isRequested==false);
+
+            return View(paymentDetails);
+        }
+
+        [HttpPost]
+        public ActionResult ShowBills(string patientId, bool? isApporved)
+        {
+            patientId = (string)Session["BillOfPatient"];
+            if (isApporved ==true)
+            {
+                patientId = (string)Session["BillOfPatient"];
+                var billsOfPatient = billingAccess.ShowBillsByPatientId(patientId).Where(a => a.is_paid == false).ToList();
+                //var billsOfPatient = paymentAccess.GetPaymentDetails().Where(a => a.patientId == patientId && a.isRequested == false).ToList();
+                for (int i = 0; i < billsOfPatient.Count(); i++)
+                {
+                    billingAccess.EditBillings(billsOfPatient[i], patientId);
+                }
+
+                var data = paymentAccess.GetPaymentDetails().Where(a=>a.patientId==patientId);
+
+                paymentAccess.EditPaymentDetails(patientId);
+                var paymentDetails = paymentAccess.GetPaymentDetails().Where(a => a.isRequested == false);
+
+                return View(paymentDetails);
+            }
+            else
+            {
+                paymentAccess.DeletePaymentDetails(patientId);
+                var paymentDetails = paymentAccess.GetPaymentDetails().Where(a => a.isRequested == false);
+
+                return View(paymentDetails);
+            }
+           
+           
         }
     }
 }

@@ -30,5 +30,49 @@ namespace WebApplication1.Data_Access
 
             return patient;
         }
+
+        public void EditReports(string newReport,string patientId)
+        {
+            var reportData = entities.Patients.Where(a => a.patient_id == patientId).First();
+
+            reportData.reports = newReport;
+            reportData.patient_id = patientId;
+
+            var res =entities.SaveChanges();
+            Console.WriteLine();
+        }
+
+
+        public Patient GetReports(string patientId)
+        {
+            var patientdetails = entities.Patients.Where(a => a.patient_id == patientId).First();
+            return patientdetails;
+        }
+
+        public Patient GetReports(int userId)
+        {
+            try
+            {
+                string patientId = entities.Patients.Where(a => a.userId == userId).Select(a => a.patient_id).First();
+                var patientdetails = entities.Patients.Where(a => a.patient_id == patientId).First();
+                return patientdetails;
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
+
+        public void EditPatientDetails(string patientId,Patient patientDetails)
+        {
+            var res = entities.Patients.Find(patientId);
+
+            res.prev_history = patientDetails.prev_history;
+            res.reports = patientDetails.reports;
+            res.userId = patientDetails.userId;
+
+            entities.SaveChanges();
+        }
     }
 }

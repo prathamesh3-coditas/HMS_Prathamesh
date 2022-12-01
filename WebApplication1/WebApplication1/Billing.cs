@@ -14,10 +14,11 @@ namespace WebApplication1
     
     public partial class Billing
     {
-        public string bill_number { get; set; }
+        public int bill_number { get; set; }
         public string patient_id { get; set; }
         public Nullable<int> consumable_id { get; set; }
         public Nullable<int> userId { get; set; }
+        public Nullable<bool> is_paid { get; set; }
     
         public virtual Consumable Consumable { get; set; }
         public virtual Patient Patient { get; set; }

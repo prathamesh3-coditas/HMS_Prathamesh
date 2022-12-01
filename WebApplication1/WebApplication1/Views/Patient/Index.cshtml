@@ -1,64 +1,146 @@
-﻿
+﻿@model IEnumerable<WebApplication1.Appointment>
 @{
     ViewBag.Title = "Index";
 }
 
+<style>
+    body {
+        background-image: url('/Scripts/Images/Patient Index.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
 
-@if (Session.Count == 0)
+@*@if (Session.Count == 0)
 {
     <p class="alert-danger">You need to Login first to access this data</p>
-    @Html.ActionLink("Login Here", "LoginPage", "home");
+    @Html.ActionLink("Login Here", "LoginPage", "home", "", new { @class = "ActionLinks" });
 }
 else
-{
-    <div class="Logout">
-        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new {@style="color:white"})
+{*@
+    <div class="Logout" style="margin-top:2rem">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
     </div>
     <br />
-    <p style="font-size:larger" class="labelColorWhite">Welcome <b class="alert-success">@Convert.ToString(TempData["name"])</b></p>
-   
-
+    <p style="font-size:larger;color:black;font-weight:600">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+    @{
+        TempData.Keep("name");
+    }
     <hr />
 
 
-    using (Html.BeginForm("TakeAppointment", "patient"))
+    @using (Html.BeginForm("TakeAppointment", "patient"))
     {
         string s = $"{DateTime.Now.Date.ToString(("yyyy-MM-dd"))}";
         string s1 = $"{DateTime.Now.Date.AddDays(6).ToString(("yyyy-MM-dd"))}";
 
-        <input type="date" name="date" min="@s" max="@s1" required class="container-fluid"/>
 
-        <select name="time" style="height:25px;margin-left:2rem" class="container-fluid">
-            <option value="09:00">9:00</option>
-            <option value="09:30">9:30</option>
-            <option value="10:00">10:00</option>
-            <option value="10:30">10:30</option>
-        </select>
-        <div>
-            <input type="submit" value="Book an Appointment" style="margin:1.5rem auto" class="btn btn-primary btn-danger" id="bookAppoint" @*onclick="changeColor()"*@/>
-        </div>
+        <p style="color:black;font-weight:600;background-color:crimson">@ViewBag.AppointmentDateRequired </p>
+        <input type="date" name="date" min="@s" max="@s1" class="container-fluid" style="margin-left:45rem" />
+        <br />
+        <input type="submit" value="Press Here after selecting date" style="margin-left:42rem;margin-top:1rem;background-color:ActiveCaption;color:wheat" />
+        {
+            if (Session["AppointmentDate"] != null)
+            {
+
+                var fullDate = (DateTime)Session["AppointmentDate"];
+                var date = fullDate.ToString("yyyy-MM-dd");
+                DateTime d = DateTime.Parse(date);
+
+
+                var bookedTimeSlots = Model.Where(a => Convert.ToDateTime(a.appointmentDate).Equals(d) && a.isApproved == true).Select(a => a.appointmentTime.ToString());
+                Console.WriteLine();
+
+                {
+                    List<string> allTimes = new List<string>() { "09:00", "09:30", "10:00", "10:30" };
+
+                    <div>
+                        <label class="labelColorBlack" style="margin-left:40rem;background-color:coral;margin-top:2rem;padding:0 1rem">Available time slots for @date</label>
+                        <br />
+                        <select name="time" style="height: 25px; margin-left: 48rem; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)" class="container-fluid">
+                            @*<option value=null>Select Time</option>
+                                <option value="09:00">9:00</option>
+                                <option value="09:30">9:30</option>
+                                <option value="10:00">10:00</option>
+                                <option value="10:30">10:30</option>*@
+
+                            @foreach (var item in allTimes)
+                            {
+                                if (!bookedTimeSlots.Contains(item + ":00"))
+                                {
+                                    <option value=@item > @item</option>
+                                    <hr />
+
+                                }
+                                else
+                                {
+                                    <option value=@item disabled style="background-color: lavenderblush">@item</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <input type="submit" value="Book an Appointment" style="margin:1.5rem 44rem" class="btn btn-success" id="bookAppoint" @*onclick="changeColor()"*@ />
+                    </div>
+                }
+
+
+
+
+            }
+            @*else
+                {
+                    <select name="time" style="height:25px;margin-left:2rem" class="container-fluid" disabled>
+                        <option value=null>Select Time</option>
+                        <option value="09:00">9:00</option>
+                        <option value="09:30">9:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                    </select>
+                }*@
+        }
+
+
+
     }
 
     @*<script type="text/javascript">
-        var count = 1;
-        function changeColor() {
-            var getButton = document.getElementById("bookAppoint");
-            if (count == 0) {
-                getButton.style.backgroundColor = 'green';
-                count = 1;
-            } else {
-                getButton.style.backgroundColor = 'red';
-                count = 0;
+            var count = 1;
+            function changeColor() {
+                var getButton = document.getElementById("bookAppoint");
+                if (count == 0) {
+                    getButton.style.backgroundColor = 'green';
+                    count = 1;
+                } else {
+                    getButton.style.backgroundColor = 'red';
+                    count = 0;
+                }
             }
-        }
-    </script>*@
+        </script>*@
 
     <hr />
 
-    using (Html.BeginForm("viewAppointments", "Patient"))
+    @using (Html.BeginForm("viewAppointments", "Patient"))
     {
-        <input type="submit" value="View Upcoming Appointments" class="btn btn-primary btn-danger"/>
+        <div style="margin-left:42rem">
+
+            <input style="margin-left:auto" type="submit" value="View Upcoming Appointments" class="btn btn-primary" />
+        </div>
+
+    }
+
+    <hr />
+
+    @using (Html.BeginForm("CurrentTreatment", "Patient"))
+    {
+        <div style="margin-left:42rem">
+
+            <input style="margin-left:auto" type="submit" value="Show my ongoing Treatments" class="btn btn-danger" />
+        </div>
+
     }
 
 
-}
+
+
+@*}*@

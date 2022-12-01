@@ -1,0 +1,105 @@
+﻿@*@model Tuple<IEnumerable<WebApplication1.Consumable>, WebApplication1.Treatment>*@
+
+@model IEnumerable<WebApplication1.Consumable>
+@{
+    ViewBag.Title = "PrescribeMedicine";
+}
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Medicine Capsule.jpg');
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+</style>
+
+<h2 class="WhiteHeader" style="color:white">Prescribe Medicine</h2>
+
+@*@if (Model.consumable_id == null)
+    {*@
+
+
+@using (Html.BeginForm("SearchMedicine","Doctor",FormMethod.Post))
+{
+    <div for="details" class="labelColorWhite">Search</div>
+    <input type="search" name="name" placeholder="Search Medicine"/>
+    <input type="submit" value="Search" class="btn-success"/>
+}
+<br />
+
+
+<table class="table table-bordered">
+    <thead class="WhiteHeader">
+        <tr>
+            <th>Consumable Id</th>
+            <th>Availability</th>
+            <th>Consumable Name</th>
+            <th>Select Quantity</th>
+        </tr>
+    </thead>
+
+    <tbody class="TableBody">
+        @foreach (var item in Model)
+        {
+
+
+            <tr class="labelColorWhite">
+
+                <td class="labelColorWhite">@Html.DisplayFor(a => item.consumable_id)</td>
+                <td class="labelColorWhite">@Html.DisplayFor(a => item.availability_detail)</td>
+                <td class="labelColorWhite">@Html.DisplayFor(a => item.consumable_name)</td>
+
+                @if (item.consumable_name != "Room" && !item.consumable_name.Contains("Test"))
+                {
+
+
+                    <td>
+                        @using (Html.BeginForm("PrescribeMedicine", "Doctor", new { consumableID = item.consumable_id }))
+                        {
+                            <div>
+                                <select name="quantity" class="labelColorWhite">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+
+                                <div style="margin-top:4px"><input type="submit" class="alert-success" /></div>
+                            </div>
+                        }
+                    </td>
+                }
+                else
+                {
+
+
+                    <td>
+                        @using (Html.BeginForm("PrescribeMedicine", "Doctor", new { consumableID = item.consumable_id }))
+                        {
+
+                            <select name="quantity">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+
+                            <div style="margin-top:4px"><input type="submit" class="alert-success" /></div>
+                        }
+
+                    </td>
+
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@using (Html.BeginForm("PrescribeMedicine", "Doctor"))
+{
+    <input type="submit" value="Finish" name="Finish" class="btn btn-danger bg-primary" />
+
+}
+<hr />
+@Html.ActionLink("Back ", "viewAppointment", "", new { @class = "ActionLinks" })

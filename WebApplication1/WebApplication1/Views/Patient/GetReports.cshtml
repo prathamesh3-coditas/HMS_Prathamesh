@@ -1,0 +1,29 @@
+﻿@model WebApplication1.Patient
+@{
+    ViewBag.Title = "GetReports";
+}
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Patient.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+
+<h2 class="labelColorWhite">Reports</h2>
+
+@if (Model != null)
+{
+        <textarea disabled>@Model.reports</textarea>    
+}
+else
+{
+    <p class="WhiteHeader" style="background-color:white;color:black;padding: 2rem"><b>No Report details found</b></p>
+}
+
+
+<div style="margin-top:2rem">
+    @Html.ActionLink("Back", "CurrentTreatment", "", new { @class = "ActionLinksBlue" })
+</div>

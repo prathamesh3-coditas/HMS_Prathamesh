@@ -42,5 +42,17 @@ namespace WebApplication1.Data_Access
             Console.WriteLine();
             entities.SaveChanges();
         }
+
+  
+        public void EditDeseaseCategory(Desease_Details details)
+        {
+            var oldDetails = entities.Desease_Details.Where(a=>a.patient_id==details.patient_id).First();
+
+            oldDetails.patient_id=details.patient_id;
+            oldDetails.no_of_visits = details.no_of_visits;
+            oldDetails.desease_catagory = details.desease_catagory;
+
+            entities.SaveChanges();
+        }
     }
 }

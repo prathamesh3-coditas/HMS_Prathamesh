@@ -30,27 +30,61 @@ textarea {
 }
 
 .labelColorBlack {
-    color: ActiveCaption
+    color: white;
+    font-weight: 600;
 }
 
-
 .labelColorWhite {
-    color: white
+    color: black;
+    font-weight:600;
 }
 
 .WhiteHeader{
-    background-color:white;
+    /*background-color:darkkhaki;*/
+    background-color:black;
+    color:white;
 }
 
 .ActionLinks {
-    font-size: 1em;
+/*    font-size: 1em;
     color: Black;
     background-color: white;
     border-radius: 1em;
-    Padding: 4px
+    Padding: 4px*/
+
+background-color:crimson;
+padding-left:2rem;
+padding-right:2rem;
+padding-top:1rem;
+padding-bottom:1rem;
+border-radius:6px;
+color:white
+}
+
+
+.ActionLinksBlue {
+
+    background-color: dodgerblue;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 6px;
+    color: white
 }
 
 .Logout {
     float:right;
     color: white
+}
+
+.TableBody {
+    /*background-image: linear-gradient(45deg,rgba(255,192,203,0.5) ,grey);*/
+
+    background-color:white;
+}
+
+
+.FrontDiv {
+    background-image: linear-gradient(45deg,rgb(204, 200, 27),rgba(157, 83, 83,0.3) 65%);
 }

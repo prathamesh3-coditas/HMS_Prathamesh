@@ -4,110 +4,122 @@
     ViewBag.Title = "ShowAll";
 }
 
+<style>
+    body {
+        background-image: url('/Scripts/Images/Admin.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
 
-
-<h2 class="labelColorWhite">ShowAll</h2>
 
 @* When we log in,data of user is stored in session and thsi user data will remain in session
     till user sign out
 
 
 *@
-@if (Session.Count == 0 || ((User)Session["User"]).role_id != 1)
+@*@if (Session.Count == 0 || ((User)Session["User"]).role_id != 1)
 {
-    <p class="alert-danger container">You need to Login first to access this data</p>
+    <p class="alert-danger container" style="margin-top:2rem">You need to Login first to access this data</p>
     @Html.ActionLink("Login Here", "LoginPage", "home", "", new { @class = "ActionLinks" });
 }
 
 else
-{
+{*@
     <div class="Logout">
-        @Html.ActionLink("Log Out", "Logout", "Admin", new { @style = "color:white" })
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
     </div>
+    <h2 style="color:black">Show All</h2>
+
 
     <p>
         @Html.ActionLink("Register New User", "Register", "Admin", "", new { @class = "ActionLinks" })
     </p>
 
-    <table class="table">
-        <tr class="WhiteHeader">
-            <th>
-                <label>Full Name</label>
-                @*@Html.DisplayNameFor(model => model.full_name)*@
-            </th>
-            <th>
-                <label>Email</label>
-                @*@Html.DisplayNameFor(model => model.email)*@
-            </th>
-            <th>
-                <label>User Name</label>
-                @*@Html.DisplayNameFor(model => model.userName)*@
-            </th>
-            <th>
-                <label>Password</label>
-                @*@Html.DisplayNameFor(model => model.password_)*@
-            </th>
-            <th>
-                <label>Age</label>
-                @*@Html.DisplayNameFor(model => model.age)*@
-            </th>
-            <th>
-                <label>Contact Number</label>
-                @*@Html.DisplayNameFor(model => model.contact_number)*@
-            </th>
-            <th>
-                <label>Gender</label>
-                @*@Html.DisplayNameFor(model => model.gender)*@
-            </th>
-            <th>
-                <label>Specialization</label>
-                @*@Html.DisplayNameFor(model => model.specialization)*@
-            </th>
-            <th>
-                <label>Role Id</label>
-                @*@Html.DisplayNameFor(model => model.role_id)*@
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td class="labelColorWhite">
-                    @Html.DisplayFor(modelItem => item.full_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.email)
-                </td>
-                <td class="labelColorWhite">
-                    @Html.DisplayFor(modelItem => item.userName)
-                </td>
-                <td class="labelColorWhite">
-                    @Html.DisplayFor(modelItem => item.password_)
-                </td>
-                <td class="labelColorWhite">
-                    @Html.DisplayFor(modelItem => item.age)
-                </td>
-                <td class="labelColorWhite">
-                    @Html.DisplayFor(modelItem => item.contact_number)
-                </td>
-                <td class="labelColorWhite">
-                    @Html.DisplayFor(modelItem => item.gender)
-                </td>
-                <td class="labelColorWhite">
-                    @Html.DisplayFor(modelItem => item.specialization)
-                </td>
-                <td class="labelColorWhite">
-                    @Html.DisplayFor(modelItem => item.role_id)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.userId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.userId })
-                </td>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="WhiteHeader">
+                <th>
+                    <label>Full Name</label>
+                    @*@Html.DisplayNameFor(model => model.full_name)*@
+                </th>
+                <th>
+                    <label>Email</label>
+                    @*@Html.DisplayNameFor(model => model.email)*@
+                </th>
+                <th>
+                    <label>User Name</label>
+                    @*@Html.DisplayNameFor(model => model.userName)*@
+                </th>
+                <th>
+                    <label>Password</label>
+                    @*@Html.DisplayNameFor(model => model.password_)*@
+                </th>
+                <th>
+                    <label>Age</label>
+                    @*@Html.DisplayNameFor(model => model.age)*@
+                </th>
+                <th>
+                    <label>Contact Number</label>
+                    @*@Html.DisplayNameFor(model => model.contact_number)*@
+                </th>
+                <th>
+                    <label>Gender</label>
+                    @*@Html.DisplayNameFor(model => model.gender)*@
+                </th>
+                <th>
+                    <label>Specialization</label>
+                    @*@Html.DisplayNameFor(model => model.specialization)*@
+                </th>
+                <th>
+                    <label>Role Id</label>
+                    @*@Html.DisplayNameFor(model => model.role_id)*@
+                </th>
+                <th></th>
             </tr>
-        }
+        </thead>
+
+        <tbody class="TableBody">
+            @foreach (var item in Model)
+            {
+                <tr class="labelColorWhite">
+                    <td class="labelColorWhite">
+                        @Html.DisplayFor(modelItem => item.full_name)
+                    </td>
+                    <td class="labelColorWhite">
+                        @Html.DisplayFor(modelItem => item.email)
+                    </td>
+                    <td class="labelColorWhite">
+                        @Html.DisplayFor(modelItem => item.userName)
+                    </td>
+                    <td class="labelColorWhite">
+                        @Html.DisplayFor(modelItem => item.password_)
+                    </td>
+                    <td class="labelColorWhite">
+                        @Html.DisplayFor(modelItem => item.age)
+                    </td>
+                    <td class="labelColorWhite">
+                        @Html.DisplayFor(modelItem => item.contact_number)
+                    </td>
+                    <td class="labelColorWhite">
+                        @Html.DisplayFor(modelItem => item.gender)
+                    </td>
+                    <td class="labelColorWhite">
+                        @Html.DisplayFor(modelItem => item.specialization)
+                    </td>
+                    <td class="labelColorWhite">
+                        @Html.DisplayFor(modelItem => item.role_id)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.userId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.userId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
 
     </table>
-    @Html.ActionLink("Back", "Index", "", new { @class = "ActionLinks" })
+    @Html.ActionLink("Back", "Index", "", new { @class = "ActionLinksBlue" })
 
-}
+@*}*@

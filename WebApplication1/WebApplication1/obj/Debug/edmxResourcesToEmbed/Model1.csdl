@@ -20,13 +20,14 @@
     <Key>
       <PropertyRef Name="bill_number" />
     </Key>
-    <Property Name="bill_number" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="bill_number" Type="Int32" Nullable="false" />
     <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="consumable_id" Type="Int32" />
     <Property Name="userId" Type="Int32" />
     <NavigationProperty Name="Consumable" Relationship="Self.FK__Billing__consuma__398D8EEE" FromRole="Billing" ToRole="Consumable" />
     <NavigationProperty Name="Patient" Relationship="Self.FK__Billing__patient__38996AB5" FromRole="Billing" ToRole="Patient" />
     <NavigationProperty Name="User" Relationship="Self.FK__Billing__userId__3A81B327" FromRole="Billing" ToRole="Users" />
+    <Property Name="is_paid" Type="Boolean" />
   </EntityType>
   <EntityType Name="Consumable">
     <Key>
@@ -61,6 +62,8 @@
     <NavigationProperty Name="Billings" Relationship="Self.FK__Billing__patient__38996AB5" FromRole="Patient" ToRole="Billing" />
     <NavigationProperty Name="Desease_Details" Relationship="Self.FK__Desease_D__patie__2C3393D0" FromRole="Patient" ToRole="Desease_Details" />
     <NavigationProperty Name="User" Relationship="Self.FK__Patient__userId__29572725" FromRole="Patient" ToRole="Users" />
+    <NavigationProperty Name="Treatments" Relationship="HMS_Project_newModel.fk" FromRole="Patient" ToRole="Treatment" />
+    <NavigationProperty Name="Payments" Relationship="HMS_Project_newModel.FK__Payment__patient__5441852A" FromRole="Patient" ToRole="Payment" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -80,6 +83,9 @@
     <Property Name="consumable_id" Type="Int32" />
     <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__treat__34C8D9D1" FromRole="Treatment" ToRole="Appointment" />
     <NavigationProperty Name="Consumable" Relationship="Self.FK__Treatment__consu__30F848ED" FromRole="Treatment" ToRole="Consumable" />
+    <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Patient" Relationship="HMS_Project_newModel.fk" FromRole="Treatment" ToRole="Patient" />
+    <Property Name="IsActive" Type="Boolean" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -269,5 +275,48 @@
       <End Role="Roles" EntitySet="Roles" />
       <End Role="Users" EntitySet="Users" />
     </AssociationSet>
+    <AssociationSet Name="fk" Association="HMS_Project_newModel.fk">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="Treatment" EntitySet="Treatments" />
+    </AssociationSet>
+    <EntitySet Name="Payments" EntityType="HMS_Project_newModel.Payment" />
+    <AssociationSet Name="FK__Payment__patient__5441852A" Association="HMS_Project_newModel.FK__Payment__patient__5441852A">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="Payment" EntitySet="Payments" />
+    </AssociationSet>
   </EntityContainer>
+  <Association Name="fk">
+    <End Type="HMS_Project_newModel.Patient" Role="Patient" Multiplicity="0..1" />
+    <End Type="HMS_Project_newModel.Treatment" Role="Treatment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="patient_id" />
+      </Principal>
+      <Dependent Role="Treatment">
+        <PropertyRef Name="patient_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="paymentId" />
+    </Key>
+    <Property Name="paymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="patientId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="total_bill" Type="Int32" />
+    <Property Name="isRequested" Type="Boolean" />
+    <NavigationProperty Name="Patient" Relationship="HMS_Project_newModel.FK__Payment__patient__5441852A" FromRole="Payment" ToRole="Patient" />
+  </EntityType>
+  <Association Name="FK__Payment__patient__5441852A">
+    <End Type="HMS_Project_newModel.Patient" Role="Patient" Multiplicity="0..1" />
+    <End Type="HMS_Project_newModel.Payment" Role="Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="patient_id" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="patientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

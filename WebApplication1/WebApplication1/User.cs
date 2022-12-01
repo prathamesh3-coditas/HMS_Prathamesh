@@ -12,7 +12,6 @@ namespace WebApplication1
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Configuration;
 
     public partial class User
     {
@@ -23,31 +22,40 @@ namespace WebApplication1
             this.Billings = new HashSet<Billing>();
             this.Patients = new HashSet<Patient>();
         }
-    
+
         public int userId { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "Name can not be empty")]
         public string full_name { get; set; }
 
-        [EmailAddress]
+        [Required(ErrorMessage = "Email can not be empty")]
         public string email { get; set; }
 
+        [Required(ErrorMessage = "User Name can not be empty")]
         public string userName { get; set; }
 
+        [Required(ErrorMessage = "You have not provided Password")]
         public string password_ { get; set; }
 
-        [Compare("password_",ErrorMessage ="Password isn't matching")]
+
+        [Required(ErrorMessage = "Re-enter Password")]
+        [Compare("password_", ErrorMessage = "Password didn't match..!!!")]
         public string confirmPassword_ { get; set; }
+
+        [Required(ErrorMessage = "Enter your Age")]
         public Nullable<int> age { get; set; }
 
-        [RegularExpression("^[0-9]*$")]
+        [Required(ErrorMessage = "Contact Number can not be empty")]
         public string contact_number { get; set; }
 
+        [Required(ErrorMessage = "Select your Gender")]
         public string gender { get; set; }
+
         public string specialization { get; set; }
 
+        [Required(ErrorMessage = "You haven't selected Role Id")]
         public Nullable<int> role_id { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

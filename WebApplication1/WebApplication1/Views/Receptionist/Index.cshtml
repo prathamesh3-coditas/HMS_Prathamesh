@@ -6,28 +6,44 @@
 <br />
 <br />
 
-@if (Session.Count == 0 || ((User)Session["User"]).role_id != 3)
-{
-    <p class="alert-danger container">You need to Login first to access this data</p>
-    @Html.ActionLink("Login Here", "LoginPage", "home");
-}
-else
-{
-    <div class="Logout">
-        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:white" })
-    </div>
-
-    <p style="font-size:larger" class="labelColorWhite">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
-
-    using (Html.BeginForm("ShowAppointments", "Receptionist"))
-    {
-        <input type="submit" value="Show pending appointments" style="margin:1.5rem auto" class="btn btn-primary btn-danger"/>
+<style>
+    body {
+        background-image: url('/Scripts/Images/Reception.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
     }
+</style>
 
-    <hr />
-
-    using (Html.BeginForm("ShowAllAppointments", "Receptionist"))
+@*@if (Session.Count == 0 || ((User)Session["User"]).role_id != 3)
     {
-        <input type="submit" value="View all Appointments" style="margin:1.5rem auto" class="btn btn-primary btn-warning"/>
+        <p class="alert-danger container">You need to Login first to access this data</p>
+        <br />
+        @Html.ActionLink("Login Here", "LoginPage", "home", "", new { @class = "ActionLinks" });
     }
+    else
+    {*@
+<div class="Logout">
+    @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
+</div>
+
+<p style="font-size:larger;font-weight:600;margin-top:-1rem" class="labelColorBlack">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+
+@using (Html.BeginForm("ShowAppointments", "Receptionist"))
+{
+    <input type="submit" value="Show pending appointments" style="margin:1.5rem 42rem" class="btn btn-primary btn-danger" />
 }
+
+<hr />
+
+@using (Html.BeginForm("ShowAllAppointments", "Receptionist"))
+{
+    <input type="submit" value="View all Appointments" style="margin:1.5rem 42rem" class="btn btn-primary" />
+}
+
+<hr />
+
+@using (Html.BeginForm("ShowBills", "Receptionist", FormMethod.Get))
+{
+    <input type="submit" value="Payment Requests" style="margin:1.5rem 42rem" class="btn btn-success" />
+}
+@*}*@

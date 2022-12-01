@@ -143,9 +143,13 @@
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\ReceptionistController.cs" />
     <Compile Include="Data Access\AppointmentDataAccess.cs" />
+    <Compile Include="Data Access\BillingDataAccess.cs" />
+    <Compile Include="Data Access\ConsumableDataAccess.cs" />
     <Compile Include="Data Access\DeseaseDataAccess.cs" />
     <Compile Include="Data Access\PatientDataAccess.cs" />
     <Compile Include="Data Access\IDbAccess.cs" />
+    <Compile Include="Data Access\PaymentDataAccess.cs" />
+    <Compile Include="Data Access\TreatmentDataAccess.cs" />
     <Compile Include="Data Access\UserDataAccess.cs" />
     <Compile Include="Desease_Details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -169,7 +173,11 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginValues.cs" />
+    <Compile Include="Models\UserRoleProvider.cs" />
     <Compile Include="Patient.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Payment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -192,7 +200,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Views\Images\hmsbg.jpeg" />
+    <Content Include="Scripts\Images\Admin Index.jpg" />
+    <Content Include="Scripts\Images\Admin.jpg" />
+    <Content Include="Scripts\Images\Patient Index.jpg" />
+    <Content Include="Scripts\Images\Medicine Capsule.jpg" />
+    <Content Include="Scripts\Images\Patient.jpg" />
+    <Content Include="Scripts\Images\Reception.jpg" />
+    <Content Include="Scripts\Images\Doctor Medicines.jpg" />
+    <Content Include="Scripts\Images\img.jpg" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -213,6 +228,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Images\Doctor.jpg" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -252,6 +268,19 @@
     <Content Include="Views\Receptionist\ShowAppointments.cshtml" />
     <Content Include="Views\Patient\viewAppointments.cshtml" />
     <Content Include="Views\Receptionist\ShowAllAppointments.cshtml" />
+    <Content Include="Views\Doctor\viewAppointment.cshtml" />
+    <Content Include="Views\Admin\ConsumableDetails.cshtml" />
+    <Content Include="Views\Admin\AddConsumables.cshtml" />
+    <Content Include="Views\Doctor\PrescribeMedicine.cshtml" />
+    <Content Include="Views\Doctor\DeseaseCategory.cshtml" />
+    <Content Include="Views\Patient\CurrentTreatment.cshtml" />
+    <Content Include="Views\Admin\EditConsumables.cshtml" />
+    <Content Include="Views\Patient\ShowBilling.cshtml" />
+    <Content Include="Views\Patient\GetReports.cshtml" />
+    <Content Include="Views\Patient\PayBill.cshtml" />
+    <Content Include="Views\Receptionist\ShowBills.cshtml" />
+    <Content Include="Views\Patient\Successful.cshtml" />
+    <Content Include="Views\Patient\AlreadyResponded.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

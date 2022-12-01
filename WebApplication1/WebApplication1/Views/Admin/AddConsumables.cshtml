@@ -1,0 +1,65 @@
+﻿@model WebApplication1.Consumable
+
+@{
+    ViewBag.Title = "AddConsumables";
+}
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Admin.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+<h2 style="color:black">Add Consumables</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            <span style="color:black">
+                @Html.LabelFor(model => model.consumable_name,"Consumable Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            </span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.consumable_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.consumable_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span style="color:black">
+                @Html.LabelFor(model => model.availability_detail, "Availability Details",htmlAttributes: new { @class = "control-label col-md-2" })
+            </span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.availability_detail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.availability_detail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span style="color:black">
+                @Html.LabelFor(model => model.price, "Price",htmlAttributes: new { @class = "control-label col-md-2" })
+            </span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Admin",new {@class="ActionLinks"})
+</div>

@@ -31,7 +31,6 @@ namespace WebApplication1.Controllers
 
         public ActionResult LoginPage()
         {
-            //Session.Clear();
             return View();
         }
 
@@ -41,6 +40,8 @@ namespace WebApplication1.Controllers
             LoginValues values = new LoginValues();
             values.UserName = userName;
             values.Password = pass;
+
+            FormsAuthentication.SetAuthCookie(userName, false);
             if (ModelState.IsValid)
             {
                     //var data = (entities.Users)
@@ -82,23 +83,38 @@ namespace WebApplication1.Controllers
             
             var role = userData.onSuccess(values);
 
-            if (role == "Patient")
+
+            if (User.IsInRole("Patient"))
             {
                 return RedirectToAction("Index", "Patient");
+            }else if (User.IsInRole("Doctor"))
+            {
+                return RedirectToAction("Index", "Doctor");
             }
-            else if (role == "Receptionist")
+            else if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }else if (User.IsInRole("Receptionist"))
             {
                 return RedirectToAction("Index", "Receptionist");
             }
-            else if (role == "Doctor")
-            {
-                return RedirectToAction("Index","Doctor");
-            }
-            else if (role == "Admin")
-            {
-                return RedirectToAction("Index", "Admin");
+            //if (role == "Patient")
+            //{
+            //    return RedirectToAction("Index", "Patient");
+            //}
+            //else if (role == "Receptionist")
+            //{
+            //    return RedirectToAction("Index", "Receptionist");
+            //}
+            //else if (role == "Doctor")
+            //{
+            //    return RedirectToAction("Index","Doctor");
+            //}
+            //else if (role == "Admin")
+            //{
+            //    return RedirectToAction("Index", "Admin");
 
-            }
+            //}
             return View();
         }
 
@@ -110,57 +126,67 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult Registration(User user)
         {
-            user.role_id = 4;
-
-            //var allUsers = entities.Users.ToList();
-
-            var allUsers = userData.GetAllUsers().ToList();
-            Session["SignUpUser"] = user;
-
-            var isUserNameValid = allUsers.Where(a => a.userName == user.userName).FirstOrDefault();
-            var isEMailValid = allUsers.Where(a => a.email == user.email).FirstOrDefault();
-            var isContactValid = allUsers.Where(a => a.contact_number == user.contact_number).FirstOrDefault();
-            
-            Console.WriteLine();
-            if (isUserNameValid != null)
+            if (ModelState.IsValid)
             {
-                TempData["InvalidUserName"] = "UserName is not available";
-            }
+                user.role_id = 4;
 
-            if (isEMailValid != null)
-            {
-                TempData["InvalidEMail"] = "E-mail already registered..!!!";
-            }
+                //var allUsers = entities.Users.ToList();
 
-            if (isContactValid != null)
-            {
-                TempData["InvalidContact"] = "Contact already registered..!!!";
-            }
+                var allUsers = userData.GetAllUsers().ToList();
+                Session["SignUpUser"] = user;
+
+                var isUserNameValid = allUsers.Where(a => a.userName == user.userName).FirstOrDefault();
+                var isEMailValid = allUsers.Where(a => a.email == user.email).FirstOrDefault();
+                var isContactValid = allUsers.Where(a => a.contact_number == user.contact_number).FirstOrDefault();
+
+                Console.WriteLine();
+                if (isUserNameValid != null)
+                {
+                    TempData["InvalidUserName"] = "UserName is not available";
+                }
+
+                if (isEMailValid != null)
+                {
+                    TempData["InvalidEMail"] = "E-mail already registered..!!!";
+                }
+
+                if (isContactValid != null)
+                {
+                    TempData["InvalidContact"] = "Contact already registered..!!!";
+                }
 
 
-            if (TempData.Count > 0) //initially no user has logged in so TempData.Count==0
-            {
-                return View(((User)Session["SignUpUser"]));
+                if (TempData.Count > 1) //initially TempData contains value of name only
+                {
+                    return View(((User)Session["SignUpUser"]));
+                    //return RedirectToAction("LoginPage");
+                }
+                else
+                {
+                    //entities.Users.Add(user);
+                    //entities.SaveChangesAsync();
+
+                    userData.CreateUser(user);
+                }
+
+                return RedirectToAction("LoginPage");
             }
             else
             {
-                //entities.Users.Add(user);
-                //entities.SaveChangesAsync();
-
-                userData.CreateUser(user);
+                return View();
             }
-
-            return RedirectToAction("LoginPage");
         }
 
-
+        [Authorize(Roles ="Patient")]
         public ActionResult About()
         {
+
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
+        [Authorize(Roles ="Patient")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

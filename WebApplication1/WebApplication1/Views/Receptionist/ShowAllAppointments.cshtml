@@ -7,26 +7,36 @@
 <br />
 <br />
 
-@if (Session.Count == 0 || ((User)Session["User"]).role_id != 3)
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Reception.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+@*@if (Session.Count == 0 || ((User)Session["User"]).role_id != 3)
 {
     <p class="alert-danger container">You need to Login first to access this data</p>
     @Html.ActionLink("Login Here", "LoginPage", "home", "", new { @class = "ActionLinks" });
 }
 else
-{
+{*@
 
-    <div class="Logout">
-        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:white" })
+    <div class="Logout" style="margin-top:-3rem">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
     </div>
 
-    <div>
+    <div style="margin-top:-1rem">
         <form action="ShowAllAppointments">
-            <label for="inputDate"></label>
+            <p class="labelColorBlack">Select Date</p>
             <input type="date" name="date1" id="inputDate" />
             <input type="submit" value="Search" />
+            <hr />
         </form>
     </div>
-    <h2 style="color:chocolate" class="bg-warning">ShowAllAppointments</h2>
+    <h2 style="color:chocolate;padding-left:1rem" class="bg-warning">All Appointments</h2>
 
     <table class="table-bordered table">
         <thead class="WhiteHeader">
@@ -49,15 +59,15 @@ else
             </tr>
         </thead>
 
-        <tbody  style="color:white">
+        <tbody style="color:white" class="TableBody">
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="labelColorWhite">
                     <td>@Html.DisplayFor(a => item.appointment_id)</td>
 
                     <td>@Html.DisplayFor(a => item.patient_id)</td>
 
-                    <td>@Html.DisplayFor(a => item.appointmentDate)</td>
+                    <td>@item.appointmentDate.Value.ToShortDateString()</td>
 
                     <td>@Html.DisplayFor(a => item.appointmentTime)</td>
 
@@ -67,8 +77,9 @@ else
         </tbody>
 
     </table>
-}
 
-<div style="margin-top:2rem">
-    @Html.ActionLink("Back to List", "Index", "", new { @class = "ActionLinks" })
-</div>
+    <div style="margin-top:2rem">
+        @Html.ActionLink("Back to List", "Index", "", new { @class = "ActionLinks" })
+    </div>
+@*}*@
+

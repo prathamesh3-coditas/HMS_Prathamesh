@@ -1,0 +1,119 @@
+﻿@model Tuple<IEnumerable<WebApplication1.Treatment>, IEnumerable<WebApplication1.Consumable>>
+@{
+    ViewBag.Title = "CurrentTreatment";
+}
+
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Patient.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+<h2 class="labelColorWhite">Current Treatment</h2>
+<hr />
+
+@*Here model is null means data not found in patients table means patient have not booked any appointment yet*@
+@if (Model != null)
+{
+
+    ////here count==0 means treatment details not found in treatment table means patient is yet to be treated by Dr
+    if (Model.Item1.Count() != 0)
+    {
+
+        using (Html.BeginForm("ShowBilling", "Patient"))
+        {
+            <div>
+
+                <input style="float:left;margin-bottom: 2rem" type="submit" value="Show Current Bills" class="btn btn-success" />
+            </div>
+
+        }
+        <table class="table-bordered table">
+            <thead class="WhiteHeader">
+                <tr>
+                    @*<th>Treatment Id</th>*@
+                    @*<th>Consumable Id</th>*@
+                    <th>Consumable Name</th>
+                    <th>Quantity</th>
+                    <th>Price(per unit)</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            @{
+                var data = Model.Item1.Join(Model.Item2,
+                    t => t.consumable_id,
+                    c => c.consumable_id,
+                    (t, c) => new
+                    {
+                        price = c.price,
+                        name = c.consumable_name,
+                        id = c.consumable_id
+                    });
+
+            }
+            <tbody class="TableBody">
+                @foreach (var item in Model.Item1)
+                {
+                    <tr class="labelColorWhite">
+                        @*<td>@Html.DisplayFor(a => item.treatment_id)</td>*@
+                        @*<td>@Html.DisplayFor(a => item.consumable_id)</td>*@
+                        <td>@data.Where(x => x.id == item.consumable_id).Select(x => x.name).First()</td>
+                        <td>@Html.DisplayFor(a => item.quantity)</td>
+                        <td>@data.Where(a => a.id == item.consumable_id).Select(a => a.price).First()</td>
+                        @{
+                            var totalPrice = (data.Where(a => a.id == item.consumable_id).Select(a => a.price).First()) * item.quantity;
+                        }
+                        <td>@totalPrice</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <p class="WhiteHeader" style="background-color:white;color:black;padding: 2rem"><b>No treatment details found</b></p>
+    }
+}
+else
+{
+    <p class="WhiteHeader" style="background-color:white;color:black;padding: 2rem"><b>No treatment details found</b></p>
+}
+
+<br />
+<br />
+
+@*<table class="table table-bordered">
+        <thead class="WhiteHeader">
+        <th>Consumable Id</th>
+        <th>Consumable Name</th>
+        <th>Price</th>
+        </thead>
+
+        <tbody class="TableBody">
+            @foreach (var item in Model.Item2)
+            {
+                <tr class="labelColorWhite">
+                    <td>@Html.DisplayFor(a => item.consumable_id)</td>
+                    <td>@Html.DisplayFor(a => item.consumable_name)</td>
+                    <td>@Html.DisplayFor(a => item.price)</td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+<div style="margin-top:2rem">
+    @Html.ActionLink("Show Reports", "GetReports", "", new { @class = "ActionLinksBlue" })
+</div>
+
+<br />
+
+
+<div style="margin-top:2rem">
+    @Html.ActionLink("Back", "Index", "", new { @class = "ActionLinks" })
+</div>

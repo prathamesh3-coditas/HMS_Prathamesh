@@ -1,0 +1,78 @@
+﻿@model Tuple<IEnumerable<WebApplication1.Billing>, IEnumerable<WebApplication1.Consumable>>
+@{
+    ViewBag.Title = "ShowBilling";
+}
+
+<h2 style="color:black">Billing</h2>
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Patient.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+@if (Model != null)
+{
+    <table class="table table-bordered">
+        <thead class="WhiteHeader">
+            <tr>
+                <th>Consumable Id</th>
+                <th>Consumable Name</th>
+                <th>Price</th>
+                <th>Paid/Unpaid</th>
+            </tr>
+        </thead>
+
+
+        @{
+            var data = Model.Item1.Join(Model.Item2,
+                b => b.consumable_id,
+                c => c.consumable_id,
+                (b, c) => new
+                {
+                    price = c.price,
+                    name = c.consumable_name,
+                    id = c.consumable_id,
+                    isPaid = b.is_paid
+                });
+
+        }
+
+        <tbody class="TableBody">
+            @foreach (var item in data)
+            {
+                <tr>
+                    <td>@item.id</td>
+                    <td>@item.name</td>
+                    <td>@item.price</td>
+
+                    @if (@item.isPaid == true)
+                    {
+                        <td>Paid</td>
+                    }
+                    else
+                    {
+                        <td>Unpaid</td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="labelColorWhite" style="background-color:white;color:black;padding: 2rem">No Billing Details Found</div>
+}
+
+
+<hr />
+@using (Html.BeginForm("PayBill", "Patient",FormMethod.Get))
+{
+    <input type="submit" value="Pay Bill" class="btn btn-primary"/>
+}
+<hr />
+<div style="margin-top:2rem">
+    @Html.ActionLink("Back", "CurrentTreatment", "", new { @class = "ActionLinks" })
+</div>

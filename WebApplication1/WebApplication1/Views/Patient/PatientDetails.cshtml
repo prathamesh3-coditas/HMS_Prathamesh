@@ -4,26 +4,32 @@
     ViewBag.Title = "PatientDetails";
 }
 
-<h2>PatientDetails</h2>
+<style>
+    body {
+        background-image: url('/Scripts/Images/Patient.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
 
-@if (Session.Count == 0 || ((User)Session["User"]).role_id != 4)
+@*@if (Session.Count == 0 || ((User)Session["User"]).role_id != 4)
 {
     <br />
     <p class="alert-danger container">You need to Login first to access this data</p>
     @Html.ActionLink("Login Here", "LoginPage", "home");
 }
 else
-{
+{*@
     <div class="Logout">
-        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:white" })
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
     </div>
+    <h2 class="labelColorWhite">Personal Details</h2>
 
-    using (Html.BeginForm())
+    @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <h4>Patient</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @*<div class="form-group">
@@ -33,9 +39,20 @@ else
                         @Html.ValidationMessageFor(model => model.patient_id, "", new { @class = "text-danger" })
                     </div>
                 </div>*@
-
+            <div style="margin-left:0.25rem" >
+                <span class="labelColorWhite">Choose desease category</span>
+                <select name="deseaseCategory" style="background-color:brown;color:white;margin-left:2rem">
+                    <option value="Heart">Heart</option>
+                    <option value="Cancer">Cancer</option>
+                    <option value="Ortho">Ortho</option>
+                    <option value="">Not Sure</option>
+                </select>
+            </div>
+            <br />
             <div class="form-group">
-                @Html.LabelFor(model => model.prev_history, "Previous History", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="labelColorWhite">
+                    @Html.LabelFor(model => model.prev_history, "Previous History", htmlAttributes: new { @class = "control-label col-md-2" })
+                </div>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.prev_history, new { htmlAttributes = new { @class = "form-control " } })
                     @Html.ValidationMessageFor(model => model.prev_history, "", new { @class = "text-danger" })
@@ -43,7 +60,9 @@ else
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.reports, "Reports", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="labelColorWhite">
+                    @Html.LabelFor(model => model.reports, "Reports", htmlAttributes: new { @class = "control-label col-md-2" })
+                </div>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.reports, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.reports, "", new { @class = "text-danger" })
@@ -60,14 +79,14 @@ else
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Submit" class="btn btn-success" />
                 </div>
             </div>
         </div>
     }
 
     <div>
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to List", "Index", "", new { @class = "ActionLinks" })
     </div>
 
-}
+@*}*@

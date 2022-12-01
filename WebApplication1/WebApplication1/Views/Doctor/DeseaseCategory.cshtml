@@ -1,0 +1,57 @@
+﻿@model WebApplication1.Patient
+@{
+    ViewBag.Title = "DeseaseCategory";
+}
+
+<h2 class="WhiteHeader" style="color:white">Patient Details</h2>
+<hr />
+<h3 style="color:black">Desease Category</h3>
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Doctor.jpg');
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+</style>
+
+@using (Html.BeginForm("DeseaseCategory", "Doctor"))
+{
+    <select name="category" style="height:32px">
+        <option value="Heart">Heart</option>
+        <option value="Cancer">Cancer</option>
+        <option value="Ortho">Ortho</option>
+    </select>
+    <input type="submit" value="Submit" class="btn btn-danger" style="margin-left:1rem" />
+}
+
+@*<hr />
+<h3 style="color:white">Billing</h3>
+@using (Html.BeginForm("Billing", "Doctor"))
+{
+    <input type="submit" value="Done" class="btn btn-success" />
+}*@
+<hr />
+
+@{
+    if (Model != null)
+    {
+    TempData["PreviousReports"] = Model.reports;
+        TempData.Keep();
+    }
+
+}
+<h3 style="color:black">Reports</h3>
+@using (Html.BeginForm("GenerateReport", "Doctor"))
+{
+
+    <input type="text" name="report" class="text-info" value=@TempData["PreviousReports"].ToString() />
+    <div style="margin-top:2rem">
+        <input type="submit" value="Done" class="btn btn-success" />
+    </div>
+}
+
+<br />
+<hr />
+@Html.ActionLink("Back", "viewAppointment", "", new { @class = "ActionLinks" })
+

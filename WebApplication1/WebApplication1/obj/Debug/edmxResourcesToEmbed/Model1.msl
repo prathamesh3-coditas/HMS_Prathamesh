@@ -18,6 +18,7 @@
     <EntitySetMapping Name="Billings">
       <EntityTypeMapping TypeName="HMS_Project_newModel.Billing">
         <MappingFragment StoreEntitySet="Billing">
+          <ScalarProperty Name="is_paid" ColumnName="is_paid" />
           <ScalarProperty Name="bill_number" ColumnName="bill_number" />
           <ScalarProperty Name="patient_id" ColumnName="patient_id" />
           <ScalarProperty Name="consumable_id" ColumnName="consumable_id" />
@@ -66,6 +67,8 @@
     <EntitySetMapping Name="Treatments">
       <EntityTypeMapping TypeName="HMS_Project_newModel.Treatment">
         <MappingFragment StoreEntitySet="Treatment">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
           <ScalarProperty Name="treatment_id" ColumnName="treatment_id" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
           <ScalarProperty Name="is_admitted" ColumnName="is_admitted" />
@@ -86,6 +89,16 @@
           <ScalarProperty Name="gender" ColumnName="gender" />
           <ScalarProperty Name="specialization" ColumnName="specialization" />
           <ScalarProperty Name="role_id" ColumnName="role_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Payments">
+      <EntityTypeMapping TypeName="HMS_Project_newModel.Payment">
+        <MappingFragment StoreEntitySet="Payment">
+          <ScalarProperty Name="isRequested" ColumnName="isRequested" />
+          <ScalarProperty Name="total_bill" ColumnName="total_bill" />
+          <ScalarProperty Name="patientId" ColumnName="patientId" />
+          <ScalarProperty Name="paymentId" ColumnName="paymentId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

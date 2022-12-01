@@ -23,6 +23,9 @@
         <AssociationConnector Association="HMS_Project_newModel.FK__Desease_D__patie__2C3393D0" ManuallyRouted="false" />
         <AssociationConnector Association="HMS_Project_newModel.FK__Patient__userId__29572725" ManuallyRouted="false" />
         <AssociationConnector Association="HMS_Project_newModel.FK__Users__role_id__267ABA7A" ManuallyRouted="false" />
+        <AssociationConnector Association="HMS_Project_newModel.fk" />
+        <EntityTypeShape EntityType="HMS_Project_newModel.Payment" Width="1.5" PointX="7.5" PointY="15.25" />
+        <AssociationConnector Association="HMS_Project_newModel.FK__Payment__patient__5441852A" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

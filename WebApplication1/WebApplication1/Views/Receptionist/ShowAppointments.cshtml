@@ -3,22 +3,30 @@
     ViewBag.Title = "ShowAppointments";
 }
 
-<h2 class="labelColorWhite">ShowAppointments</h2>
-<hr />
 
+<style>
+    body {
+        background-image: url('/Scripts/Images/Reception.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
 
-@if (Session.Count == 0 || ((User)Session["User"]).role_id != 3)
+@*@if (Session.Count == 0 || ((User)Session["User"]).role_id != 3)
 {
     <p class="alert-danger container">You need to Login first to access this data</p>
     @Html.ActionLink("Login Here", "LoginPage", "home");
 }
 else
-{
-    <div class="Logout">
-        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:white" })
+{*@
+    <div class="Logout" style="margin:1rem">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
     </div>
 
-    <table class="table-bordered table-striped">
+    <h2 class="bg-warning" style="color:black;padding-left:1rem;margin-top:4rem">Show Appointments</h2>
+    <hr />
+
+    <table class="table-bordered table">
         <thead>
             <tr class="WhiteHeader">
                 <th>
@@ -43,7 +51,7 @@ else
             </tr>
         </thead>
 
-        <tbody>
+        <tbody class="TableBody">
             @foreach (var item in Model)
             {
                 <tr class="labelColorWhite">
@@ -51,7 +59,7 @@ else
 
                     <td>@Html.DisplayFor(a => item.patient_id)</td>
 
-                    <td>@Html.DisplayFor(a => item.appointmentDate)</td>
+                    <td>@item.appointmentDate.Value.ToShortDateString()</td>
 
                     <td>@Html.DisplayFor(a => item.appointmentTime)</td>
 
@@ -61,12 +69,12 @@ else
                         *@
                         @using (Html.BeginForm("ShowAppointments", "Receptionist", new { patientId = item.patient_id }))
                         {
-                            <div class="alert-danger">
+                            <div>
                                 <select name="isApproved">
                                     <option value="true">Approve</option>
                                     <option value="false">Reject</option>
                                 </select>
-                                <div><input type="submit" class="alert-success" /></div>
+                                <div style="margin-top:4px"><input type="submit" class="alert-danger" /></div>
                             </div>
                         }
                     </td>
@@ -76,7 +84,7 @@ else
         </tbody>
 
     </table>
-}
+@*}*@
 
 
 <div style="margin-top:2rem">

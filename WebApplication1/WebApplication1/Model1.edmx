@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HMS_Project_newModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HMS_Project_newModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Appointment">
           <Key>
             <PropertyRef Name="appointment_id" />
@@ -22,10 +22,11 @@
           <Key>
             <PropertyRef Name="bill_number" />
           </Key>
-          <Property Name="bill_number" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="bill_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="patient_id" Type="varchar" MaxLength="100" />
           <Property Name="consumable_id" Type="int" />
           <Property Name="userId" Type="int" />
+          <Property Name="is_paid" Type="bit" />
         </EntityType>
         <EntityType Name="Consumable">
           <Key>
@@ -54,6 +55,15 @@
           <Property Name="reports" Type="varchar" MaxLength="500" />
           <Property Name="userId" Type="int" />
         </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="paymentId" />
+          </Key>
+          <Property Name="paymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="patientId" Type="varchar" MaxLength="100" />
+          <Property Name="total_bill" Type="int" />
+          <Property Name="isRequested" Type="bit" />
+        </EntityType>
         <EntityType Name="Roles">
           <Key>
             <PropertyRef Name="role_id" />
@@ -68,7 +78,9 @@
           <Property Name="treatment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="quantity" Type="int" />
           <Property Name="is_admitted" Type="bit" />
+          <Property Name="patient_id" Type="varchar" MaxLength="100" />
           <Property Name="consumable_id" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -85,6 +97,18 @@
           <Property Name="specialization" Type="varchar" MaxLength="50" />
           <Property Name="role_id" Type="int" />
         </EntityType>
+        <Association Name="fk">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Appointme__patie__33D4B598">
           <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
           <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
@@ -121,7 +145,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Billing__consuma__398D8EEE">
+        <Association Name="FK__Billing__consuma__4BAC3F29">
           <End Role="Consumable" Type="Self.Consumable" Multiplicity="0..1" />
           <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
           <ReferentialConstraint>
@@ -133,7 +157,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Billing__patient__38996AB5">
+        <Association Name="FK__Billing__patient__4AB81AF0">
           <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
           <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
           <ReferentialConstraint>
@@ -145,7 +169,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Billing__userId__3A81B327">
+        <Association Name="FK__Billing__userId__4CA06362">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
           <ReferentialConstraint>
@@ -181,7 +205,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Treatment__consu__30F848ED">
+        <Association Name="FK__Payment__patient__5441852A">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="patientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Treatment__consu__47DBAE45">
           <End Role="Consumable" Type="Self.Consumable" Multiplicity="0..1" />
           <End Role="Treatment" Type="Self.Treatment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -211,9 +247,14 @@
           <EntitySet Name="Consumable" EntityType="Self.Consumable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Desease_Details" EntityType="Self.Desease_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Treatment" EntityType="Self.Treatment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk" Association="Self.fk">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Treatment" EntitySet="Treatment" />
+          </AssociationSet>
           <AssociationSet Name="FK__Appointme__patie__33D4B598" Association="Self.FK__Appointme__patie__33D4B598">
             <End Role="Patient" EntitySet="Patient" />
             <End Role="Appointment" EntitySet="Appointment" />
@@ -226,15 +267,15 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Appointment" EntitySet="Appointment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Billing__consuma__398D8EEE" Association="Self.FK__Billing__consuma__398D8EEE">
+          <AssociationSet Name="FK__Billing__consuma__4BAC3F29" Association="Self.FK__Billing__consuma__4BAC3F29">
             <End Role="Consumable" EntitySet="Consumable" />
             <End Role="Billing" EntitySet="Billing" />
           </AssociationSet>
-          <AssociationSet Name="FK__Billing__patient__38996AB5" Association="Self.FK__Billing__patient__38996AB5">
+          <AssociationSet Name="FK__Billing__patient__4AB81AF0" Association="Self.FK__Billing__patient__4AB81AF0">
             <End Role="Patient" EntitySet="Patient" />
             <End Role="Billing" EntitySet="Billing" />
           </AssociationSet>
-          <AssociationSet Name="FK__Billing__userId__3A81B327" Association="Self.FK__Billing__userId__3A81B327">
+          <AssociationSet Name="FK__Billing__userId__4CA06362" Association="Self.FK__Billing__userId__4CA06362">
             <End Role="Users" EntitySet="Users" />
             <End Role="Billing" EntitySet="Billing" />
           </AssociationSet>
@@ -246,7 +287,11 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Patient" EntitySet="Patient" />
           </AssociationSet>
-          <AssociationSet Name="FK__Treatment__consu__30F848ED" Association="Self.FK__Treatment__consu__30F848ED">
+          <AssociationSet Name="FK__Payment__patient__5441852A" Association="Self.FK__Payment__patient__5441852A">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Treatment__consu__47DBAE45" Association="Self.FK__Treatment__consu__47DBAE45">
             <End Role="Consumable" EntitySet="Consumable" />
             <End Role="Treatment" EntitySet="Treatment" />
           </AssociationSet>
@@ -255,8 +300,7 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HMS_Project_newModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -280,13 +324,14 @@
           <Key>
             <PropertyRef Name="bill_number" />
           </Key>
-          <Property Name="bill_number" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bill_number" Type="Int32" Nullable="false" />
           <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="consumable_id" Type="Int32" />
           <Property Name="userId" Type="Int32" />
           <NavigationProperty Name="Consumable" Relationship="Self.FK__Billing__consuma__398D8EEE" FromRole="Billing" ToRole="Consumable" />
           <NavigationProperty Name="Patient" Relationship="Self.FK__Billing__patient__38996AB5" FromRole="Billing" ToRole="Patient" />
           <NavigationProperty Name="User" Relationship="Self.FK__Billing__userId__3A81B327" FromRole="Billing" ToRole="Users" />
+          <Property Name="is_paid" Type="Boolean" />
         </EntityType>
         <EntityType Name="Consumable">
           <Key>
@@ -321,6 +366,8 @@
           <NavigationProperty Name="Billings" Relationship="Self.FK__Billing__patient__38996AB5" FromRole="Patient" ToRole="Billing" />
           <NavigationProperty Name="Desease_Details" Relationship="Self.FK__Desease_D__patie__2C3393D0" FromRole="Patient" ToRole="Desease_Details" />
           <NavigationProperty Name="User" Relationship="Self.FK__Patient__userId__29572725" FromRole="Patient" ToRole="Users" />
+          <NavigationProperty Name="Treatments" Relationship="HMS_Project_newModel.fk" FromRole="Patient" ToRole="Treatment" />
+          <NavigationProperty Name="Payments" Relationship="HMS_Project_newModel.FK__Payment__patient__5441852A" FromRole="Patient" ToRole="Payment" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -340,6 +387,9 @@
           <Property Name="consumable_id" Type="Int32" />
           <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__treat__34C8D9D1" FromRole="Treatment" ToRole="Appointment" />
           <NavigationProperty Name="Consumable" Relationship="Self.FK__Treatment__consu__30F848ED" FromRole="Treatment" ToRole="Consumable" />
+          <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Patient" Relationship="HMS_Project_newModel.fk" FromRole="Treatment" ToRole="Patient" />
+          <Property Name="IsActive" Type="Boolean" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -529,7 +579,50 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="fk" Association="HMS_Project_newModel.fk">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Treatment" EntitySet="Treatments" />
+          </AssociationSet>
+          <EntitySet Name="Payments" EntityType="HMS_Project_newModel.Payment" />
+          <AssociationSet Name="FK__Payment__patient__5441852A" Association="HMS_Project_newModel.FK__Payment__patient__5441852A">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="fk">
+          <End Type="HMS_Project_newModel.Patient" Role="Patient" Multiplicity="0..1" />
+          <End Type="HMS_Project_newModel.Treatment" Role="Treatment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="paymentId" />
+          </Key>
+          <Property Name="paymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="patientId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="total_bill" Type="Int32" />
+          <Property Name="isRequested" Type="Boolean" />
+          <NavigationProperty Name="Patient" Relationship="HMS_Project_newModel.FK__Payment__patient__5441852A" FromRole="Payment" ToRole="Patient" />
+        </EntityType>
+        <Association Name="FK__Payment__patient__5441852A">
+          <End Type="HMS_Project_newModel.Patient" Role="Patient" Multiplicity="0..1" />
+          <End Type="HMS_Project_newModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="patientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -553,6 +646,7 @@
           <EntitySetMapping Name="Billings">
             <EntityTypeMapping TypeName="HMS_Project_newModel.Billing">
               <MappingFragment StoreEntitySet="Billing">
+                <ScalarProperty Name="is_paid" ColumnName="is_paid" />
                 <ScalarProperty Name="bill_number" ColumnName="bill_number" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="consumable_id" ColumnName="consumable_id" />
@@ -601,6 +695,8 @@
           <EntitySetMapping Name="Treatments">
             <EntityTypeMapping TypeName="HMS_Project_newModel.Treatment">
               <MappingFragment StoreEntitySet="Treatment">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="treatment_id" ColumnName="treatment_id" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="is_admitted" ColumnName="is_admitted" />
@@ -621,6 +717,16 @@
                 <ScalarProperty Name="gender" ColumnName="gender" />
                 <ScalarProperty Name="specialization" ColumnName="specialization" />
                 <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="HMS_Project_newModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="isRequested" ColumnName="isRequested" />
+                <ScalarProperty Name="total_bill" ColumnName="total_bill" />
+                <ScalarProperty Name="patientId" ColumnName="patientId" />
+                <ScalarProperty Name="paymentId" ColumnName="paymentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

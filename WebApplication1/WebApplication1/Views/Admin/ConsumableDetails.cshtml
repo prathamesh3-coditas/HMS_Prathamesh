@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Consumable>
+@{
+    ViewBag.Title = "ConsumableDetails";
+}
+
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Admin.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+<br />
+@Html.ActionLink("Add New", "AddConsumables", "Admin", new { @class = "ActionLinks" })
+<h2  style="color:black;padding-left:1rem;background-color:white">Consumable Details</h2>
+
+@if (Model != null)
+{
+    <table class="table ">
+        <thead class="WhiteHeader labelColorWhite">
+            <tr>
+                <th>Consumable Name</th>
+                <th>Availabilty</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+
+
+        <tbody class="TableBody">
+            @foreach (var item in Model)
+            {
+                <tr class="labelColorWhite">
+                    <td class="labelColorWhite">@Html.DisplayFor(a => item.consumable_name)</td>
+                    <td class="labelColorWhite">@Html.DisplayFor(a => item.availability_detail)</td>
+                    <td class="labelColorWhite">@Html.DisplayFor(a => item.price)</td>
+                    <td>@Html.ActionLink("Edit", "EditConsumables", new { id = item.consumable_id })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+
+    <p class="labelColorWhite">No details available</p>
+}
+
+@Html.ActionLink("Back to main page", "Index", "Admin", new { @class = "ActionLinksBlue" })
+
+
+
+@*https://imgs.search.brave.com/07-25sJo5QJ-0YMgN4BfOa0SMQYWfQHz2i8kX6id7s8/rs:fit:844:225:1/g:ce/aHR0cHM6Ly90c2Uz/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5W/TzFxV0xqeHVUNGt0/ZE0tT21xck13SGFF/SyZwaWQ9QXBp*@
+
+
+@*https://imgs.search.brave.com/n6lajRJ1JuXkhGoyG-L4W8Se2Gr-0bKLH_-InvzZVIw/rs:fit:844:225:1/g:ce/aHR0cHM6Ly90c2Uz/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5U/YWo3REpFZTJSTVZs/bk1fMm9HaXBBSGFF/SyZwaWQ9QXBp*@

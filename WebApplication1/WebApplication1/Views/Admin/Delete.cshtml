@@ -4,31 +4,32 @@
     ViewBag.Title = "Delete";
 }
 
+<style>
+    body {
+        background-image: url('/Scripts/Images/Admin.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
 
-
-
-<h2>Delete</h2>
-
-@if (Session.Count == 0)
+@*@if (Session.Count == 0)
 {
     <p class="alert-danger">You need to Login first to access this data</p>
     @Html.ActionLink("Login Here", "LoginPage", "home", "", new { @class = "ActionLinks" });
 }
 else
-{
-    <div style="float:right;color:white">
-        @Html.ActionLink("Log Out", "Logout", "Admin", new { @style = "color:white" })
+{*@
+    <div class="Logout">
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
     </div>
 
-    <h3>Are you sure you want to delete this?</h3>
+    <h3 class="labelColorWhite">Are you sure you want to delete this user?</h3>
     <div>
-        <h4>User</h4>
         <hr />
-        <dl class="dl-horizontal">
+        <dl class="dl-horizontal labelColorWhite">
             <dt>
                 @Html.DisplayNameFor(model => model.full_name)
             </dt>
-
             <dd>
                 @Html.DisplayFor(model => model.full_name)
             </dd>
@@ -104,10 +105,10 @@ else
             @Html.AntiForgeryToken()
 
             <div class="form-actions no-color">
-                <input type="submit" value="Delete" class="btn btn-default" name="id" /> |
-                @Html.ActionLink("Back to List", "Index", "", new { @class = "ActionLinks" })
+                <input type="submit" value="Delete" class="btn btn-danger" name="id" /> |
+                @Html.ActionLink("Back to List", "ShowAll", "", new { @class = "ActionLinks" })
             </div>
         }
     </div>
 
-}
+@*}*@

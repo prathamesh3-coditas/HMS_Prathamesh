@@ -4,134 +4,75 @@
     ViewBag.Title = "LoginPage";
 }
 
-<div class="page-header">
-    <h2 style="color:aliceblue">LoginPage</h2>
-</div>
+<div>
+
+    <div class="page-header">
+        <h2 style="color:aliceblue">Login Page</h2>
+    </div>
 
 
-
-@*<form controller="Home" action="LoginPage" class="form-group" method="post">
-        <label for="UserId">UserName</label>
-        <input type="text" name="UserId"/>
-
-        <label for="password">Password</label>
-        <input type="password" name="password"/>
-
-        <input type="submit" value="Submit" class="active"/>
-    </form>*@
-@*<section class="ftco-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6 text-center mb-5">
-                    <h2 class="heading-section">Login #10</h2>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-4">
-                    <div class="login-wrap p-0">
-                        <h3 class="mb-4 text-center">Have an account?</h3>
-                        <form action="#" class="signin-form">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Username" required="">
-                            </div>
-                            <div class="form-group">
-                                <input id="password-field" type="password" class="form-control" placeholder="Password" required="">
-                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
-                            </div>
-                            <div class="form-group d-md-flex">
-                                <div class="w-50">
-                                    <label class="checkbox-wrap checkbox-primary">
-                                        Remember Me
-                                        <input type="checkbox" checked="">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <div class="w-50 text-md-right">
-                                    <a href="#" style="color: #fff">Forgot Password</a>
-                                </div>
-                            </div>
-                        </form>
-                        <p class="w-100 text-center">— Or Sign In With —</p>
-                        <div class="social d-flex text-center">
-                            <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> Facebook</a>
-                            <a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span> Twitter</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>*@
-
-
-
-@*@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="alert-danger">
-            <b>@ViewBag.ErrorMsg</b>
-        </div>
-        <form id="LoginForm">
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
-
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger alter-danger" })
-                </div>
-
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2 text-white bg-dark" })
-                <div class="col-md-10">
-                    @Html.PasswordFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </form>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Login" class="btn btn-default" />
-                <hr />
-                <input type="reset" value="Reset" style="color: #333; background-color: brown; border-color: #ccc; padding: 6px 12px; border-radius: 4px; text-align: center; font-weight:normal">
-            </div>
-        </div>
-
+    <style>
+        body {
+            background-image: url(/Scripts/Images/img.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
         }
-        
-    }*@
-
-@using (Html.BeginForm())
-{
-    <div>
-        <input type="text" placeholder="User Name" name="userName" required style="height:50px;color:black;border:1px solid dotted;border-radius:20px;padding:auto 20px;margin-bottom:2rem;padding:2rem" />
-    </div>
-    <div>
-        <input type="password" placeholder="Password" name="pass" required style="height:50px;border:1px solid red;border-radius:20px;padding:2rem; color:black" />
-    </div>
-    <input type="submit" value="Login" style="display:block;margin-top:2rem" class="btn btn-primary btn-danger"/>
-}
+    </style>
 
 
+    @using (Html.BeginForm())
+    {
 
-        <hr />
+        //Border shadow
+        //offset - x | offset - y | blur - radius | spread - radius | color
 
 
-        <div>
+        <div style="display:flex;justify-content:center;align-items:center">
 
-            @Html.ActionLink("SignUp", "Registration", new { area = "" }, new { @style = "font-size:1em;color:Black;background-color:white;border-radius:1em;Padding:4px" })
-            @Html.ActionLink("Back to List", "Index", new { area = "" }, new { @style = "font-size:1em;color:Black;background-color:white;border-radius:1em;Padding:4px" })
+            <div class="container" style="background-color:white;max-width:300px;padding:2rem;border-radius:15px">
+
+                <div class="bg-danger">@ViewBag.ErrorMsg</div>
+                <br />
+                <div>
+                    <label>User Name</label>
+                    <input type="text" placeholder="User Name" class="form-control" name="userName" required style="height: 46px; color: black; border: 1px double gray; border-radius: 16px; padding: auto 20px; margin-bottom: 2rem; padding: 2rem; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input id="password" type="password" class="form-control" placeholder="Password" name="pass" required style="height: 46px; border: 1px double gray; border-radius: 16px; padding: 2rem; color: black; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)" />
+                </div>
+
+                <div>
+                    <input type="submit" value="Login" style="margin-top:2rem" class="btn btn-success form-control" />
+                </div>
+
+                <hr style="background-color:black;height:1px" />
+
+                <div>
+                    Not an existing User? @Html.ActionLink("SignUp Here", "Registration", new { area = "" }, new { @style = "font-weight:600" })
+                </div>
+            </div>
 
         </div>
+
+
+    }
+
+
+
+
+    <!--<hr />
+
+
+    <div>-->
+    @*@Html.ActionLink("SignUp", "Registration", new { area = "" }, new { @class = "ActionLinks" })*@
+    @*@Html.ActionLink("Back to Home", "Index", new { area = "" }, new { @class = "ActionLinks" })*@
+
+    <!--</div>-->
+
+
+
+</div>
 
 
 

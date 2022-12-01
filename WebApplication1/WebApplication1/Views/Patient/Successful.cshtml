@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Successful";
+}
+
+<style>
+    body{
+        background-image:url('/Scripts/Images/Admin.jpg')
+    }
+</style>
+
+<script type="text/javascript">
+    window.onload = function () {
+        swal({
+            title: "Successful",    
+            icon: 'success',
+            button: "Finish",
+            //dangerMode: true,
+            //confirmButton: true
+        }).then(a => { window.location.href = '/Patient/Index' });
+    }
+
+</script>
+

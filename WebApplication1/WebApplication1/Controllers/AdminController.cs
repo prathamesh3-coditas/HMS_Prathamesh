@@ -13,13 +13,16 @@ namespace WebApplication1.Controllers
         // GET: Admin
         //HMS_Project_newEntities2 entities = new HMS_Project_newEntities2();
         UserDataAccess userAccess = new UserDataAccess();
-        
+        ConsumableDataAccess consumableAccess = new ConsumableDataAccess();
+
+        [Authorize(Roles ="Admin")]
         public ActionResult Index()
         {
             TempData.Keep("name");
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             User user = new User();
@@ -27,6 +30,7 @@ namespace WebApplication1.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Register(User user)
         {
@@ -35,10 +39,7 @@ namespace WebApplication1.Controllers
 
             if (ModelState.IsValid)
             {
-                if (user.role_id == null)
-                {
-                    return View();
-                }
+
 
                 //var allUsers = entities.Users.ToList();
 
@@ -80,7 +81,10 @@ namespace WebApplication1.Controllers
             else
             {
 
-
+                if (user.role_id == null)
+                {
+                    ViewBag.roleId = "Oops..You haven't selected a role id";
+                }
                 //if (user.gender == null || user.gender=="null")
                 //{
                 //    ViewBag.gender = "Oops..You haven't selected a gender";
@@ -94,13 +98,14 @@ namespace WebApplication1.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult ShowAll()
         {
             var allUsers = userAccess.GetAllUsers();
             return View(allUsers);
         }
 
-        
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             TempData["IdToUpdate"] = id;
@@ -109,6 +114,8 @@ namespace WebApplication1.Controllers
             return View(searchedUser);
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(User user)
         {
@@ -131,6 +138,8 @@ namespace WebApplication1.Controllers
             return RedirectToAction("ShowAll", "Admin");
         }
 
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             TempData["UserIdToDelete"] = id;
@@ -140,6 +149,8 @@ namespace WebApplication1.Controllers
             return View(userFound);
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost,ActionName("Delete")]
         public ActionResult DeleteConfirm()
         {
@@ -155,10 +166,59 @@ namespace WebApplication1.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
+        public ActionResult ConsumableDetails()
+        {
+           var all = consumableAccess.GetAllConsumables();
+            return View(all);
+
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult AddConsumables()
+        {
+            var consumable = new Consumable();
+            return View(consumable);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult AddConsumables(Consumable consumable)
+        {
+            if (ModelState.IsValid)
+            {
+                var res = consumableAccess.AddConsumables(consumable);
+                return RedirectToAction("ConsumableDetails");
+            }
+            else
+            {
+                return View();
+            }
+
+        }
         public ActionResult Logout()
         {
             Session.Clear();
             return RedirectToAction("Index","Home");
+        }
+
+        public ActionResult EditConsumables(int? id)
+        {
+            TempData["ConsumableId"] = id;
+            var data = consumableAccess.GetConsumableById((int)id);
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult EditConsumables(Consumable newData)
+        {
+            var id = (int)TempData["ConsumableId"];
+            var consumable = consumableAccess.GetConsumableById(id);
+
+            consumableAccess.EditConsumable(newData,id);
+
+            return RedirectToAction("ConsumableDetails");
         }
     }
 

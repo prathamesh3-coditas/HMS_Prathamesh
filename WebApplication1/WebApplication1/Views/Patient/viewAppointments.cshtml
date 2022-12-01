@@ -6,49 +6,72 @@
 
 <br />
 <br />
+<style>
+    body {
+        background-image: url('/Scripts/Images/Patient.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
 
-@if (Session.Count == 0 || ((User)Session["User"]).role_id != 4)
+@*@if (Session.Count == 0 || ((User)Session["User"]).role_id != 4)
 {
     <p class="alert-danger container">You need to Login first to access this data</p>
-    @Html.ActionLink("Login Here", "LoginPage", "home");
+
+    @Html.ActionLink("Login Here", "LoginPage", "home")
 }
 else
-{
-
-
-    <h2>viewAppointments</h2>
-
+{*@
     <div class="Logout">
-        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:white" })
+        @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
     </div>
 
-    if (Model.Count() > 0)
+
+    <h2 class="labelColorWhite">Upcoming Appointments</h2>
+    <br />
+
+    @if (Model.Count() > 0)
     {
-        <table class="table-bordered table-striped">
+        <table class="table-bordered table">
             <thead>
-                <tr>
-                    <th><label>Appointment Id</label></th>
+                <tr class="WhiteHeader">
+                    @*<th><label>Appointment Id</label></th>*@
                     <th><label>Appointment date</label></th>
                     <th><label>Appointment time</label></th>
-                    <th><label>Is Approved</label></th>
+                    <th><label>Approved / Not</label></th>
                     <th><label>Specialist</label></th>
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody class="TableBody">
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.appointment_id</td>
-                        <td>@item.appointmentDate</td>
-                        <td>@item.appointmentTime</td>
-                        <td>@item.isApproved</td>
+                    <tr class="labelColorWhite">
+                        @*<td style="font-weight:600">@item.appointment_id</td>*@
+                        <td>@item.appointmentDate.Value.ToShortDateString()</td>
+                        <td>@item.appointmentTime.Value</td>
+                        <td>
+                            @{
+
+                                if (item.isApproved == true)
+                                {
+
+
+                                    <button class="btn btn-success">Approved &radic;</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-danger">Pending &Chi;</button>
+                                }
+                            }
+                        </td>
                         <td>
                             @{
                                 WebApplication1.Data_Access.UserDataAccess user = new WebApplication1.Data_Access.UserDataAccess();
                                 var doctor = user.GetUserById((int)item.userId);
                             }
                             @doctor.specialization
+
                         </td>
                     </tr>
                 }
@@ -57,18 +80,20 @@ else
         </table>
 
         <hr />
+
+        <div>
+            @Html.ActionLink("Back to main page", "Index", "", new { @class = "ActionLinks" })
+        </div>
     }
     else
     {
-        <div>Oops...You do not have any appointment scheduled</div>
+        <div class="labelColorWhite" style="background-color:white;color:black;padding: 2rem">Oops...You do not have any appointment scheduled</div>
         <hr />
-        @Html.ActionLink("Click Here to create an appointment", "Index")
+        @Html.ActionLink("Create an appointment", "Index", "", new { @class = "ActionLinks" })
     }
-    <hr />
 
-    <div>
-        @Html.ActionLink("Back to main page", "Index")
-    </div>
-}
+
+
+@*}*@
 
 

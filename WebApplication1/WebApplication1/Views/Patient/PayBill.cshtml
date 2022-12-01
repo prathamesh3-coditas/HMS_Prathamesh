@@ -1,0 +1,127 @@
+﻿@model Tuple<IEnumerable<WebApplication1.Treatment>, IEnumerable<WebApplication1.Consumable>>
+
+@{
+    ViewBag.Title = "PayBill";
+}
+
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Patient.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+<h2>Pay Bill</h2>
+
+
+
+@{
+    var data = Model.Item1.Join(Model.Item2,
+        t => t.consumable_id,
+        c => c.consumable_id,
+        (t, c) => new
+        {
+            price = c.price,
+            patientId = t.patient_id,
+            quantity = t.quantity
+        }).GroupBy(a => a.patientId);
+
+    Console.WriteLine();
+
+    var total = 0;
+    string patId = "";
+    int flag = 0;
+    foreach (var item in data)
+    {
+        foreach (var item1 in item)
+        {
+            total += (int)item1.price * (int)item1.quantity;
+            if (flag == 0)
+            {
+                patId = item1.patientId;
+                flag = 1;
+            }
+        }
+    }
+
+    <div style="display:flex;justify-content:center;align-items:center">
+
+        <div class="container" style="background-color:white;max-width:300px;padding:2rem;border-radius:15px">
+
+            <div class="bg-danger">@ViewBag.ErrorMsg</div>
+            <br />
+
+            @*<script>
+                function alertMsg() {
+
+                    var a = document.getElementById("payment");
+
+                    a.onclick = function execute() {
+                        swal({
+                            title: "Are you sure?",
+                            text: "Are you sure that you want to leave this page?",
+                            icon: "warning",
+                            dangerMode: true,
+                            confirmButton: true
+                        }).then(a => { window.location.href = '/Patient/Index' });
+                    }
+                }
+            </script>*@
+
+            @using (Html.BeginForm("PayBill", "Patient", new { patientId = patId, amount = total }))
+            {
+
+                <div>
+                    <label>PatientId</label>
+                    <input type="text" disabled value="@patId" class="form-control" name="patientId" required style="height: 25px; color: black; border: 1px double gray; padding: auto 20px; margin-bottom: 2rem; padding: 2rem; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)" />
+                </div>
+
+
+                <div>
+                    <label>Total Amount</label>
+                    <input type="number" disabled value="@total" class="form-control" name="amount" required style="height: 25px; color: black; border: 1px double gray; padding: auto 20px; margin-bottom: 2rem; padding: 2rem; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Type</label>
+                    <div>
+                        <select>
+                            <option>Select Payment Mode</option>
+                            <option>UPI</option>
+                            <option>Cash</option>
+                            <option>Net Banking</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div style="margin-top:2rem">
+                    <label>UTR/Reference Number <br /><span style="color:gray">(Only for UPI/Net Banking)</span></label>
+                    <input type="number" placeholder="UTR/Reference Number" class="form-control" style="height: 25px; color: black; border: 1px double gray; padding: auto 20px; margin-bottom: 2rem; padding: 2rem; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)" />
+                </div>
+
+
+
+                <hr style="background-color:black;height:0.5px" />
+                <div>
+                    <input type="submit" value="Pay" class="btn btn-primary form-control" />
+                </div>
+
+            }
+
+            @*<div>
+                <input type="button" value="Press Here" onclick="alertMsg()" id="payment"/>
+            </div>*@
+
+        </div>
+
+    </div>
+
+
+
+    <div style="margin-top:2rem">
+        @Html.ActionLink("Back", "ShowBilling", "", new { @class = "ActionLinks" })
+    </div>
+}

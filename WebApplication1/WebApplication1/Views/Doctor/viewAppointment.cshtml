@@ -1,0 +1,70 @@
+﻿@model IEnumerable<WebApplication1.Appointment>
+@{
+    ViewBag.Title = "viewAppointment";
+}
+
+<div class="Logout" style="margin-top:1rem">
+    @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
+</div>
+<h2 class="WhiteHeader" style="color:white;padding-left:1rem;margin-top:4rem">All Appointments</h2>
+
+<style>
+    body {
+        background-image: url('/Scripts/Images/Doctor.jpg');
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+</style>
+
+@if (Model != null)
+{
+
+
+    <form action="viewAppointment">
+        <p class="labelColorWhite">Select Date</p>
+        <input type="date" name="date" id="inputDate" />
+        <input type="submit" value="Search" />
+        <hr />
+    </form>
+
+
+
+    <table class="table-bordered table">
+        <thead class="WhiteHeader">
+            <tr>
+                <th>Appointment Id</th>
+                <th>Patient Id</th>
+                <th>Appointment Date</th>
+                <th>Appointment Time</th>
+                <th>Prescribe Medicine</th>
+            </tr>
+        </thead>
+
+        <tbody class="TableBody">
+            @foreach (var item in Model)
+            {
+                <tr class="labelColorWhite">
+                    <td>@Html.DisplayFor(a => item.appointment_id)</td>
+                    <td>@Html.DisplayFor(a => item.patient_id)</td>
+                    <td>@item.appointmentDate.Value.ToShortDateString()</td>
+                    <td>@Html.DisplayFor(a => item.appointmentTime)</td>
+                    <td>
+                        @using (Html.BeginForm("PrescribeMedicine", "Doctor", new { patId = item.patient_id }))
+                        {
+                            <input type="submit" value="Prescribe" class="btn btn-danger" />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="WhiteHeader" style="color:black;padding-left:1rem">You do not have any appointments...!!!</p>
+}
+
+
+
+
+@Html.ActionLink("Back", "Index", "", new { @class = "ActionLinks" })

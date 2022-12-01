@@ -2,8 +2,25 @@
 @{
     ViewBag.Title = "Index";
 }
-<br />
-<br />
 
-<p style="font-size:larger">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+<style>
+    body {
+        background-image: url('/Scripts/Images/Doctor.jpg');
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+</style>
+<div class="Logout" style="margin-top: 2rem">
+    @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
+</div>
+<p style="font-size:larger;margin-top:2rem;color:black;font-weight:600">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
 
+
+
+@using (Html.BeginForm("viewAppointment", "Doctor"))
+{
+    <div style="margin-left:42rem">
+        <input type="submit" value="Show Appointments" class="btn btn-danger" style="margin-top:2rem" />
+    </div>
+    
+}
