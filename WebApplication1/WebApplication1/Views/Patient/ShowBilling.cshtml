@@ -7,11 +7,15 @@
 
 <style>
     body {
-        background-image: url('/Scripts/Images/Patient.jpg');
+        background-image: url('/Scripts/Images/Patient.png');
         background-repeat: no-repeat;
         background-size: cover;
     }
 </style>
+
+@{
+    int a = 0;
+}
 @if (Model != null)
 {
     <table class="table table-bordered">
@@ -54,6 +58,7 @@
                     else
                     {
                         <td>Unpaid</td>
+                        a++;
                     }
 
                 </tr>
@@ -67,10 +72,14 @@ else
 }
 
 
-<hr />
-@using (Html.BeginForm("PayBill", "Patient",FormMethod.Get))
+
+@if (a > 0)
 {
-    <input type="submit" value="Pay Bill" class="btn btn-primary"/>
+    <hr />
+    using (Html.BeginForm("PayBill", "Patient", FormMethod.Get))
+    {
+        <input type="submit" value="Pay Bill" class="btn btn-primary" style=""/>
+    }
 }
 <hr />
 <div style="margin-top:2rem">

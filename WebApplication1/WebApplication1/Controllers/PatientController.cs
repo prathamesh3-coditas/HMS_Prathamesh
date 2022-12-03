@@ -30,7 +30,7 @@ namespace WebApplication1.Controllers
         {
             TempData.Keep("name");
 
-            var allAppointments =  appointmentAccess.GetAllAppointments();
+            var allAppointments = appointmentAccess.GetAllAppointments();
             return View(allAppointments);
         }
 
@@ -39,7 +39,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult TakeAppointment(DateTime? date, string time)
         {
-            if (date!=null)
+            if (date != null)
             {
                 Session["AppointmentDate"] = date;
             }
@@ -57,14 +57,14 @@ namespace WebApplication1.Controllers
 
             }
 
-            
-            if (Session["AppointmentDate"]!=null && Session["AppointmentTime"]!=null)
+
+            if (Session["AppointmentDate"] != null && Session["AppointmentTime"] != null)
             {
                 return RedirectToAction("PatientDetails");
             }
             var allAppointments = appointmentAccess.GetAllAppointments();
 
-            return View("Index",allAppointments);
+            return View("Index", allAppointments);
 
         }
 
@@ -102,7 +102,7 @@ namespace WebApplication1.Controllers
 
         [Authorize(Roles = "Patient")]
         [HttpPost]
-        public ActionResult PatientDetails(Patient details,string deseaseCategory)
+        public ActionResult PatientDetails(Patient details, string deseaseCategory)
         {
 
             var loggedUser = (User)Session["User"];
@@ -112,7 +112,7 @@ namespace WebApplication1.Controllers
                 + "_" + (loggedUser).contact_number.ToString();
 
             //set userId same as userId in User table
-            var userId = userAccess.GetAllUsers().Where(a=>a.userId==loggedUser.userId).Select(a => a.userId).FirstOrDefault(); 
+            var userId = userAccess.GetAllUsers().Where(a => a.userId == loggedUser.userId).Select(a => a.userId).FirstOrDefault();
             details.userId = userId;
             //if (deseaseCategory!="")
             //{
@@ -153,7 +153,7 @@ namespace WebApplication1.Controllers
 
                     //If patient is new then entire data will be added
                     //details.userId = details.userId;
-                    
+
                     //var userId = userAccess.GetAllUsers().Where(a => a.specialization == "General").Select(a => a.userId).First();
                     //details.userId = userId;
                     patientAccess.CreatePatient(details);
@@ -208,7 +208,7 @@ namespace WebApplication1.Controllers
 
                         //get desease category
                         string category;
-                        if (deseaseCategory=="")
+                        if (deseaseCategory == "")
                         {
                             category = deseaseDetailOfPatient.desease_catagory;
                         }
@@ -274,7 +274,7 @@ namespace WebApplication1.Controllers
 
                 return View();
             }
-            
+
 
             return View(tuple);
         }
@@ -288,7 +288,7 @@ namespace WebApplication1.Controllers
             var consumables = consumableAccess.GetAllConsumables();
 
             Tuple<IEnumerable<Billing>, IEnumerable<Consumable>> tuple =
-                new Tuple<IEnumerable<Billing>, IEnumerable<Consumable>>(bills,consumables);
+                new Tuple<IEnumerable<Billing>, IEnumerable<Consumable>>(bills, consumables);
             return View(tuple);
         }
 
@@ -334,9 +334,13 @@ namespace WebApplication1.Controllers
 
         [Authorize(Roles = "Patient")]
         [HttpPost] //We are making Payment details entry in DB but yet to be approved by receptionist
-        public ActionResult PayBill(string patientId,int? amount)
+        public ActionResult PayBill(string patientId, int? amount)
         {
 
+            if (Session["isPaid"]==null)
+            {
+                Session["isPaid"] = true;
+            }
             //var totalAmount = billingAccess.GetTotalBillByPatient(patientId);
             Payment payment = new Payment()
             {
@@ -346,26 +350,45 @@ namespace WebApplication1.Controllers
             };
 
             try
-             {
-                var res = paymentAccess.GetPaymentDetails().Where(a => a.patientId == patientId/* && a.isRequested==false*/).ToList();
+            {
+                var res = paymentAccess.GetPaymentDetails().Where(a => a.patientId == patientId /*&& a.isRequested == false*/).ToList();
 
-                if (res.Count()!=0)
+                if (res.Count() != 0)
                 {
-                    try
+                    //try
+                    //{
+                    //var data = res.Where(a => a.isRequested == false);
+                    if ((bool)Session["isPaid"] == true)
                     {
-                        var data = res.Where(a => a.isRequested == false);
-                        return View("AlreadyResponded");
+                        paymentAccess.AddPaymentDetails(payment);
+                        Session["isPaid"] = false;
+                        return View("Successful");
+
+                       
 
                     }
-                    catch (Exception)
+                    else if ((bool)Session["isPaid"] == false)
+                   
                     {
+
 
                         return View("AlreadyResponded");
                     }
+
+                    //}
+                    //catch (Exception)
+                    //{
+
+                    //    paymentAccess.AddPaymentDetails(payment);
+
+                    //    return View("Successful");
+                    //}
                 }
                 else
                 {
-                    throw new Exception();
+                    paymentAccess.AddPaymentDetails(payment);
+
+                    return View("Successful");
                 }
             }
             catch (Exception)
@@ -380,7 +403,7 @@ namespace WebApplication1.Controllers
 
             //return RedirectToAction("Index");
 
-           
+
         }
 
     }

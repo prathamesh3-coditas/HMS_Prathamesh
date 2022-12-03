@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
@@ -97,40 +99,89 @@ namespace WebApplication1.Data_Access
 
 
 
-                Patient patientByUserId = entities.Patients.Where(x => x.userId == id).First();
-                Patient p = entities.Patients.Find(patientByUserId.patient_id);
-
-
-
-
-
-                Appointment appointmentByUserId = entities.Appointments.Where(x => x.userId == id).First();
-                Appointment a = entities.Appointments.Find(appointmentByUserId.appointment_id);
-
-
-
-
-
-                Billing billByUserId = entities.Billings.Where(x => x.userId == id).First();
-                Billing b = entities.Billings.Find(billByUserId.bill_number);
-
-
-                Console.WriteLine();
-                if (p != null)
+                try
                 {
-                    var deleteFromPatient = entities.Patients.Remove(p);
-                    entities.SaveChanges();
+                    Patient patientByUserId = entities.Patients.Where(x => x.userId == id).First();
+                    Patient p = entities.Patients.Find(patientByUserId.patient_id);
+                    if (p != null)
+                    {
+                        var deleteFromPatient = entities.Patients.Remove(p);
+                        entities.SaveChanges();
+                    }
                 }
-                if (a != null)
+                catch (Exception)
                 {
-                    var deleteFromAppointment = entities.Appointments.Remove(a);
-                    entities.SaveChanges();
+
+                    try
+                    {
+                        Appointment appointmentByUserId = entities.Appointments.Where(x => x.userId == id).First();
+                        Appointment a = entities.Appointments.Find(appointmentByUserId.appointment_id);
+
+
+                        if (a != null)
+                        {
+                            var deleteFromAppointment = entities.Appointments.Remove(a);
+                            entities.SaveChanges();
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                        try
+                        {
+
+                            Billing billByUserId = entities.Billings.Where(x => x.userId == id).First();
+                            Billing b = entities.Billings.Find(billByUserId.bill_number);
+                            if (b != null)
+                            {
+                                var deleteFromBilling = entities.Billings.Remove(b);
+                                entities.SaveChanges();
+                            }
+
+
+                        }
+                        catch (Exception)
+                        {
+
+
+                            var res1 = entities.Users.Remove(u);
+
+                            entities.SaveChanges();
+                            return true;
+
+
+                        }
+                    }
                 }
-                if (b != null)
-                {
-                    var deleteFromBilling = entities.Billings.Remove(b);
-                    entities.SaveChanges();
-                }
+
+
+
+
+
+                
+
+
+
+
+
+
+                //Console.WriteLine();
+                //if (p != null)
+                //{
+                //    var deleteFromPatient = entities.Patients.Remove(p);
+                //    entities.SaveChanges();
+                //}
+                //if (a != null)
+                //{
+                //    var deleteFromAppointment = entities.Appointments.Remove(a);
+                //    entities.SaveChanges();
+                //}
+                //if (b != null)
+                //{
+                //    var deleteFromBilling = entities.Billings.Remove(b);
+                //    entities.SaveChanges();
+                //}
                 var res = entities.Users.Remove(u);
 
                 entities.SaveChanges();
@@ -142,6 +193,37 @@ namespace WebApplication1.Data_Access
 
             }
 
+        }
+
+
+
+        public int ValidateContact(string contactNumber)
+        {
+            string checker = "0123456789";
+            int counter = 0;
+            if (contactNumber.Length!=10)
+            {
+                return 0;
+            }
+            else
+            {
+                foreach (var number in contactNumber)
+                {
+                    if (checker.Contains(number))
+                    {
+                        counter++;
+                    }
+                }
+
+                if (counter!=10)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
+            }
         }
     }
 }

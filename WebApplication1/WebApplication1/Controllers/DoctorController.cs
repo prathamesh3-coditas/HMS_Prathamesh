@@ -46,8 +46,10 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [Authorize(Roles = "Doctor")]
+        
+
         [HttpPost]
+        [Authorize(Roles = "Doctor")]
         public ActionResult PrescribeMedicine(string patId, Treatment treatment, int? consumableID, string Finish)
         {
 

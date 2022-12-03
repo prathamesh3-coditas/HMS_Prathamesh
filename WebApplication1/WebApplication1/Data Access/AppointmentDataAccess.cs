@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity.Core;
+using System.Data.Entity.Core.Objects;
 
 namespace WebApplication1.Data_Access
 {
@@ -99,13 +101,16 @@ namespace WebApplication1.Data_Access
         }
 
 
-        public IEnumerable<Appointment> GetAllAppointments(int userId)
+        //public IEnumerable<Appointment> GetAllAppointments(int? userId)
+        public IEnumerable<sp_GetAllAppointments_Result> GetAllAppointments(int? userId)
         {
             try
             {
-                var allAppointments = entities.Appointments.ToList();
+                //var allAppointments = entities.Appointments.ToList();
+                var allAppointments = entities.sp_GetAllAppointments(userId);
                 var appoint = allAppointments.Where(a => a.userId == userId).ToList();
                 return appoint;
+
             }
             catch (Exception)
             {

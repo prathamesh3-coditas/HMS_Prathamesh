@@ -50,6 +50,16 @@ namespace WebApplication1.Controllers
                 var isEMailValid = allUsers.Where(a => a.email == user.email).FirstOrDefault();
                 var isContactValid = allUsers.Where(a => a.contact_number == user.contact_number).FirstOrDefault();
 
+                var contactValidation = userAccess.ValidateContact(user.contact_number);
+
+                if (contactValidation==0)
+                {
+                    TempData["contactValidator"] = "Please provide 10 digit valid number";
+                }
+                else if (contactValidation==1)
+                {
+                    TempData["contactValidator"] = "Mobile Number can not contain letters";
+                }
                 if (isUserNameValid != null)
                 {
                     TempData["InvalidUserName"] = "UserName is not available";

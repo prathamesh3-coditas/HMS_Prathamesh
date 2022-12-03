@@ -6,7 +6,7 @@
 
 <style>
     body {
-        background-image: url('/Scripts/Images/Patient.jpg');
+        background-image: url('/Scripts/Images/Patient.png');
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -74,6 +74,10 @@
             </tbody>
         </table>
 
+        <div style="margin-top:2rem">
+            @Html.ActionLink("Show Reports", "GetReports", "", new { @class = "ActionLinksBlue" })
+        </div>
+
     }
     else
     {
@@ -107,9 +111,7 @@ else
         </tbody>
     </table>*@
 
-<div style="margin-top:2rem">
-    @Html.ActionLink("Show Reports", "GetReports", "", new { @class = "ActionLinksBlue" })
-</div>
+
 
 <br />
 

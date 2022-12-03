@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WebApplication1.Appointment>
+﻿@*@model IEnumerable<WebApplication1.Appointment>*@
+@model IEnumerable<sp_GetAllAppointments_Result>
 @{
     ViewBag.Title = "viewAppointment";
 }
@@ -10,11 +11,12 @@
 
 <style>
     body {
-        background-image: url('/Scripts/Images/Doctor.jpg');
+        background-image: url('/Scripts/Images/Doctor.png');
         background-repeat: no-repeat;
         background-size: cover
     }
 </style>
+
 
 @if (Model != null)
 {

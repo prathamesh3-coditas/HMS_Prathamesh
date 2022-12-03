@@ -45,8 +45,16 @@ namespace WebApplication1.Data_Access
 
         public Patient GetReports(string patientId)
         {
-            var patientdetails = entities.Patients.Where(a => a.patient_id == patientId).First();
-            return patientdetails;
+            try
+            {
+                var patientdetails = entities.Patients.Where(a => a.patient_id == patientId).First();
+                return patientdetails;
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
         }
 
         public Patient GetReports(int userId)

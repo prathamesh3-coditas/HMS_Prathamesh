@@ -6,21 +6,31 @@
 
 <style>
     body {
-        background-image: url('/Scripts/Images/Admin.jpg');
+        background-image: url('/Scripts/Images/Admin.png');
         background-repeat: no-repeat;
         background-size: cover;
     }
 </style>
 
+@*<script>
+    function contactValidator() {
+        var contact = document.getElementById("ContactField");
+        var checker = '0123456789';
+        
+        if (String(contact).length != 10) {
+            alert('Please provide valid phone number(10 digits)')
+        } else {
+            var s = String(contact)
+            for (var number in s) {
+                if (!checker.includes(number)) {
+                    alert('Please provide valid phone number(10 digits)/Only Digits')
+                }
+            }
+        }
+    }
+</script>*@
 
-@*@if (Session.Count == 0 || ((User)Session["User"]).role_id != 1)
-{
-    <br />
-    <p class="alert-danger container">You need to Login first to access this data</p>
-    @Html.ActionLink("Login Here", "LoginPage", "home", "", new { @class = "ActionLinks" });
-}
-else
-{*@
+
 
     <div class="Logout">
         @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
@@ -28,7 +38,7 @@ else
 
     <h2 style="color:white">Register Here</h2>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Register", "Admin"@*,FormMethod.Post ,new { @onsubmit = "contactValidator()" }*@))
     {
         @Html.AntiForgeryToken()
 
@@ -93,10 +103,11 @@ else
             <div class="form-group labelColorBlack">
                 @Html.LabelFor(model => model.contact_number, "Contact Number", htmlAttributes: new { @class = "control-label col-md-2", style="color:black" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.contact_number, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact Number" } })
+                    @Html.EditorFor(model => model.contact_number, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact Number"@*, @id = "ContactField"*@ } })
                     @Html.ValidationMessageFor(model => model.contact_number, "", new { @class = "text-danger" })
                 </div>
                 <span style="color:brown">@TempData["InvalidContact"]</span>
+                <span style="color:brown">@TempData["contactValidator"]</span>
             </div>
 
             <div class="form-group labelColorWhite">
@@ -144,7 +155,7 @@ else
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-danger" />
+                    <input type="submit" value="Create" class="btn btn-danger"/>
                 </div>
             </div>
         </div>

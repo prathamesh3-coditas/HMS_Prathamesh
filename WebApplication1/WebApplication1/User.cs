@@ -53,8 +53,10 @@ namespace WebApplication1
 
         public string specialization { get; set; }
 
-        [Required(ErrorMessage = "You haven't selected Role Id")]
+        //[Required(ErrorMessage = "You haven't selected Role Id")]
         public Nullable<int> role_id { get; set; }
+
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointments { get; set; }

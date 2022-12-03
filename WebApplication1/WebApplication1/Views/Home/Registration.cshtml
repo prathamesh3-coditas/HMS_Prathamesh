@@ -7,7 +7,7 @@
 <h2 style="color:black;padding-left:1rem" class="bg-warning">Sign Up Form</h2>
 <style>
     body {
-        background-image: url('/Scripts//Images/Medicine Capsule.jpg');
+        background-image: url('/Scripts//Images/Admin.png');
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -42,7 +42,7 @@
             @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @placeholder = "E-mail" } })
             @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger bg-success text-dark" })
         </div>
-        @TempData["InvalidEMail"]
+        <span style="color:brown;font-weight:600">@TempData["InvalidEMail"]</span>
     </div>
 
     <div class="form-group" style="color:black">
@@ -51,7 +51,7 @@
             @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", @placeholder = "User Name" } })
             @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger bg-success text-dark" })
         </div>
-        @TempData["InvalidUserName"]
+        <span style="color:brown;font-weight:600">@TempData["InvalidUserName"]</span>
     </div>
 
     <div class="form-group" style="color:black">
@@ -93,7 +93,10 @@
             @Html.EditorFor(model => model.contact_number, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact Number" } })
             @Html.ValidationMessageFor(model => model.contact_number, "", new { @class = "text-danger bg-success text-dark" })
         </div>
-        @TempData["InvalidContact"]
+        <span style="color:brown;font-weight:600">@TempData["InvalidContact"]</span>
+        <span style="color:brown;font-weight:600">@TempData["contactValidator"]</span>
+       
+        
     </div>
 
     <div class="form-group" style="color:black">
@@ -145,5 +148,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "LoginPage", "Home", "", new {@class="ActionLinks"})
+    @Html.ActionLink($"Back", "LoginPage", "Home", "", new {@class="ActionLinks"})
 </div>

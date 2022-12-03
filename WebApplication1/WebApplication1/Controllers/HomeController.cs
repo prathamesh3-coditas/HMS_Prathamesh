@@ -18,7 +18,6 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        //HMS_Project_newEntities2 entities = new HMS_Project_newEntities2();
 
 
         UserDataAccess userData = new UserDataAccess();
@@ -37,6 +36,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult LoginPage(string userName,string pass)
         {
+            Session.Clear();
             LoginValues values = new LoginValues();
             values.UserName = userName;
             values.Password = pass;
@@ -49,7 +49,7 @@ namespace WebApplication1.Controllers
                     //    .FirstOrDefault();
                     var data = userData.validateUser(values);
 
-                Session["User"] = data;
+                
                 Console.WriteLine();
                 if (data == null)
                 {
@@ -58,6 +58,7 @@ namespace WebApplication1.Controllers
                 }
                 else
                 {
+                    Session["User"] = data;
                     TempData["name"] = userData.getFullNameById(values);
                     //TempData["name"] = entities.Users.Where(a => a.userName == values.UserName).Select(a => a.full_name).FirstOrDefault();
                     return RedirectToAction("Success",values);
@@ -81,9 +82,9 @@ namespace WebApplication1.Controllers
 
             //var record = role.Where(a => a.userName == values.UserName).FirstOrDefault();
             
-            var role = userData.onSuccess(values);
+            //var role = userData.onSuccess(values);
 
-
+            
             if (User.IsInRole("Patient"))
             {
                 return RedirectToAction("Index", "Patient");
@@ -139,7 +140,17 @@ namespace WebApplication1.Controllers
                 var isEMailValid = allUsers.Where(a => a.email == user.email).FirstOrDefault();
                 var isContactValid = allUsers.Where(a => a.contact_number == user.contact_number).FirstOrDefault();
 
-                Console.WriteLine();
+                var contactValidation = userData.ValidateContact(user.contact_number);
+
+                if (contactValidation == 0)
+                {
+                    TempData["contactValidator"] = "Please provide 10 digit valid number";
+                }
+                else if (contactValidation == 1)
+                {
+                    TempData["contactValidator"] = "Mobile Number can not contain letters";
+                }
+
                 if (isUserNameValid != null)
                 {
                     TempData["InvalidUserName"] = "UserName is not available";

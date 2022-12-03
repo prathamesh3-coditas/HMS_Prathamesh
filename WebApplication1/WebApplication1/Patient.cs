@@ -30,7 +30,7 @@ namespace WebApplication1
         [Required(ErrorMessage = "Provide past history")]
         public string prev_history { get; set; }
 
-        [Required(ErrorMessage = "Prove previous reports or put N/A if not applicable")]
+        [Required(ErrorMessage = "Provide previous reports or put N/A if not applicable")]
         public string reports { get; set; }
         public Nullable<int> userId { get; set; }
 
