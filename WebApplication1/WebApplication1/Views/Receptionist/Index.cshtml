@@ -8,7 +8,7 @@
 
 <style>
     body {
-        background-image: url('/Scripts/Images/Reception.png');
+        background-image: url('/Scripts/Images/Doctor.png');
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -26,7 +26,7 @@
     @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
 </div>
 
-<p style="font-size:larger;font-weight:600;margin-top:-1rem" class="labelColorBlack">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+<p style="font-size:larger;font-weight:600;margin-top:-1rem" class="labelColorWhite">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
 
 @using (Html.BeginForm("ShowAppointments", "Receptionist"))
 {
