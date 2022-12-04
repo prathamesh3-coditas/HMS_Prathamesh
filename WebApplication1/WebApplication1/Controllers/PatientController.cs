@@ -13,7 +13,6 @@ namespace WebApplication1.Controllers
     public class PatientController : Controller
     {
 
-        //HMS_Project_newEntities2 entities = new HMS_Project_newEntities2();
         PatientDataAccess patientAccess = new PatientDataAccess();
         AppointmentDataAccess appointmentAccess = new AppointmentDataAccess();
         DeseaseDataAccess deseaseAccess = new DeseaseDataAccess();
@@ -23,7 +22,6 @@ namespace WebApplication1.Controllers
         BillingDataAccess billingAccess = new BillingDataAccess();
         PaymentDataAccess paymentAccess = new PaymentDataAccess();
 
-        // GET: Patient
 
         [Authorize(Roles = "Patient")]
         public ActionResult Index()
@@ -73,8 +71,8 @@ namespace WebApplication1.Controllers
         {
             //If method is accessed with pasting URL then Session will be null,in that case 
             //we'll be redirected to LoginPage
-            var v = ((User)Session["User"]);
-            if (v == null)
+            var user = ((User)Session["User"]);
+            if (user == null)
             {
                 return RedirectToAction("LoginPage", "Home");
             }
@@ -82,7 +80,7 @@ namespace WebApplication1.Controllers
             //Get all patient data
             var patientData = patientAccess.GetAllPatients();
             //Check if the same userId already present in patient table
-            var isExisting = patientData.Where(a => a.userId == v.userId).FirstOrDefault();
+            var isExisting = patientData.Where(a => a.userId == user.userId).FirstOrDefault();
 
 
             if (isExisting == null)
@@ -95,7 +93,7 @@ namespace WebApplication1.Controllers
                 //If userId alredy exists in patient table then show the view having existing data
                 //var patient = entities.Patients.Where(a => a.userId == v.userId).FirstOrDefault();
 
-                var patient = patientData.Where(a => a.userId == v.userId).FirstOrDefault();
+                var patient = patientData.Where(a => a.userId == user.userId).FirstOrDefault();
                 return View(patient);
             }
         }
@@ -112,37 +110,25 @@ namespace WebApplication1.Controllers
                 + "_" + (loggedUser).contact_number.ToString();
 
             //set userId same as userId in User table
-            var userId = userAccess.GetAllUsers().Where(a => a.userId == loggedUser.userId).Select(a => a.userId).FirstOrDefault();
-            details.userId = userId;
-            //if (deseaseCategory!="")
-            //{
-            //    var userId = userAccess.GetAllUsers().Where(a => a.specialization == deseaseCategory).Select(a => a.userId).First();
-            //    details.userId = userId;
+            //var userId = userAccess.GetAllUsers().Where(a => a.userId == loggedUser.userId).Select(a => a.userId).FirstOrDefault();
+            details.userId = loggedUser.userId;
 
-            //}
-            //else
-            //{
-            //    var userId = userAccess.GetAllUsers().Where(a => a.specialization == "General").Select(a => a.userId).First();
-            //    details.userId = userId;
-
-            //}
-            Console.WriteLine();
             //Get the data of existing patient from patient table
-            var data = patientAccess.GetAllPatients()
+            var existingDataOfPatient = patientAccess.GetAllPatients()
                 .Where(a => a.patient_id == details.patient_id)
                 .FirstOrDefault();
 
             Console.WriteLine();
             if (ModelState.IsValid)
             {
-                if (data != null)
+                if (existingDataOfPatient != null)
                 {
                     //New data will be concatinated with old data 
-                    data.userId = details.userId;
-                    data.prev_history = details.prev_history;
-                    data.reports = details.reports;
+                    existingDataOfPatient.userId = details.userId;
+                    existingDataOfPatient.prev_history = details.prev_history;
+                    existingDataOfPatient.reports = details.reports;
 
-                    patientAccess.EditPatientDetails(details.patient_id, data);
+                    patientAccess.EditPatientDetails(details.patient_id, existingDataOfPatient);
                 }
                 else
                 {
@@ -152,10 +138,7 @@ namespace WebApplication1.Controllers
                     ///-------------------------------------------------------- 
 
                     //If patient is new then entire data will be added
-                    //details.userId = details.userId;
-
-                    //var userId = userAccess.GetAllUsers().Where(a => a.specialization == "General").Select(a => a.userId).First();
-                    //details.userId = userId;
+   
                     patientAccess.CreatePatient(details);
                 }
 
@@ -205,17 +188,8 @@ namespace WebApplication1.Controllers
                     {
                         //get details from desease details table
                         var deseaseDetailOfPatient = deseaseAccess.GetDeseaseDetails(details.patient_id);
-
-                        //get desease category
-                        string category;
-                        if (deseaseCategory == "")
-                        {
-                            category = deseaseDetailOfPatient.desease_catagory;
-                        }
-                        else
-                        {
-                            category = deseaseCategory;
-                        }
+                        string category = deseaseDetailOfPatient.desease_catagory;
+                    
 
                         //Assign Doctor Id according to desease category
                         var doctorId = userAccess.GetAllUsers().Where(a => a.specialization == $"{category}")

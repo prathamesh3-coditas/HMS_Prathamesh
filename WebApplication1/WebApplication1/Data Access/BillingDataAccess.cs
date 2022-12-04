@@ -10,25 +10,12 @@ namespace WebApplication1.Data_Access
     public class BillingDataAccess
     {
         HMS_Project_newEntities2 entities = new HMS_Project_newEntities2();
-        //public void AddBillingDetails(List<Consumable> list,string patId,int DrId)
-        //{
-        //    Billing b = new Billing();
-        //    foreach (var item in list)
-        //    {
-        //        b.consumable_id = item.consumable_id;
-        //        b.patient_id = patId;
-        //        b.userId = DrId;
-        //        b.is_paid = false; 
 
-        //        var res = entities.Billings.Add(b);
-        //        entities.SaveChanges();
-        //    }
-        //}
 
         public void AddBillingDetails(Billing b)
         {
 
-                entities.Billings.Add(b);
+            entities.Billings.Add(b);
             entities.SaveChanges();
         }
 
@@ -60,10 +47,7 @@ namespace WebApplication1.Data_Access
                 consumableDetails.Add(conDetails);
 
             }
-            //var treatDetails = entities.Treatments.Where(a => a.patient_id == patId).ToList();
-
-            //Tuple<IEnumerable<Consumable>, IEnumerable<Treatment>> tuple =
-            //    new Tuple<IEnumerable<Consumable>, IEnumerable<Treatment>>(consumableDetails,treatDetails);
+            
             Billing b = new Billing();
             
             foreach (var item in consumableDetails)

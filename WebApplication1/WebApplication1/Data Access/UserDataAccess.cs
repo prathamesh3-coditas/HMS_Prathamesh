@@ -18,7 +18,6 @@ namespace WebApplication1.Data_Access
 
         public User validateUser(LoginValues values)
         {
-            //values.Password = EncryptDecrypt(values.Password);
 
             var data = (entities.Users)
             .Where(a => a.userName == values.UserName && a.password_.Replace("\r\n","") == values.Password)
@@ -200,8 +199,6 @@ namespace WebApplication1.Data_Access
 
         public int ValidateContact(string contactNumber)
         {
-            string checker = "0123456789";
-            int counter = 0;
             if (contactNumber.Length!=10)
             {
                 return 0;
@@ -210,36 +207,21 @@ namespace WebApplication1.Data_Access
             {
                 foreach (var number in contactNumber)
                 {
-                    if (checker.Contains(number))
+       
+                    if (!char.IsNumber(number))
                     {
-                        counter++;
+                        return 1;
                     }
+
                 }
 
-                if (counter!=10)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 2;
-                }
+                return 2;
+
+                
             }
         }
 
 
-       public string EncryptDecrypt(string str)
-        {
-            char xorKey = 'd';
-            string output = string.Empty;
-            foreach (var c in str)
-            {
-
-                output += char.ToString((char)(c ^ xorKey));
-            }
-
-
-            return output;
-        }
+  
     }
 }

@@ -29,9 +29,9 @@ else
     <table class="table-bordered table">
         <thead>
             <tr class="WhiteHeader">
-                <th>
+                @*<th>
                     <label>Appointment Id</label>
-                </th>
+                </th>*@
 
                 <th>
                     <label>Patient Id</label>
@@ -55,7 +55,7 @@ else
             @foreach (var item in Model)
             {
                 <tr class="labelColorWhite">
-                    <td>@Html.DisplayFor(a => item.appointment_id)</td>
+                    @*<td>@Html.DisplayFor(a => item.appointment_id)</td>*@
 
                     <td>@Html.DisplayFor(a => item.patient_id)</td>
 

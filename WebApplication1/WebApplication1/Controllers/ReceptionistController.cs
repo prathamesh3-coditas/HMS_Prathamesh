@@ -77,17 +77,9 @@ namespace WebApplication1.Controllers
                         ViewBag.AppointmentWith = "Your Appointment is successfully booked with \"General Physician.\"";
                         deseaseAccess.AddDeseaseDetails(deseaseDetails);
                     }
-                    //else
-                    //{
-                    //    //If desease deatails are present then patient is existing so just 
-                    //    //increment noOfVisits
-                    //    deseaseAccess.IncrementNumberOfVisits(details);
-                    //}
-                }
-                //else
-                //{
 
-                //}
+                }
+             
             }
 
             //Here we're taking appointments having isApproved==false but when an appointment is

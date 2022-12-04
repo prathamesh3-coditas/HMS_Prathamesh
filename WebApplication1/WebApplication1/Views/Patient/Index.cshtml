@@ -5,7 +5,7 @@
 
 <style>
     body {
-        background-image: url('/Scripts/Images/Patient Index.png');
+        background-image: url('/Scripts/Images/Admin Index.png');
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -58,23 +58,17 @@ else
                         <label class="labelColorBlack" style="margin-left:40rem;background-color:coral;margin-top:2rem;padding:0 1rem">Available time slots for @date</label>
                         <br />
                         <select name="time" style="height: 25px; margin-left: 48rem; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)" class="container-fluid">
-                            @*<option value=null>Select Time</option>
-                                <option value="09:00">9:00</option>
-                                <option value="09:30">9:30</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:30">10:30</option>*@
+
 
                             @foreach (var item in allTimes)
                             {
                                 if (!bookedTimeSlots.Contains(item + ":00"))
                                 {
                                     <option value=@item > @item</option>
-                                    <hr />
-
                                 }
                                 else
                                 {
-                                    <option value=@item disabled style="background-color: lavenderblush">@item</option>
+                                    <option value=@item disabled style="background-color: lightblue">@item</option>
                                 }
                             }
                         </select>
@@ -88,35 +82,14 @@ else
 
 
             }
-            @*else
-                {
-                    <select name="time" style="height:25px;margin-left:2rem" class="container-fluid" disabled>
-                        <option value=null>Select Time</option>
-                        <option value="09:00">9:00</option>
-                        <option value="09:30">9:30</option>
-                        <option value="10:00">10:00</option>
-                        <option value="10:30">10:30</option>
-                    </select>
-                }*@
+       
         }
 
 
 
     }
 
-    @*<script type="text/javascript">
-            var count = 1;
-            function changeColor() {
-                var getButton = document.getElementById("bookAppoint");
-                if (count == 0) {
-                    getButton.style.backgroundColor = 'green';
-                    count = 1;
-                } else {
-                    getButton.style.backgroundColor = 'red';
-                    count = 0;
-                }
-            }
-        </script>*@
+
 
     <hr />
 

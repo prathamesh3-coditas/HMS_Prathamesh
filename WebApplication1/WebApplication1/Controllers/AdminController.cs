@@ -10,8 +10,6 @@ namespace WebApplication1.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
-        //HMS_Project_newEntities2 entities = new HMS_Project_newEntities2();
         UserDataAccess userAccess = new UserDataAccess();
         ConsumableDataAccess consumableAccess = new ConsumableDataAccess();
 
@@ -39,9 +37,6 @@ namespace WebApplication1.Controllers
 
             if (ModelState.IsValid)
             {
-
-
-                //var allUsers = entities.Users.ToList();
 
                 var allUsers = userAccess.GetAllUsers();
 
@@ -95,15 +90,7 @@ namespace WebApplication1.Controllers
                 {
                     ViewBag.roleId = "Oops..You haven't selected a role id";
                 }
-                //if (user.gender == null || user.gender=="null")
-                //{
-                //    ViewBag.gender = "Oops..You haven't selected a gender";
-                //}
-
-                //if (user.role_id == null)
-                //{
-                //    ViewBag.roleId = "Oops..You haven't selected a role id";
-                //}
+                
                 return View((User)Session["UserToRegister"]);
             }
         }
@@ -130,21 +117,11 @@ namespace WebApplication1.Controllers
         public ActionResult Edit(User user)
         {
 
-            //var userFound = entities.Users.Find(Convert.ToInt32(TempData["IdToUpdate"]));
 
             int id = Convert.ToInt32(TempData["IdToUpdate"]);
 
             var res = userAccess.UpdateUserInfo(user, id);
-            //var userFound = entities.Users.Find(id);
-            //userFound.full_name = user.full_name;
-            //userFound.email = user.email;
-            //userFound.password_ = user.password_;
-            //userFound.userName = user.userName;
-            //userFound.age = user.age;
-            //userFound.gender = user.gender;
-            //userFound.contact_number = user.contact_number;
-            //userFound.specialization = user.specialization;
-            //entities.SaveChanges();
+     
             return RedirectToAction("ShowAll", "Admin");
         }
 
@@ -153,7 +130,6 @@ namespace WebApplication1.Controllers
         public ActionResult Delete(int id)
         {
             TempData["UserIdToDelete"] = id;
-            //var data = entities.Users.Find(id);
 
             var userFound = userAccess.GetUserById(id);
             return View(userFound);
@@ -165,7 +141,6 @@ namespace WebApplication1.Controllers
         public ActionResult DeleteConfirm()
         {
             int id = Convert.ToInt32(TempData["UserIdToDelete"]);
-            //User u = entities.Users.Find(Convert.ToInt32(TempData["UserIdToDelete"]));
 
 
             var res = userAccess.DeleteUser(id);

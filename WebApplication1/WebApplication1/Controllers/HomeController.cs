@@ -47,10 +47,8 @@ namespace WebApplication1.Controllers
             FormsAuthentication.SetAuthCookie(userName, false);
             if (ModelState.IsValid)
             {
-                    //var data = (entities.Users)
-                    //    .Where(a => a.userName == values.UserName && a.password_ == values.Password)
-                    //    .FirstOrDefault();
-                    var data = userData.validateUser(values);
+                 
+                var data = userData.validateUser(values);
 
                 
                 Console.WriteLine();
@@ -63,7 +61,6 @@ namespace WebApplication1.Controllers
                 {
                     Session["User"] = data;
                     TempData["name"] = userData.getFullNameById(values);
-                    //TempData["name"] = entities.Users.Where(a => a.userName == values.UserName).Select(a => a.full_name).FirstOrDefault();
                     return RedirectToAction("Success",values);
                 }
             }
@@ -73,20 +70,7 @@ namespace WebApplication1.Controllers
 
         public ActionResult Success(LoginValues values)
         {
-            //var role = (entities.Users).ToList().Join((entities.Roles).ToList(),
-            //    u => u.role_id,
-            //    r => r.role_id,
-            //    (u, r) => new
-            //    {
-            //        userName = u.userName,
-            //        nameOfUser = u.full_name,
-            //        roleOfUser = r.roleName
-            //    });
-
-            //var record = role.Where(a => a.userName == values.UserName).FirstOrDefault();
-            
-            //var role = userData.onSuccess(values);
-
+        
             
             if (User.IsInRole("Patient"))
             {
@@ -102,23 +86,7 @@ namespace WebApplication1.Controllers
             {
                 return RedirectToAction("Index", "Receptionist");
             }
-            //if (role == "Patient")
-            //{
-            //    return RedirectToAction("Index", "Patient");
-            //}
-            //else if (role == "Receptionist")
-            //{
-            //    return RedirectToAction("Index", "Receptionist");
-            //}
-            //else if (role == "Doctor")
-            //{
-            //    return RedirectToAction("Index","Doctor");
-            //}
-            //else if (role == "Admin")
-            //{
-            //    return RedirectToAction("Index", "Admin");
-
-            //}
+       
             return View();
         }
 
@@ -134,7 +102,6 @@ namespace WebApplication1.Controllers
             {
                 user.role_id = 4;
 
-                //var allUsers = entities.Users.ToList();
 
                 var allUsers = userData.GetAllUsers().ToList();
                 Session["SignUpUser"] = user;
@@ -172,18 +139,18 @@ namespace WebApplication1.Controllers
                 }
 
 
-                if (TempData.Count > 1) //initially TempData contains value of name only
+                if (TempData.Count > 0) 
                 {
                     return View(((User)Session["SignUpUser"]));
                 }
                 else
                 {
 
-
                     user.password_ = Encryption.Encryption.EncodePassword(user.password_);
 
                     user.confirmPassword_ = Encryption.Encryption.EncodePassword(user.confirmPassword_);
                     userData.CreateUser(user);
+                    Session.Remove("SignUpUser");
                 }
 
                 return RedirectToAction("LoginPage");

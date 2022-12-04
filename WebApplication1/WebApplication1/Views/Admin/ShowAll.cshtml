@@ -42,7 +42,7 @@
     @Html.ActionLink("Register New User", "Register", "Admin", "", new { @class = "btn btn-danger btn-sm" })
 </p>
 
-<table class="table table-bordered">
+<table class="table table-bordered" style="table-layout:fixed;width:100%">
     <thead>
         <tr class="WhiteHeader">
             <th>
@@ -92,13 +92,13 @@
                 <td class="labelColorWhite">
                     @Html.DisplayFor(modelItem => item.full_name)
                 </td>
-                <td class="labelColorWhite">
+                <td class="labelColorWhite" style="word-wrap:break-word">
                     @Html.DisplayFor(modelItem => item.email)
                 </td>
                 <td class="labelColorWhite">
                     @Html.DisplayFor(modelItem => item.userName)
                 </td>
-                <td class="labelColorWhite">
+                <td class="labelColorWhite" style="word-wrap:break-word">
                     @Html.DisplayFor(modelItem => item.password_)
                 </td>
                 <td class="labelColorWhite">

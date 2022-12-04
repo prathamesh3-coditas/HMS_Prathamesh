@@ -69,10 +69,9 @@ namespace WebApplication1.Data_Access
                 {
                     var patientId = entities.Patients.Where(a => a.userId == user.userId).Select(a => a.patient_id).First();
                     var patientRecord = entities.Patients.Where(a => a.patient_id == patientId).First();
-                    DateTime d = DateTime.Now.Date;
-                    //var d = DateTime.Now.Date.ToString("dd:MM:yyyy");
+                    DateTime today = DateTime.Now.Date;
 
-                    var appointData = entities.Appointments.Where(a => a.patient_id == patientRecord.patient_id && a.appointmentDate >= d).ToList();
+                    var appointData = entities.Appointments.Where(a => a.patient_id == patientRecord.patient_id && a.appointmentDate >= today).ToList();
                     return appointData;
                 }
                 catch (Exception)
@@ -107,7 +106,7 @@ namespace WebApplication1.Data_Access
             try
             {
                 //var allAppointments = entities.Appointments.ToList();
-                var allAppointments = entities.sp_GetAllAppointments(userId);
+                var allAppointments = entities.sp_GetAllAppointments(userId).ToList();
                 var appoint = allAppointments.Where(a => a.userId == userId).ToList();
                 return appoint;
 

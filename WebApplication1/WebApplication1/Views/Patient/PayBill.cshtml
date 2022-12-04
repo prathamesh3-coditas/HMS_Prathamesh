@@ -52,22 +52,7 @@
             <div class="bg-danger">@ViewBag.ErrorMsg</div>
             <br />
 
-            @*<script>
-                function alertMsg() {
-
-                    var a = document.getElementById("payment");
-
-                    a.onclick = function execute() {
-                        swal({
-                            title: "Are you sure?",
-                            text: "Are you sure that you want to leave this page?",
-                            icon: "warning",
-                            dangerMode: true,
-                            confirmButton: true
-                        }).then(a => { window.location.href = '/Patient/Index' });
-                    }
-                }
-            </script>*@
+     
 
             @using (Html.BeginForm("PayBill", "Patient", new { patientId = patId, amount = total }))
             {
@@ -111,9 +96,7 @@
 
             }
 
-            @*<div>
-                <input type="button" value="Press Here" onclick="alertMsg()" id="payment"/>
-            </div>*@
+            
 
         </div>
 

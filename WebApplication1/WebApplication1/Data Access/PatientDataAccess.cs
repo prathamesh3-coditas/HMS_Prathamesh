@@ -38,7 +38,7 @@ namespace WebApplication1.Data_Access
             reportData.reports = newReport;
             reportData.patient_id = patientId;
 
-            var res =entities.SaveChanges();
+            var res = entities.SaveChanges();
             Console.WriteLine();
         }
 

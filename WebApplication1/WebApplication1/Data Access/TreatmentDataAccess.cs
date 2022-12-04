@@ -45,12 +45,12 @@ namespace WebApplication1.Data_Access
         {
             foreach (var treatment in treatments)
             {
-                var singleEntry = entities.Treatments.Where(a => a.treatment_id == treatment.treatment_id).First();
-                singleEntry.quantity = treatment.quantity;
-                //singleEntry.is_admitted = treatment.is_admitted;
-                singleEntry.patient_id = treatment.patient_id;
-                singleEntry.consumable_id = treatment.consumable_id;
-                singleEntry.IsActive = false;
+                var oldTreatment = entities.Treatments.Where(a => a.treatment_id == treatment.treatment_id).First();
+                oldTreatment.quantity = treatment.quantity;
+                //oldTreatment.is_admitted = treatment.is_admitted;
+                oldTreatment.patient_id = treatment.patient_id;
+                oldTreatment.consumable_id = treatment.consumable_id;
+                oldTreatment.IsActive = false;
 
                 entities.SaveChanges();
 

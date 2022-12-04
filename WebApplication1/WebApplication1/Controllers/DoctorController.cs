@@ -56,14 +56,14 @@ namespace WebApplication1.Controllers
             if (consumableID != null && treatment.quantity!=0)
             {
                 
-                Treatment addDetails = new Treatment();
-                addDetails.patient_id = (string)Session["PatientForTreatment"];
+                Treatment treatmentDetails = new Treatment();
+                treatmentDetails.patient_id = (string)Session["PatientForTreatment"];
                 TempData.Keep();
-                addDetails.consumable_id = consumableID;
-                addDetails.IsActive = true;
-                addDetails.quantity = treatment.quantity;
+                treatmentDetails.consumable_id = consumableID;
+                treatmentDetails.IsActive = true;
+                treatmentDetails.quantity = treatment.quantity;
 
-                treatmentAccess.AddDetails(addDetails);
+                treatmentAccess.AddDetails(treatmentDetails);
                 var allConsumables = consumableAccess.GetAllConsumables();
 
                 return View(allConsumables);
@@ -113,7 +113,7 @@ namespace WebApplication1.Controllers
 
         [Authorize(Roles = "Doctor")]
         [HttpPost]
-        public ActionResult Billing()
+        public void Billing()
         {
             var patientId = (string)Session["PatientForTreatment"];
             var user = (User)Session["User"];
@@ -121,21 +121,12 @@ namespace WebApplication1.Controllers
             var activeTreatments = treatmentAccess.GetTreatmentDetails(patientId).Where(a=>a.IsActive==true);
 
             billingAccess.GenerateBill(activeTreatments,patientId,DrId);
-            //var data = billingAccess.BillingDetails(activeTreatments);
-            //return View(data);
 
-            return RedirectToAction("DeseaseCategory");
+            //return RedirectToAction("DeseaseCategory");
         }
 
 
 
-        //public ActionResult GenerateReport()
-        //{
-        //    string patientId = (string)Session["PatientForTreatment"];
-        //    var patientData = 
-        //    patientAccess.GetReports(patientId);
-        //    return View();
-        //}
 
         [Authorize(Roles = "Doctor")]
         [HttpPost]
