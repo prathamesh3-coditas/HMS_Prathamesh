@@ -5,13 +5,13 @@
       <PropertyRef Name="appointment_id" />
     </Key>
     <Property Name="appointment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AdmitDate" Type="date" />
     <Property Name="patient_id" Type="varchar" MaxLength="100" />
     <Property Name="treatment_id" Type="int" />
     <Property Name="userId" Type="int" />
     <Property Name="appointmentDate" Type="date" />
     <Property Name="appointmentTime" Type="time" Precision="7" />
     <Property Name="isApproved" Type="bit" />
+    <Property Name="admitdate" Type="date" />
   </EntityType>
   <EntityType Name="Billing">
     <Key>
@@ -72,10 +72,10 @@
     </Key>
     <Property Name="treatment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="quantity" Type="int" />
-    <Property Name="is_admitted" Type="bit" />
     <Property Name="patient_id" Type="varchar" MaxLength="100" />
     <Property Name="consumable_id" Type="int" />
     <Property Name="IsActive" Type="bit" />
+    <Property Name="is_admitted" Type="bit" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -85,7 +85,7 @@
     <Property Name="full_name" Type="varchar" MaxLength="50" />
     <Property Name="email" Type="varchar" MaxLength="100" />
     <Property Name="userName" Type="varchar" MaxLength="50" />
-    <Property Name="password_" Type="varchar" MaxLength="16" />
+    <Property Name="password_" Type="varchar" MaxLength="80" Nullable="false" />
     <Property Name="age" Type="int" />
     <Property Name="contact_number" Type="varchar" MaxLength="15" />
     <Property Name="gender" Type="varchar" MaxLength="10" />

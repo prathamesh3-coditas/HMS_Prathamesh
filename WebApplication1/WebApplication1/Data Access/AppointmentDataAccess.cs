@@ -32,7 +32,7 @@ namespace WebApplication1.Data_Access
                 AppointmentPending.isApproved = true;
 
                 appointmentFound.appointment_id = AppointmentPending.appointment_id;
-                appointmentFound.AdmitDate = AppointmentPending.AdmitDate;
+                //appointmentFound.AdmitDate = AppointmentPending.AdmitDate;
                 appointmentFound.patient_id = AppointmentPending.patient_id;
                 appointmentFound.treatment_id = AppointmentPending.treatment_id;
                 appointmentFound.userId = AppointmentPending.userId;

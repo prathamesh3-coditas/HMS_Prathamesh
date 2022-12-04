@@ -230,6 +230,44 @@ namespace WebApplication1.Controllers
 
             return RedirectToAction("ConsumableDetails");
         }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult SearchUser(string name)
+        {
+            name = name.ToLower();
+            if (name == String.Empty)
+            {
+                var userDetails = userAccess.GetAllUsers();
+                return View("ShowAll", userDetails);
+            }
+            else
+            {
+                var userDetails = userAccess.GetAllUsers().Where(a => a.full_name.ToLower().Contains(name) || name.Contains(a.full_name.ToLower()));
+                return View("ShowAll", userDetails);
+
+            }
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult SearchMedicine(string name)
+        {
+            name = name.ToLower();
+            if (name == String.Empty)
+            {
+                var consumableDetails = consumableAccess.GetAllConsumables();
+                return View("ConsumableDetails", consumableDetails);
+            }
+            else
+            {
+                var consumableDetails = consumableAccess.GetAllConsumables().Where(a => a.consumable_name.ToLower().Contains(name) || name.Contains(a.consumable_name.ToLower()));
+                return View("ConsumableDetails", consumableDetails);
+
+            }
+        }
     }
 
 }

@@ -11,13 +11,24 @@
         background-size: cover;
     }
 </style>
-<br />
-@Html.ActionLink("Add New", "AddConsumables", "Admin", new { @class = "ActionLinks" })
-<h2  style="color:black;padding-left:1rem;background-color:white">Consumable Details</h2>
+
+<h2 style="color:black;padding-left:1rem;background-color:white">Consumable Details</h2>
+
+
+@using (Html.BeginForm("SearchMedicine", "Admin", FormMethod.Post))
+{
+    <div style="margin-bottom:1rem">
+        <input type="search" name="name" />
+        <input type="submit" value="Search" />
+    </div>
+}
+
+@Html.ActionLink("Add New", "AddConsumables", "Admin", new { @class = "btm btn-danger btn-sm" })
+
 
 @if (Model != null)
 {
-    <table class="table ">
+    <table class="table " style="margin-top:1rem">
         <thead class="WhiteHeader labelColorWhite">
             <tr>
                 <th>Consumable Name</th>
@@ -47,7 +58,7 @@ else
     <p class="labelColorWhite">No details available</p>
 }
 
-@Html.ActionLink("Back to main page", "Index", "Admin", new { @class = "ActionLinksBlue" })
+@Html.ActionLink("Back", "Index", "Admin", new { @class = "ActionLinksBlue" })
 
 
 

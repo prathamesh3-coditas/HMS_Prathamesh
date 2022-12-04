@@ -47,7 +47,7 @@ namespace WebApplication1.Data_Access
             {
                 var singleEntry = entities.Treatments.Where(a => a.treatment_id == treatment.treatment_id).First();
                 singleEntry.quantity = treatment.quantity;
-                singleEntry.is_admitted = treatment.is_admitted;
+                //singleEntry.is_admitted = treatment.is_admitted;
                 singleEntry.patient_id = treatment.patient_id;
                 singleEntry.consumable_id = treatment.consumable_id;
                 singleEntry.IsActive = false;

@@ -22,10 +22,10 @@ namespace WebApplication1
     
         public int treatment_id { get; set; }
         public Nullable<int> quantity { get; set; }
-        public Nullable<bool> is_admitted { get; set; }
         public Nullable<int> consumable_id { get; set; }
         public string patient_id { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public Nullable<bool> is_admitted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointments { get; set; }

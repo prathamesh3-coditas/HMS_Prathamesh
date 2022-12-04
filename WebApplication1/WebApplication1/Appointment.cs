@@ -15,13 +15,13 @@ namespace WebApplication1
     public partial class Appointment
     {
         public int appointment_id { get; set; }
-        public Nullable<System.DateTime> AdmitDate { get; set; }
         public string patient_id { get; set; }
         public Nullable<int> treatment_id { get; set; }
         public Nullable<int> userId { get; set; }
         public Nullable<System.DateTime> appointmentDate { get; set; }
         public Nullable<System.TimeSpan> appointmentTime { get; set; }
         public Nullable<bool> isApproved { get; set; }
+        public Nullable<System.DateTime> admitdate { get; set; }
     
         public virtual Patient Patient { get; set; }
         public virtual Treatment Treatment { get; set; }

@@ -5,7 +5,6 @@
       <PropertyRef Name="appointment_id" />
     </Key>
     <Property Name="appointment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="AdmitDate" Type="DateTime" Precision="0" />
     <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="treatment_id" Type="Int32" />
     <Property Name="userId" Type="Int32" />
@@ -15,6 +14,7 @@
     <NavigationProperty Name="Patient" Relationship="Self.FK__Appointme__patie__33D4B598" FromRole="Appointment" ToRole="Patient" />
     <NavigationProperty Name="Treatment" Relationship="Self.FK__Appointme__treat__34C8D9D1" FromRole="Appointment" ToRole="Treatment" />
     <NavigationProperty Name="User" Relationship="Self.FK__Appointme__userI__35BCFE0A" FromRole="Appointment" ToRole="Users" />
+    <Property Name="admitdate" Type="DateTime" Precision="0" />
   </EntityType>
   <EntityType Name="Billing">
     <Key>
@@ -79,13 +79,13 @@
     </Key>
     <Property Name="treatment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="quantity" Type="Int32" />
-    <Property Name="is_admitted" Type="Boolean" />
     <Property Name="consumable_id" Type="Int32" />
     <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__treat__34C8D9D1" FromRole="Treatment" ToRole="Appointment" />
     <NavigationProperty Name="Consumable" Relationship="Self.FK__Treatment__consu__30F848ED" FromRole="Treatment" ToRole="Consumable" />
     <Property Name="patient_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Patient" Relationship="HMS_Project_newModel.fk" FromRole="Treatment" ToRole="Patient" />
     <Property Name="IsActive" Type="Boolean" />
+    <Property Name="is_admitted" Type="Boolean" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -95,7 +95,7 @@
     <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="password_" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="password_" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="age" Type="Int32" />
     <Property Name="contact_number" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
     <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />

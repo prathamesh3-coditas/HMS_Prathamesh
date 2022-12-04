@@ -4,8 +4,8 @@
     <EntitySetMapping Name="Appointments">
       <EntityTypeMapping TypeName="HMS_Project_newModel.Appointment">
         <MappingFragment StoreEntitySet="Appointment">
+          <ScalarProperty Name="admitdate" ColumnName="admitdate" />
           <ScalarProperty Name="appointment_id" ColumnName="appointment_id" />
-          <ScalarProperty Name="AdmitDate" ColumnName="AdmitDate" />
           <ScalarProperty Name="patient_id" ColumnName="patient_id" />
           <ScalarProperty Name="treatment_id" ColumnName="treatment_id" />
           <ScalarProperty Name="userId" ColumnName="userId" />
@@ -67,11 +67,11 @@
     <EntitySetMapping Name="Treatments">
       <EntityTypeMapping TypeName="HMS_Project_newModel.Treatment">
         <MappingFragment StoreEntitySet="Treatment">
+          <ScalarProperty Name="is_admitted" ColumnName="is_admitted" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="patient_id" ColumnName="patient_id" />
           <ScalarProperty Name="treatment_id" ColumnName="treatment_id" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
-          <ScalarProperty Name="is_admitted" ColumnName="is_admitted" />
           <ScalarProperty Name="consumable_id" ColumnName="consumable_id" />
         </MappingFragment>
       </EntityTypeMapping>

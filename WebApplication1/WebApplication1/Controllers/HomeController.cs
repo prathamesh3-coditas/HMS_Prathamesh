@@ -12,7 +12,9 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Xml;
 using WebApplication1.Data_Access;
+using WebApplication1.Encryption;
 using WebApplication1.Models;
+using WebApplication1.Encryption;
 
 namespace WebApplication1.Controllers
 {
@@ -39,7 +41,8 @@ namespace WebApplication1.Controllers
             Session.Clear();
             LoginValues values = new LoginValues();
             values.UserName = userName;
-            values.Password = pass;
+
+            values.Password = Encryption.Encryption.EncodePassword(pass);
 
             FormsAuthentication.SetAuthCookie(userName, false);
             if (ModelState.IsValid)
@@ -136,6 +139,8 @@ namespace WebApplication1.Controllers
                 var allUsers = userData.GetAllUsers().ToList();
                 Session["SignUpUser"] = user;
 
+
+
                 var isUserNameValid = allUsers.Where(a => a.userName == user.userName).FirstOrDefault();
                 var isEMailValid = allUsers.Where(a => a.email == user.email).FirstOrDefault();
                 var isContactValid = allUsers.Where(a => a.contact_number == user.contact_number).FirstOrDefault();
@@ -170,13 +175,14 @@ namespace WebApplication1.Controllers
                 if (TempData.Count > 1) //initially TempData contains value of name only
                 {
                     return View(((User)Session["SignUpUser"]));
-                    //return RedirectToAction("LoginPage");
                 }
                 else
                 {
-                    //entities.Users.Add(user);
-                    //entities.SaveChangesAsync();
 
+
+                    user.password_ = Encryption.Encryption.EncodePassword(user.password_);
+
+                    user.confirmPassword_ = Encryption.Encryption.EncodePassword(user.confirmPassword_);
                     userData.CreateUser(user);
                 }
 
