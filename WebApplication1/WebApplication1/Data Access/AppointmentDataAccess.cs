@@ -67,6 +67,7 @@ namespace WebApplication1.Data_Access
             {
                 try
                 {
+                   
                     var patientId = entities.Patients.Where(a => a.userId == user.userId).Select(a => a.patient_id).First();
                     var patientRecord = entities.Patients.Where(a => a.patient_id == patientId).First();
                     DateTime today = DateTime.Now.Date;

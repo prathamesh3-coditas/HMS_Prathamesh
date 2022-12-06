@@ -41,7 +41,7 @@ textarea {
 
 .WhiteHeader{
     /*background-color:darkkhaki;*/
-    background-color:black;
+    background-color:rgba(0,0,0);
     color:white;
 }
 
@@ -81,10 +81,56 @@ color:white
 .TableBody {
     /*background-image: linear-gradient(45deg,rgba(255,192,203,0.5) ,grey);*/
 
-    background-color:white;
+    background-color:rgba(255,255,255,0.75);
+    color:ActiveCaption
 }
 
 
 .FrontDiv {
-    background-image: linear-gradient(45deg,rgb(204, 200, 27),rgba(157, 83, 83,0.3) 65%);
+    /*background-image: linear-gradient(45deg,rgb(204, 200, 27),rgba(157, 83, 83,0.3) 65%);*/
+    background-color:rgba(0,0,0,0.7);
+    background-size:cover;
+    padding:2rem;
+    margin-top:2rem;
+}
+
+
+.jumbotron-form {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    min-height: 60%;
+    border-radius: 5px;
+}
+
+.welcometext {
+    font-weight: bold;
+    font-size: large;
+    font-display: block;
+   /* background-color:lightblue;*/
+/*    width:20%;*/
+    color:aliceblue;
+}
+
+.welcome-name-text {
+    background-color: teal;
+    color: white;
+    padding: 0 0.5rem
+}
+
+.Login-Container {
+    background-color: white;
+    max-width: 300px;
+    padding: 2rem;
+    border-radius: 15px
+}
+
+.receptionist-Index {
+    width: 40%;
+    margin-top: 2rem;
+    height: 8rem;
 }

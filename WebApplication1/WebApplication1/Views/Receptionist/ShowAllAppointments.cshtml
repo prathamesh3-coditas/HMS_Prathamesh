@@ -24,9 +24,9 @@
 else
 {*@
 
-    <div class="Logout" style="margin-top:-3rem">
+    @*<div class="Logout" style="margin-top:-3rem">
         @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
-    </div>
+    </div>*@
 
     <div style="margin-top:-1rem">
         <form action="ShowAllAppointments">
@@ -38,7 +38,7 @@ else
     </div>
     <h2 style="color:chocolate;padding-left:1rem" class="bg-warning">All Appointments</h2>
 
-    <table class="table-bordered table">
+    <table class="table-bordered table table-hover">
         <thead class="WhiteHeader">
             <tr>
                 <th>
@@ -79,7 +79,7 @@ else
     </table>
 
     <div style="margin-top:2rem">
-        @Html.ActionLink("Back to List", "Index", "", new { @class = "ActionLinks" })
+        @Html.ActionLink("Back", "Index", "", new { @class = "ActionLinks" })
     </div>
 @*}*@
 

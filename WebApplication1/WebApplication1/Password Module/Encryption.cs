@@ -11,11 +11,11 @@ namespace WebApplication1.Encryption
     {
         public static string EncodePassword(string oldPassword)
         {
-            var hashObj = SHA256.Create();
+            var hashObj = MD5.Create();
             var byteArrayOfHash = hashObj.ComputeHash(Encoding.UTF8.GetBytes(oldPassword));
 
-            //Convert.toHexString()
-            var EncodedPassword = BitConverter.ToString(byteArrayOfHash).Replace("-", "");
+            var EncodedPassword = System.Text.Encoding.UTF8.GetString(byteArrayOfHash).Replace("\n","");
+            EncodedPassword = EncodedPassword.Replace("\t", "");
             return EncodedPassword;
             
         }

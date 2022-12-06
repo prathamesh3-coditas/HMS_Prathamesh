@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Successful";
+}
+
+<style>
+    body{
+        background-image:url('/Scripts/Images/Admin.png')
+    }
+</style>
+
+<script type="text/javascript">
+    window.onload = function () {
+        swal({
+            title: "Registred Successfully...!!!",    
+            icon: 'success',
+            button: "Login now"
+        }).then(a => { window.location.href = '/Home/LoginPage' });
+    }
+
+</script>
+

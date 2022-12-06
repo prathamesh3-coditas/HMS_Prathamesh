@@ -18,10 +18,10 @@
 }
 @if (Model != null)
 {
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover">
         <thead class="WhiteHeader">
             <tr>
-                <th>Consumable Id</th>
+                @*<th>Consumable Id</th>*@
                 <th>Consumable Name</th>
                 <th>Price</th>
                 <th>Paid/Unpaid</th>
@@ -47,7 +47,7 @@
             @foreach (var item in data)
             {
                 <tr>
-                    <td>@item.id</td>
+                    @*<td>@item.id</td>*@
                     <td>@item.name</td>
                     <td>@item.price</td>
 

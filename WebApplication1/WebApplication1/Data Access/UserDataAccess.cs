@@ -19,9 +19,15 @@ namespace WebApplication1.Data_Access
         public User validateUser(LoginValues values)
         {
 
+            //var data = (entities.Users)
+            //.Where(a => a.userName == values.UserName && a.password_.Replace("\r\n","") == values.Password)
+            //.FirstOrDefault();
+
+
             var data = (entities.Users)
-            .Where(a => a.userName == values.UserName && a.password_.Replace("\r\n","") == values.Password)
+            .Where(a => a.userName == values.UserName && a.password_ == values.Password)
             .FirstOrDefault();
+
 
             return data;
         }
@@ -94,106 +100,114 @@ namespace WebApplication1.Data_Access
 
         public bool DeleteUser(int id)
         {
+            //try
+            //{
+            //    User u = entities.Users.Find(Convert.ToInt32(id));
+
+
+
+            //    try
+            //    {
+            //        Patient patientByUserId = entities.Patients.Where(x => x.userId == id).First();
+            //        Patient p = entities.Patients.Find(patientByUserId.patient_id);
+            //        if (p != null)
+            //        {
+            //            var deleteFromPatient = entities.Patients.Remove(p);
+            //            entities.SaveChanges();
+            //        }
+            //    }
+            //    catch (Exception)
+            //    {
+
+            //        try
+            //        {
+            //            Appointment appointmentByUserId = entities.Appointments.Where(x => x.userId == id).First();
+            //            Appointment a = entities.Appointments.Find(appointmentByUserId.appointment_id);
+
+
+            //            if (a != null)
+            //            {
+            //                var deleteFromAppointment = entities.Appointments.Remove(a);
+            //                entities.SaveChanges();
+            //            }
+
+            //        }
+            //        catch (Exception)
+            //        {
+
+            //            try
+            //            {
+
+            //                Billing billByUserId = entities.Billings.Where(x => x.userId == id).First();
+            //                Billing b = entities.Billings.Find(billByUserId.bill_number);
+            //                if (b != null)
+            //                {
+            //                    var deleteFromBilling = entities.Billings.Remove(b);
+            //                    entities.SaveChanges();
+            //                }
+
+
+            //            }
+            //            catch (Exception)
+            //            {
+
+
+            //                var res1 = entities.Users.Remove(u);
+
+            //                entities.SaveChanges();
+            //                return true;
+
+
+            //            }
+            //        }
+            //    }
+
+
+            //    entities.SaveChanges();
+            //    return true;
+            //}
+            //catch (Exception)
+            //{
+            //    return false;
+
+            //}
+
             try
             {
-                User u = entities.Users.Find(Convert.ToInt32(id));
+                var patient = entities.Patients.Where(a => a.userId == id).FirstOrDefault();
 
+                var treatDetails = entities.Treatments.Where(a => a.patient_id == patient.patient_id).ToList();
+                foreach (var item in treatDetails)
+                {
+                    entities.Treatments.Remove(item);
+                }
 
+                var appointDetails = entities.Appointments.Where(a => a.patient_id == patient.patient_id).ToList();
+                foreach (var item in appointDetails)
+                {
+                    entities.Appointments.Remove(item);
+                }
 
+                var patientDetails = entities.Patients.Where(a => a.patient_id == patient.patient_id).FirstOrDefault();
                 try
                 {
-                    Patient patientByUserId = entities.Patients.Where(x => x.userId == id).First();
-                    Patient p = entities.Patients.Find(patientByUserId.patient_id);
-                    if (p != null)
-                    {
-                        var deleteFromPatient = entities.Patients.Remove(p);
-                        entities.SaveChanges();
-                    }
+                    entities.Patients.Remove(patientDetails);
                 }
                 catch (Exception)
                 {
 
-                    try
-                    {
-                        Appointment appointmentByUserId = entities.Appointments.Where(x => x.userId == id).First();
-                        Appointment a = entities.Appointments.Find(appointmentByUserId.appointment_id);
-
-
-                        if (a != null)
-                        {
-                            var deleteFromAppointment = entities.Appointments.Remove(a);
-                            entities.SaveChanges();
-                        }
-
-                    }
-                    catch (Exception)
-                    {
-
-                        try
-                        {
-
-                            Billing billByUserId = entities.Billings.Where(x => x.userId == id).First();
-                            Billing b = entities.Billings.Find(billByUserId.bill_number);
-                            if (b != null)
-                            {
-                                var deleteFromBilling = entities.Billings.Remove(b);
-                                entities.SaveChanges();
-                            }
-
-
-                        }
-                        catch (Exception)
-                        {
-
-
-                            var res1 = entities.Users.Remove(u);
-
-                            entities.SaveChanges();
-                            return true;
-
-
-                        }
-                    }
+                    return false;
                 }
 
-
-
-
-
-                
-
-
-
-
-
-
-                //Console.WriteLine();
-                //if (p != null)
-                //{
-                //    var deleteFromPatient = entities.Patients.Remove(p);
-                //    entities.SaveChanges();
-                //}
-                //if (a != null)
-                //{
-                //    var deleteFromAppointment = entities.Appointments.Remove(a);
-                //    entities.SaveChanges();
-                //}
-                //if (b != null)
-                //{
-                //    var deleteFromBilling = entities.Billings.Remove(b);
-                //    entities.SaveChanges();
-                //}
-                var res = entities.Users.Remove(u);
-
-                entities.SaveChanges();
+                var user = entities.Users.Where(a => a.userId == id).FirstOrDefault();
+                var result = entities.Users.Remove(user);
                 return true;
             }
             catch (Exception)
             {
+
                 return false;
-
             }
-
         }
 
 

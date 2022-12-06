@@ -210,12 +210,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Images\Patient Error.jpg" />
+    <Content Include="Scripts\Images\Doctor Error.jpg" />
+    <Content Include="Scripts\Images\Home Errors.jpg" />
+    <Content Include="Scripts\Images\Error Page.jpg" />
     <Content Include="Scripts\Images\Admin Index.png" />
     <Content Include="Scripts\Images\Admin.png" />
-    <Content Include="Scripts\Images\Patient Index.png" />
-    <Content Include="Scripts\Images\Medicine Capsule.png" />
+    <Content Include="Scripts\Images\Front Page.png" />
     <Content Include="Scripts\Images\Patient.png" />
-    <Content Include="Scripts\Images\Reception.png" />
     <Content Include="Scripts\Images\Doctor Medicines.png" />
     <Content Include="Scripts\Images\img.png" />
     <Content Include="Model1.Context.tt">
@@ -291,6 +293,12 @@
     <Content Include="Views\Receptionist\ShowBills.cshtml" />
     <Content Include="Views\Patient\Successful.cshtml" />
     <Content Include="Views\Patient\AlreadyResponded.cshtml" />
+    <Content Include="Views\Home\Successful.cshtml" />
+    <Content Include="Views\Shared\ErrorPage.cshtml" />
+    <Content Include="Views\Shared\HomeError.cshtml" />
+    <Content Include="Views\Shared\DoctorError.cshtml" />
+    <Content Include="Views\Shared\PatientError.cshtml" />
+    <Content Include="Views\Shared\ReceptionistError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

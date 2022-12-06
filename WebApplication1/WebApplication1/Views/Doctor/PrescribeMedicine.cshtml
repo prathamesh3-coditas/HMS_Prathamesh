@@ -7,7 +7,7 @@
 
 <style>
     body {
-        background-image: url('/Scripts/Images/Medicine Capsule.png');
+        background-image: url('/Scripts/Images/Patient.png');
         background-repeat: no-repeat;
         background-size: cover
     }
@@ -28,7 +28,7 @@
 <br />
 
 
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
     <thead class="WhiteHeader">
         <tr>
             @*<th>Consumable Id</th>*@
@@ -45,7 +45,6 @@
 
             <tr class="labelColorWhite">
 
-                @*<td class="labelColorWhite">@Html.DisplayFor(a => item.consumable_id)</td>*@
                 <td class="labelColorWhite">@Html.DisplayFor(a => item.availability_detail)</td>
                 <td class="labelColorWhite">@Html.DisplayFor(a => item.consumable_name)</td>
 

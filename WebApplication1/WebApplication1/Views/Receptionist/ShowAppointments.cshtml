@@ -19,14 +19,14 @@
 }
 else
 {*@
-    <div class="Logout" style="margin:1rem">
+    @*<div class="Logout" style="margin:1rem">
         @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
-    </div>
+    </div>*@
 
     <h2 class="bg-warning" style="color:black;padding-left:1rem;margin-top:4rem">Show Appointments</h2>
     <hr />
 
-    <table class="table-bordered table">
+    <table class="table-bordered table table-hover">
         <thead>
             <tr class="WhiteHeader">
                 @*<th>
@@ -88,5 +88,5 @@ else
 
 
 <div style="margin-top:2rem">
-    @Html.ActionLink("Back to List", "Index", "", new { @class = "ActionLinks" })
+    @Html.ActionLink("Back", "Index", "", new { @class = "ActionLinks" })
 </div>

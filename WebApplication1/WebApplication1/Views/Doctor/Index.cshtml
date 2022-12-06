@@ -10,17 +10,15 @@
         background-size: cover
     }
 </style>
-<div class="Logout" style="margin-top: 2rem">
-    @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
+
+<p class="welcometext" style="margin-top:2rem">Welcome <b class="welcome-name-text">@Convert.ToString(TempData["name"])</b></p>
+
+
+
+<div class="jumbotron-form">
+    @using (Html.BeginForm("viewAppointment", "Doctor"))
+    {
+            <input type="submit" value="Show Appointments" class="btn btn-danger" style="margin:1.75rem" />
+
+    }
 </div>
-<p style="font-size:larger;margin-top:2rem;color:black;font-weight:600">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
-
-
-
-@using (Html.BeginForm("viewAppointment", "Doctor"))
-{
-    <div style="margin-left:42rem" class="jumbotron-form">
-        <input type="submit" value="Show Appointments" class="btn btn-danger" style="margin-top:2rem" />
-    </div>
-    
-}

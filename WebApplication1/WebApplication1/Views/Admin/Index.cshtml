@@ -22,11 +22,11 @@
 }
 else
 {*@
-    <div class="Logout" style="margin-top:-3rem">
+    @*<div class="Logout" style="margin-top:-3rem">
         @Html.ActionLink("Log Out", "Logout", "Admin", new { aria = "" }, new { @style = "color:black;background-color:white" })
-    </div>
+    </div>*@
 
-    <p style="font-size:larger;color:black;font-weight:600">Welcome <b class="alert-danger">@Convert.ToString(TempData["name"])</b></p>
+    <p @*style="font-size:larger;color:black;font-weight:600"*@ class="welcometext">Welcome <b class="welcome-name-text">@Convert.ToString(TempData["name"])</b></p>
 
     <hr />
 

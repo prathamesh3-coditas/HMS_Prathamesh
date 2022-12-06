@@ -8,12 +8,13 @@ using WebApplication1.Data_Access;
 
 namespace WebApplication1.Controllers
 {
+    
     public class AdminController : Controller
     {
         UserDataAccess userAccess = new UserDataAccess();
         ConsumableDataAccess consumableAccess = new ConsumableDataAccess();
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             TempData.Keep("name");
@@ -28,70 +29,83 @@ namespace WebApplication1.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Register(User user)
         {
             Session["UserToRegister"] = user;
 
-
-            if (ModelState.IsValid)
+            try
             {
 
-                var allUsers = userAccess.GetAllUsers();
-
-
-                var isUserNameValid = allUsers.Where(a => a.userName == user.userName).FirstOrDefault();
-                var isEMailValid = allUsers.Where(a => a.email == user.email).FirstOrDefault();
-                var isContactValid = allUsers.Where(a => a.contact_number == user.contact_number).FirstOrDefault();
-
-                var contactValidation = userAccess.ValidateContact(user.contact_number);
-
-                if (contactValidation==0)
+                if (ModelState.IsValid)
                 {
-                    TempData["contactValidator"] = "Please provide 10 digit valid number";
-                }
-                else if (contactValidation==1)
-                {
-                    TempData["contactValidator"] = "Mobile Number can not contain letters";
-                }
-                if (isUserNameValid != null)
-                {
-                    TempData["InvalidUserName"] = "UserName is not available";
-                }
 
-                if (isEMailValid != null)
-                {
-                    TempData["InvalidEMail"] = "E-mail already registered..!!!";
-                }
+                    var allUsers = userAccess.GetAllUsers();
 
-                if (isContactValid != null)
-                {
-                    TempData["InvalidContact"] = "Contact already registered..!!!";
-                }
-                
 
-                //As admin has logged in so TempData has value of TempData["name"] from Login() in Home Controller
-                if (TempData.Count > 1)
-                {
-                    return View(((User)Session["UserToRegister"]));
+                    var isUserNameValid = allUsers.Where(a => a.userName == user.userName).FirstOrDefault();
+                    var isEMailValid = allUsers.Where(a => a.email == user.email).FirstOrDefault();
+                    var isContactValid = allUsers.Where(a => a.contact_number == user.contact_number).FirstOrDefault();
+
+                    var contactValidation = userAccess.ValidateContact(user.contact_number);
+                    Console.WriteLine();
+                    if (contactValidation == 0)
+                    {
+                        TempData["contactValidator"] = "Please provide 10 digit valid number";
+                    }
+                    else if (contactValidation == 1)
+                    {
+                        TempData["contactValidator"] = "Mobile Number can not contain letters";
+                    }
+                    if (isUserNameValid != null)
+                    {
+                        TempData["InvalidUserName"] = "UserName is not available";
+                    }
+
+                    if (isEMailValid != null)
+                    {
+                        TempData["InvalidEMail"] = "E-mail already registered..!!!";
+                    }
+
+                    if (isContactValid != null)
+                    {
+                        TempData["InvalidContact"] = "Contact already registered..!!!";
+                    }
+
+
+                    //As admin has logged in so TempData has value of TempData["name"] from Login() in Home Controller
+                    if (TempData.Count > 1)
+                    {
+                        return View(((User)Session["UserToRegister"]));
+                    }
+                    else
+                    {
+
+                        user.password_ = Encryption.Encryption.EncodePassword(user.password_);
+
+                        user.confirmPassword_ = Encryption.Encryption.EncodePassword(user.confirmPassword_);
+                        userAccess.CreateUser(user);
+                    }
+
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    userAccess.CreateUser(user);
-                }
 
-                return RedirectToAction("Index");
+                    if (user.role_id == null)
+                    {
+                        ViewBag.roleId = "Oops..You haven't selected a role id";
+                    }
+
+                    return View((User)Session["UserToRegister"]);
+                }
             }
-            else
+            catch (Exception)
             {
 
-                if (user.role_id == null)
-                {
-                    ViewBag.roleId = "Oops..You haven't selected a role id";
-                }
-                
-                return View((User)Session["UserToRegister"]);
+                return View("ErrorPage");
             }
         }
 
@@ -105,34 +119,52 @@ namespace WebApplication1.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
-            TempData["IdToUpdate"] = id;
+            try
+            {
+                TempData["IdToUpdate"] = id;
 
-            var searchedUser = userAccess.GetUserById(id);
-            return View(searchedUser);
+                var searchedUser = userAccess.GetUserById(id);
+                return View(searchedUser);
+            }
+            catch (Exception)
+            {
+                return View("ErrorPage");
+            }
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(User user)
         {
+            try
+            {
+                int id = Convert.ToInt32(TempData["IdToUpdate"]);
 
+                var res = userAccess.UpdateUserInfo(user, id);
 
-            int id = Convert.ToInt32(TempData["IdToUpdate"]);
-
-            var res = userAccess.UpdateUserInfo(user, id);
-     
-            return RedirectToAction("ShowAll", "Admin");
+                return RedirectToAction("ShowAll", "Admin");
+            }
+            catch (Exception)
+            {
+                return View("ErrorPage");
+            }
         }
-
 
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
-            TempData["UserIdToDelete"] = id;
+            try
+            {
+                TempData["UserIdToDelete"] = id;
 
-            var userFound = userAccess.GetUserById(id);
-            return View(userFound);
+                var userFound = userAccess.GetUserById(id);
+                return View(userFound);
+            }
+            catch (Exception)
+            {
+                return View("ErrorPage");
+            }
         }
 
 
@@ -140,107 +172,174 @@ namespace WebApplication1.Controllers
         [HttpPost,ActionName("Delete")]
         public ActionResult DeleteConfirm()
         {
-            int id = Convert.ToInt32(TempData["UserIdToDelete"]);
+            try
+            {
+                int id = Convert.ToInt32(TempData["UserIdToDelete"]);
 
 
-            var res = userAccess.DeleteUser(id);
-            
-            return RedirectToAction("ShowAll");
+                var res = userAccess.DeleteUser(id);
+                if (res == true)
+                {
+                    return RedirectToAction("ShowAll");
 
+                }
+                else
+                {
+                    return View("ErrorPage");
+                }
+            }
+            catch (Exception)
+            {
+
+                return View("ErrorPage");
+            }
 
         }
-
 
         [Authorize(Roles = "Admin")]
         public ActionResult ConsumableDetails()
         {
-           var all = consumableAccess.GetAllConsumables();
-            return View(all);
+            try
+            {
+                var all = consumableAccess.GetAllConsumables();
+                return View(all);
 
+            }
+            catch (Exception)
+            {
+                return View("ErrorPage");
+            }
         }
-
 
         [Authorize(Roles = "Admin")]
         public ActionResult AddConsumables()
         {
-            var consumable = new Consumable();
-            return View(consumable);
+            try
+            {
+                var consumable = new Consumable();
+                return View(consumable);
+            }
+            catch (Exception)
+            {
+                return View("ErrorPage");
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult AddConsumables(Consumable consumable)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var res = consumableAccess.AddConsumables(consumable);
+                    return RedirectToAction("ConsumableDetails");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch (Exception)
+            {
+
+                return View("ErrorPage");
+            }
+
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public ActionResult AddConsumables(Consumable consumable)
-        {
-            if (ModelState.IsValid)
-            {
-                var res = consumableAccess.AddConsumables(consumable);
-                return RedirectToAction("ConsumableDetails");
-            }
-            else
-            {
-                return View();
-            }
-
-        }
         public ActionResult Logout()
         {
             Session.Clear();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("LoginPage","Home");
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult EditConsumables(int? id)
         {
-            TempData["ConsumableId"] = id;
-            var data = consumableAccess.GetConsumableById((int)id);
-            return View(data);
+            try
+            {
+                TempData["ConsumableId"] = id;
+                var data = consumableAccess.GetConsumableById((int)id);
+                return View(data);
+            }
+            catch (Exception)
+            {
+                return View("ErrorPage");
+            }
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult EditConsumables(Consumable newData)
         {
-            var id = (int)TempData["ConsumableId"];
-            var consumable = consumableAccess.GetConsumableById(id);
+            try
+            {
+                var id = (int)TempData["ConsumableId"];
+                var consumable = consumableAccess.GetConsumableById(id);
 
-            consumableAccess.EditConsumable(newData,id);
+                consumableAccess.EditConsumable(newData, id);
 
-            return RedirectToAction("ConsumableDetails");
+                return RedirectToAction("ConsumableDetails");
+            }
+            catch (Exception)
+            {
+                return View("ErrorPage");
+            }
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult SearchUser(string name)
         {
-            name = name.ToLower();
-            if (name == String.Empty)
+            try
             {
-                var userDetails = userAccess.GetAllUsers();
-                return View("ShowAll", userDetails);
-            }
-            else
-            {
-                var userDetails = userAccess.GetAllUsers().Where(a => a.full_name.ToLower().Contains(name) || name.Contains(a.full_name.ToLower()));
-                return View("ShowAll", userDetails);
+                name = name.ToLower();
+                if (name == String.Empty)
+                {
+                    var userDetails = userAccess.GetAllUsers();
+                    return View("ShowAll", userDetails);
+                }
+                else
+                {
+                    var userDetails = userAccess.GetAllUsers().Where(a => a.full_name.ToLower().Contains(name) || name.Contains(a.full_name.ToLower()));
+                    return View("ShowAll", userDetails);
 
+                }
+            }
+            catch (Exception)
+            {
+
+                return View("ErrorPage");
             }
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult SearchMedicine(string name)
         {
-            name = name.ToLower();
-            if (name == String.Empty)
+            try
             {
-                var consumableDetails = consumableAccess.GetAllConsumables();
-                return View("ConsumableDetails", consumableDetails);
-            }
-            else
-            {
-                var consumableDetails = consumableAccess.GetAllConsumables().Where(a => a.consumable_name.ToLower().Contains(name) || name.Contains(a.consumable_name.ToLower()));
-                return View("ConsumableDetails", consumableDetails);
+                name = name.ToLower();
+                if (name == String.Empty)
+                {
+                    var consumableDetails = consumableAccess.GetAllConsumables();
+                    return View("ConsumableDetails", consumableDetails);
+                }
+                else
+                {
+                    var consumableDetails = consumableAccess.GetAllConsumables().Where(a => a.consumable_name.ToLower().Contains(name) || name.Contains(a.consumable_name.ToLower()));
+                    return View("ConsumableDetails", consumableDetails);
 
+                }
+            }
+            catch (Exception)
+            {
+                return View("ErrorPage");
             }
         }
     }
